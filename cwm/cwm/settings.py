@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'cwmapp'
 ]
 
+STATICFILES_DIRS = []
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

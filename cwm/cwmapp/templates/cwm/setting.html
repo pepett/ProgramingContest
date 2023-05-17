@@ -4,5 +4,21 @@
 {% block content %}
 <main>
     <p>設定</p>
+    <div id="profile">
+        <!--プロフィールdiv-->
+        <p>プロフィール画像</p>
+        <div id="ProfileBox">
+            <h2>画像</h2>
+            <input type="file" alt="画像をアップロード">
+        </div>
+    </div>
+    <div id="username">
+        <!--プロフィールdiv-->
+        <p>ユーザー名変更</p>
+        <div id="usernameBox">
+            <input type="text" src="" placeholder="ユーザー名">
+        </div>
+    </div>
+    <button id="submit">変更を確定する</button>
 </main>
 {% endblock %}

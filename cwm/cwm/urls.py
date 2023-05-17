@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 
-from cwmapp.views import top, login, register, setting, result, index, music
+from cwmapp.views import top, login, register, setting, result, index, music, user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,5 @@ urlpatterns = [
     path( "result/", result ),
     path( "index/", index ),
     path( "music/", music ),
+    path( "user/", user ),
 ]

@@ -21,3 +21,6 @@ def index( request ):
 
 def music( request ):
     return render( request, 'cwm/music.html' )
+
+def user( request ):
+    return render( request, 'cwm/user.html' )

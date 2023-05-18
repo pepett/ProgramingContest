@@ -24,3 +24,6 @@ def music( request ):
 
 def user( request ):
     return render( request, 'cwm/user.html' )
+
+def search( request ):
+    return render( request, 'cwm/search.html' )

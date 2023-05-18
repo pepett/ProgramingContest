@@ -1,24 +1,43 @@
 {% extends "cwm/base.html" %}
-
+{% load static %}
 {% block title %}設定{% endblock %}
 {% block content %}
 <main>
-    <p>設定</p>
-    <div id="profile">
-        <!--プロフィールdiv-->
-        <p>プロフィール画像</p>
-        <div id="ProfileBox">
-            <h2>画像</h2>
-            <input type="file" alt="画像をアップロード">
+    <link rel="stylesheet" href="{% static 'css/setting.css' %}">
+    <div id="box1">
+        <div id="user">
+            <img src="" alt="ユーザー">
+            <p>ユーザー名</p>
         </div>
+        <ul>
+            <li> 
+                <a href="#">お気に入り</a>
+            </li>
+            <li> 
+                <a href="#">履歴</a>
+            </li>
+            <li> 
+                <a href="#">設定</a>
+            </li>
+        </ul>
     </div>
-    <div id="username">
-        <!--プロフィールdiv-->
-        <p>ユーザー名変更</p>
-        <div id="usernameBox">
-            <input type="text" src="" placeholder="ユーザー名">
+    <div id="box2">
+        <div id="profile">
+            <!--プロフィールdiv-->
+            <p>プロフィール画像</p>
+            <div id="ProfileBox">
+                <h2>画像</h2>
+                <input type="file" alt="画像をアップロード">
+            </div>
         </div>
+        <div id="username">
+            <!--プロフィールdiv-->
+            <p>ユーザー名変更</p>
+            <div id="usernameBox">
+                <input type="text" src="" placeholder="ユーザー名">
+            </div>
+        </div>
+        <button class="loginBT" id="submit">変更を確定する</button>
     </div>
-    <button id="submit">変更を確定する</button>
 </main>
 {% endblock %}

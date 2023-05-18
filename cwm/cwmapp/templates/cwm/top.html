@@ -1,8 +1,30 @@
 {% extends "cwm/base.html" %}
-
+{% load static %}
 {% block title %}トップページ{% endblock %}
 {% block content %}
 <main>
-    <p>あは</p>
+    <link rel="stylesheet" href="{% static 'css/top.css' %}">
+    <div class="box">
+        <h1 class="titletext">CMWで音楽好きの仲間を探そう</h1>
+        <p>Connect With Music</p>
+        <div>
+            <p>音楽でつながる。</p>
+            <p>つながることでより音楽が広がる  </p>
+            <div class="top-title">
+                <h2>CWMとは</h2>
+            </div>
+            <div class="content">
+                <p class="catch-copy">
+                    <strong>CWM</strong>は、従来のアプリと比べて、<br>
+                    より自分の好きな音楽を見つけやすい<br>
+                    アプリケーションです。
+                </p>
+            </div>
+        </div>
+        <div class="userbox">
+            <a href="#!" class="registerBT">新規登録</a>
+            <a href="#!" class="loginBT">ログイン</a>
+        </div>
+    </div>
 </main>
 {% endblock %}

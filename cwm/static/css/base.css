@@ -1,7 +1,20 @@
 @charset "UTF-8";
+html {
+  height: 100%; }
+
 body {
   margin: 0 auto;
-  font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif; }
+  height: 100%;
+  font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+  background: #2f2d2d;
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%); }
+
+#box1, #box2 {
+  margin: 2px;
+  background: #2f2d2d;
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  border-radius: 10px;
+  height: 100%; }
 
 header {
   margin: 0 auto;
@@ -32,7 +45,7 @@ footer {
   margin: 0;
   font-size: 30px; }
 
-.registerBT, .loginBT, .greentext, footer {
+.registerBT, .loginBT, .titletext, footer {
   font-weight: bold; }
 
 .registerBT, .loginBT {

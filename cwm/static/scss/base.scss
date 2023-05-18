@@ -1,8 +1,22 @@
+$greenCL:#00de64;
+
+html{
+    height: 100%;
+}
 body{
     margin: 0 auto;
+    height: 100%;
     font-family:'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+    background: rgb(47,45,45);
+    background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
 }
-
+#box1,#box2{
+    margin: 2px;
+    background: rgb(47,45,45);
+    background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+    border-radius: 10px;
+    height: 100%;
+}
 header{
 margin: 0 auto;
 width: 100%;
@@ -29,7 +43,7 @@ footer{
 }
 
 .titletext,.greentext,.registerBT{
-color: rgb(0, 222, 100);
+color: $greenCL;
 }
 
 .titletext{
@@ -37,7 +51,7 @@ color: rgb(0, 222, 100);
     font-size: 30px;
 }
 
-.registerBT,.loginBT,.greentext,footer{
+.registerBT,.loginBT,.titletext,footer{
     font-weight: bold;
 }
 
@@ -46,14 +60,14 @@ color: rgb(0, 222, 100);
 }
 .registerBT{
 background-color: #252323;
-border: 2px solid rgb(0, 222, 100);
+border: 2px solid $greenCL;
 border-radius: 50px;
 text-decoration: none;
 }
 
 .loginBT{
 color: #252323;
-background-color: rgb(0, 222, 100);
+background-color: $greenCL;
 border-radius: 50px;
 text-decoration: none;
 }

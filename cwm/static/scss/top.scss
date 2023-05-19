@@ -1,0 +1,28 @@
+$greenCL: #00de64;
+
+main{
+    text-align: center;
+}
+strong{
+    color: $greenCL;
+}
+.box{
+    margin-top: 50px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+    p{
+        margin: 0;
+    }
+    div{
+        p{
+            margin: 3px;
+        }
+    }
+    .userbox{
+        margin: 40px;
+        a{
+            margin: 0 20px;
+        }
+    }
+}

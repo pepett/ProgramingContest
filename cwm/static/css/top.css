@@ -1,0 +1,21 @@
+main {
+  text-align: center; }
+
+strong {
+  color: #00de64; }
+
+.box {
+  margin-top: 50px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 15px; }
+  .box p {
+    margin: 0; }
+  .box div p {
+    margin: 3px; }
+  .box .userbox {
+    margin: 40px; }
+    .box .userbox a {
+      margin: 0 20px; }
+
+/*# sourceMappingURL=top.css.map */

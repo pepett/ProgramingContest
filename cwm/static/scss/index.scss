@@ -1,0 +1,18 @@
+.toprank{
+    width: 100%;
+    display: flex;
+    white-space: nowrap;
+    overflow-x: scroll;
+    border: solid 1px #696969;
+}
+h3{
+    font-size: 10px;
+    color: #ffffff;
+}
+.trackbox{
+    width: 200px;
+    margin: 20px;
+    background: rgb(47,45,45);
+    background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+    border-radius: 10px;
+}

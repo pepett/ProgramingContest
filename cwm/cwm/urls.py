@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-
 from cwmapp.views import top, login, register, setting, result, index, music, user, search
 
 urlpatterns = [

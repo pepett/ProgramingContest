@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
 # Create your views here.
 def top( request ):
@@ -17,7 +19,12 @@ def result( request ):
     return render( request, 'cwm/result.html' )
 
 def index( request ):
-    return render( request, 'cwm/index.html' )
+        lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
+        spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='811426a7bad2420c98d9f2d03a88141d',client_secret='62e88e7c02754132ab2af5f4078543fc',))
+        results = spotify.artist_top_tracks(lz_uri)
+        final_result=results['tracks']
+        for tracks in final_result:
+            return render(request,'cwm/index.html',{"results":final_result})
 
 def music( request ):
     return render( request, 'cwm/music.html' )

@@ -1,8 +1,25 @@
 {% extends "cwm/base.html" %}
-
+{% load static %}
 {% block title %}index{% endblock %}
 {% block content %}
 <main>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <p>一覧ページ</p>
+    <div class="toprank">
+        <!--試しにFake typeの人気順に表示する-->
+        {% if results %}
+        {% for x in results %}
+        <div class="trackbox">
+            <div class="">
+                <span class="list-group-item"><img src="{{x.album.images.0.url}}" width="150" height="150" class="" alt=""></span>
+                <div class="list-group-item" ><a href='{{x.preview_url}}'><button type="button" class="">PLAY SONG</button></a></div>
+                <h3 class="" >曲名：{{x.name}}</h3>
+                <h3 class="" >アルバム：{{x.album.name}}</h3>
+                <h3 class="" >アーティスト名：{{x.artists.0.name}}</h3>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
 </main>
 {% endblock %}

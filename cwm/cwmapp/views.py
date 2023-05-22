@@ -2,8 +2,15 @@ from django.shortcuts import render
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
+from lib.utils import Utils
+
 # Create your views here.
 def top( request ):
+    #例ここから
+    tmp = Utils.sharp( "unti unti #aaaa \n un#ti #bbb jsflkdsj" )
+    for counter in range( len( tmp ) ):
+        print( tmp[ counter ] )
+    #例ここまで
     return render( request, 'cwm/top.html' )
 
 def login( request ):

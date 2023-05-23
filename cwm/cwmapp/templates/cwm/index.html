@@ -10,10 +10,8 @@
         {% if results %}
         {% for x in results %}
         <div class="songbox">
-            <button class="PlaySongBT" type="button">
-                <a href="{{x.preview_url}}">
-                    <img src="{% static 'img/tmp/play_green.png' %}">
-                </a>
+            <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}'); IsPlayTex(this);">
+                <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
             <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
@@ -22,5 +20,6 @@
         {% endfor %}
         {% endif %}
     </div>
+    <script src="{% static 'js/index.js' %}"></script>
 </main>
 {% endblock %}

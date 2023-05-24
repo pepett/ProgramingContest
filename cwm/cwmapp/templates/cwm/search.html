@@ -2,7 +2,20 @@
 
 {% block title %}トップページ{% endblock %}
 {% block content %}
+
 <main>
-    <p>検索</p>
+    <link rel="stylesheet" href="/static/css/search.css">
+    <div class="title">
+        <h2>音楽を見つける</h2>
+    </div>
+    <form action="" method="post">
+        <div class="search-form">
+            <input type="text" placeholder="キーワードを入力" class="search-input">
+            <input type="button" value="検索" class="search-button">
+        </div>
+        <div class="music-kinds">
+            
+        </div>
+    </form>
 </main>
 {% endblock %}

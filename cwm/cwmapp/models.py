@@ -5,7 +5,7 @@ class User( models.Model ):#ユーザーのテーブル
     user_mail = models.EmailField( primary_key = True )
     user_pass = models.CharField( max_length = 50 )
     user_image = models.CharField( max_length = 200 )
-    user_birthday = models.DateField( auto_now_add = True )
+    user_birthday = models.DateField()
 
 class Music( models.Model ):#曲のテーブル
     music_id = models.AutoField( primary_key = True )
@@ -32,9 +32,11 @@ class Comment( models.Model ):#コメント
     comment_user_mail = models.EmailField()
     comment_music_id = models.IntegerField()
     comment_good = models.IntegerField()
+    comment_posted = models.DateTimeField( auto_now_add = True )
 
 class Result( models.Model ):
     result_comment_id = models.IntegerField()
     result_text = models.TextField()
     result_user_mail = models.EmailField()
     result_music_id = models.IntegerField()
+    result_posted = models.DateTimeField( auto_now_add = True )

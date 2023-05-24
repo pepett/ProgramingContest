@@ -1,13 +1,12 @@
 $greenCL:#00de64;
 
 html{
-    height: 100%;
+    min-height: 100%;
 }
 body{
     margin: 0 auto;
     height: 100%;
     font-family:'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
-    background: rgb(47,45,45);
     background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
 }
 #box1,#box2{

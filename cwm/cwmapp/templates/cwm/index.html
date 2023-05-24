@@ -10,7 +10,7 @@
         {% if results %}
         {% for x in results %}
         <div class="songbox">
-            <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}'); IsPlayTex(this);">
+            <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}',this);">
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
@@ -20,6 +20,40 @@
         {% endfor %}
         {% endif %}
     </div>
+    <p class="bigtext">一覧ページ2</p>
+    <div id="trackbox" class="toprank">
+        {% if results2 %}
+        {% for y in results2 %}
+        <div class="songbox">
+            <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ y.preview_url }}',this);">
+                <img src="{% static 'img/tmp/play_green.png' %}">
+            </button>
+            <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
+            <h3 class="SongNameText" >{{y.artists.0.name}}</h3>
+            <h3 class="SongNameText" >{{y.name}}</h3>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <p class="bigtext">一覧ページ3</p>
+    <div id="trackbox" class="toprank">
+        {% if results3 %}
+        {% for z in results3 %}
+        <div class="songbox">
+            <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ z.preview_url }}',this);">
+                <img src="{% static 'img/tmp/play_green.png' %}">
+            </button>
+            <img class="music_img" src="{{z.album.images.0.url}}" width="150" height="150" class="" alt="">
+            <h3 class="SongNameText" >{{z.artists.0.name}}</h3>
+            <h3 class="SongNameText" >{{z.name}}</h3>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+        var PlayBTtex = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+        var StopBTtex = "<img src='{% static 'img/tmp/stop.png' %}'>";
+    </script>
     <script src="{% static 'js/index.js' %}"></script>
 </main>
 {% endblock %}

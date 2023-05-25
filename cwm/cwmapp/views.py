@@ -6,7 +6,7 @@ from lib.utils import Utils
 
 # Create your views here.
 def top( request ):
-    #例ここから
+    #例ここから 
     tmp = Utils.sharp( "unti unti #aaaa \n un#ti #bbb jsflkdsj" )
     for counter in range( len( tmp ) ):
         print( tmp[ counter ] )
@@ -59,6 +59,7 @@ def index( request ):
         for i in final_result2:
             final_result2[j]['name'] = truncate_string(i['name'],max_length)
             final_result2[j]['artists'][0]['name'] = truncate_string(i['artists'][0]['name'],max_length)
+#            print( i[ 'id' ] )//これをデータベースに入れる
             j = j + 1
 
         j = 0

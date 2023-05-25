@@ -23,12 +23,12 @@ from cwmapp.views import top, login, register, setting, result, index, music, us
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path( "", top ),
-    path( "login/", login ),
-    path( "register/", register ),
+    path( "", top ,name="top"),
+    path( "login/", login ,name="login"),
+    path( "register/", register ,name="register"),
     path( "setting/", setting ),
     path( "result/", result ),
-    path( "index/", index ),
+    path( "index/", index ,name="index"),
     path( "music/", music ),
     path( "user/", user ),
     path( "search/", search ),

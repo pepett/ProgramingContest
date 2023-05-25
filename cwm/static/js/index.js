@@ -1,48 +1,53 @@
 window.onload = ()=>{
 
 }
-let IsPlayMusic = '';
-let Playing = 0;
+let music_history = [];
 
-function PlayMusic(SongURL,PlayBTN){
-    if(SongURL == 'None'){
-        alert(SongURL);
-        return;
+const PlayMusic = ( url, btn )=>{
+    if( url == 'None' ){//プレビューできない場合
+        alert( 'この曲は再生できません' )
+        return ;
     }
-    if(IsPlayMusic.src == SongURL){
-    if(!IsPlayMusic.paused){
-        IsPlayTex(PlayBTN);
-        IsPlayMusic.pause();
-        console.log('pause')
-    }else{
-        IsPlayTex(PlayBTN);
-        IsPlayMusic.play();
-        console.log('play')
-        Playing = 1;
-    }
-    }else{
-        if(Playing == 0){
-        IsPlayMusic = new Audio(SongURL);
-        IsPlayMusic.play();
-        IsPlayTex(PlayBTN);
-        Playing = 1
-        console.log('playnew : '+IsPlayMusic.src);
+    let history_flg = true;
+    for( let i = 0;i < music_history.length;i ++ ){//履歴から参照
+        console.log( music_history[ i ].src + "を参照しました" )
+        if( music_history[ i ].src == url ){//履歴にある場合
+            if( !music_history[ i ].paused ){
+                music_history[ i ].pause();
+                IsPlayTex(btn);
+                console.log( music_history[ i ].src + "を停止しました" )
+            }else{
+                music_history[ i ].play();
+                IsPlayTex(btn);
+                console.log( music_history[ i ].src + 'を開始しました' )
+            }
+            history_flg = false;
         }else{
-            IsPlayTex(PlayBTN);
-            IsPlayMusic.pause();
-            console.log('pause')
-            Playing = 0;
+            console.log( music_history[ i ].src + "をストップしました" )
+            if( !music_history[ i ].paused )
+                music_history[ i ].pause();
+                IsPlayTex(btn);
         }
     }
+    if( history_flg ){
+        music_history.push( new Audio( url ) );
+        music_history[ music_history.length - 1 ].play();
+        console.log( music_history[ music_history.length - 1] + 'を開始しました_1' )
+        IsPlayTex(btn);
+        music_history[music_history.length - 1 ].addEventListener("ended", ()=>{
+            IsPlayTex(btn);
+          });
+    }
 }
-function IsPlayTex(PlayBTN){
-    if(PlayBTN.classList == "PlaySongBT"){
-        PlayBTN.classList.remove("PlaySongBT");
-        PlayBTN.classList.add("StopSongBT");
-        PlayBTN.innerHTML = StopBTtex;
+
+function IsPlayTex(btn){
+    if (btn.classList == "PlaySongBT"){
+        btn.classList.remove("PlaySongBT");
+        btn.classList.add("StopSongBT");
+        btn.innerHTML = StopBTimg;
     }else{
-        PlayBTN.classList.remove("StopSongBT");
-        PlayBTN.classList.add("PlaySongBT");
-        PlayBTN.innerHTML = PlayBTtex;
+        btn.classList.remove("StopSongBT");
+        btn.classList.add("PlaySongBT");
+        btn.innerHTML = PlayBTimg;
     }
 };

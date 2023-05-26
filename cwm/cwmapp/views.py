@@ -26,12 +26,7 @@ def result( request ):
     return render( request, 'cwm/result.html' )
 
 def index( request ):
-        def truncate_string(text, max_length):
-            if len(text) <= max_length:
-                return text
-            else:
-                return text[:max_length] + "..."
-
+        
         max_length = 15
 
         lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
@@ -51,21 +46,21 @@ def index( request ):
 
         j = 0
         for i in final_result:
-            final_result[j]['name'] = truncate_string(i['name'],max_length)
-            final_result[j]['artists'][0]['name'] = truncate_string(i['artists'][0]['name'],max_length)
+            final_result[j]['name'] = Utils.truncate_string(i['name'],max_length)
+            final_result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
             j = j + 1
 
         j = 0
         for i in final_result2:
-            final_result2[j]['name'] = truncate_string(i['name'],max_length)
-            final_result2[j]['artists'][0]['name'] = truncate_string(i['artists'][0]['name'],max_length)
+            final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
+            final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
 #            print( i[ 'id' ] )//これをデータベースに入れる
             j = j + 1
 
         j = 0
         for i in final_result3:
-            final_result3[j]['name'] = truncate_string(i['name'],max_length)
-            final_result3[j]['artists'][0]['name'] = truncate_string(i['artists'][0]['name'],max_length)
+            final_result3[j]['name'] = Utils.truncate_string(i['name'],max_length)
+            final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
             j = j + 1
 
         for tracks in final_result:

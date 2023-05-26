@@ -11,3 +11,10 @@ class Utils:
             result.append( tmp[ 0 ] )
         
         return result
+    
+    @staticmethod
+    def truncate_string(text, max_length):
+        if len(text) <= max_length:
+            return text
+        else:
+            return text[:max_length] + "..."

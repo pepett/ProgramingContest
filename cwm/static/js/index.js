@@ -46,7 +46,7 @@ const PlayMusic = ( url, btn ) => {
         music_history[music_history.length - 1 ].addEventListener("ended", ()=>{
             //IsPlayTex(btn);
             stop_display( btn );
-          });
+        });
     }
 }
 

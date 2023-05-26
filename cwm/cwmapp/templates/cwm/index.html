@@ -63,7 +63,7 @@
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <img class="music_img" src="{{z.album.images.0.url}}" width="150" height="150" class="" alt="">
-            <h3 class="SongNameText" >{{z.artists.0.name}}</h3>
+            <h3 class="SongNameText" ><a href="{% url 'cwm:music' %}">{{z.artists.0.name}}</a></h3>
             <h3 class="SongNameText" >{{z.name}}</h3>
         </div>
         {% endfor %}

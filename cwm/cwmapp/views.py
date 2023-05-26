@@ -1,7 +1,5 @@
 from django.shortcuts import render
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-
+from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 
 # Create your views here.
@@ -30,18 +28,16 @@ def index( request ):
         max_length = 15
 
         lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
-        spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='811426a7bad2420c98d9f2d03a88141d',client_secret='62e88e7c02754132ab2af5f4078543fc',))
-        results = spotify.artist_top_tracks(lz_uri)
+        
+        results = SPOTIFY.artist_top_tracks(lz_uri)
         final_result=results['tracks']
 
         lz_uri2 = 'spotify:artist:1snhtMLeb2DYoMOcVbb8iB'
-        spotify2 = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='811426a7bad2420c98d9f2d03a88141d',client_secret='62e88e7c02754132ab2af5f4078543fc',))
-        results2 = spotify2.artist_top_tracks(lz_uri2)
+        results2 = SPOTIFY.artist_top_tracks(lz_uri2)
         final_result2=results2['tracks']
 
         lz_uri3 = 'spotify:artist:5Vo1hnCRmCM6M4thZCInCj'
-        spotify3 = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id='811426a7bad2420c98d9f2d03a88141d',client_secret='62e88e7c02754132ab2af5f4078543fc',))
-        results3 = spotify3.artist_top_tracks(lz_uri3)
+        results3 = SPOTIFY.artist_top_tracks(lz_uri3)
         final_result3=results3['tracks']
 
         j = 0
@@ -66,8 +62,11 @@ def index( request ):
         for tracks in final_result:
             return render(request,'cwm/index.html',{"results":final_result,"results2":final_result2,"results3":final_result3})
 
-def music( request ):
-    return render( request, 'cwm/music.html' )
+def music( request, idn ):
+    cont = {
+        'content_id': idn,
+    }
+    return render( request, 'cwm/music.html', cont )
 
 def user( request ):
     return render( request, 'cwm/user.html' )

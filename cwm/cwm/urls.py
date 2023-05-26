@@ -28,8 +28,8 @@ urlpatterns = [
     path( "register/", register ,name="register"),
     path( "setting/", setting ),
     path( "result/", result ),
-    path( "index/", index ,name="index"),
-    path( "music/", music ),
+    path( "index/", index, name="index"),
+    path( "music/<slug:idn>", music, name="music" ),
     path( "user/", user ),
     path( "search/", search ),
 ]

@@ -1,6 +1,15 @@
 window.onload = ()=>{
 
 }
+
+//ローディングjsここから
+const loading = document.querySelector( '#loading' );
+ 
+window.addEventListener( 'load', () => {
+  loading.classList.add( 'loaded' );
+}, false );
+//ここまで
+
 let music_history = [];
 let play_btn_history = [];
 

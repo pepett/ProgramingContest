@@ -14,7 +14,10 @@
 </head>
 <body>
     <header>
-        <a href="{% url 'top'%}" class="toplogo"><img alt="CWM" src="{% static 'img/tmp/logo.png'%}">Connect With Music</a>
+        <a href="{% url 'top'%}" class="toplogo">
+            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+            <span>Connect With Music</span>
+        </a>
         <div class="searchBox">
             <button type="button" id="searchBtn">
                 <img src="{% static 'img/tmp/search.png'%}" alt="searchBtn">

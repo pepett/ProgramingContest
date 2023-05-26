@@ -4,6 +4,25 @@
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <!--ローディング画面ここから-->
+    <div id="loading">
+        <div class="logo">
+            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+            <span>Connect With Music</span>
+        </div>
+        <div class="fingerprint-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+          </div>
+    </div>
+    <!--ここまで-->
     <p class="bigtext">一覧ページ</p>
     <div id="trackbox" class="toprank">
         <!--試しにFake typeの人気順に表示する-->
@@ -50,6 +69,7 @@
         {% endfor %}
         {% endif %}
     </div>
+    <div class="MiniPlayer" onclick="PlayMusic()"></div>
     <script type="text/javascript">
         var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
         var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";

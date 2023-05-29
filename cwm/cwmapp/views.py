@@ -63,10 +63,12 @@ def index( request ):
             return render(request,'cwm/index.html',{"results":final_result,"results2":final_result2,"results3":final_result3})
 
 def music( request, idn ):
-    cont = {
-        'content_id': idn,
-    }
-    return render( request, 'cwm/music.html', cont )
+    track_result = SPOTIFY.track( idn, market=None )
+    #print( track_result )
+    #content = {
+    #    'id': track_result[ 'id' ],
+    #}
+    return render( request, 'cwm/music.html', track_result )
 
 def user( request ):
     return render( request, 'cwm/user.html' )

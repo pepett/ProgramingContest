@@ -1,9 +1,11 @@
 {% extends "cwm/base.html" %}
-
+{% load static %}
 {% block title %}music{% endblock %}
 {% block content %}
 <main>
-    <br>
-    <h1 style="color: white;">{{ content_id }}</h1>
+    <link rel="stylesheet" href="{% static 'css/music.css' %}">
+    <br><br>
+    <h1>{{ name }}</h1>
+    <h2>{{ artists.0.name }}</h2>
 </main>
 {% endblock %}

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACI,OAAE;EACE,KAAK,EAAE,KAAK;AAEhB,OAAE;EACE,KAAK,EAAE,KAAK",
+"sources": ["../scss/music.scss"],
+"names": [],
+"file": "music.css"
+}

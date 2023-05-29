@@ -1,6 +1,7 @@
-main h1 {
+* {
   color: white; }
-main h2 {
+
+.music-text {
   color: white; }
 
 /*# sourceMappingURL=music.css.map */

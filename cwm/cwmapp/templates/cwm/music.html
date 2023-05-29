@@ -5,7 +5,12 @@
 <main>
     <link rel="stylesheet" href="{% static 'css/music.css' %}">
     <br><br>
+    <img src="{{ album.images.1.url }}" alt="{{ name }}">
     <h1>{{ name }}</h1>
     <h2>{{ artists.0.name }}</h2>
+    <div class="contents">
+        <p class="spotify-url"><span class="music-text">曲へのURL: </span><a href="{{ external_urls.spotify }}" target="_blank">{{ external_urls.spotify }}</a></p>
+    </div>
+
 </main>
 {% endblock %}

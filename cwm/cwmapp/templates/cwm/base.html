@@ -23,10 +23,18 @@
                 <span></span>
             </div>
             <div class="nav-container">
-                <a href="{% url 'index'%}" class="greentext">indexに移動</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Contact</a>
+                <div class="Miniuserbox">
+                    <p class="greentext"> 新規登録またはログイン</p>
+                    <a href="{% url 'register'%}" class="registerBT">新規登録</a>
+                    <a href="{% url 'login'%}" class="loginBT">ログイン</a>
+                </div>
+                <div class="MinisearchBox">
+                    <button type="button" id="searchBtn">
+                        <img src="{% static 'img/tmp/search.png'%}" alt="searchBtn">
+                    </button>
+                    <input type="search" placeholder="検索"></input>
+                </div>
+                <a class="Minilink" href="{% url 'index'%}" class="greentext">indexに移動</a>
             </div>
         </div>
           <!-- ここまで -->
@@ -40,7 +48,7 @@
             </button>
             <input type="search" placeholder="検索"></input>
         </div>
-        <a href="{% url 'index'%}" class="greentext">indexに移動</a>
+        <a href="{% url 'index'%}" class="Hideblock">indexに移動</a>
         <div class="userbox">
             <a href="{% url 'register'%}" class="registerBT">新規登録</a>
             <a href="{% url 'login'%}" class="loginBT">ログイン</a>

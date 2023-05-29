@@ -49,9 +49,15 @@ footer {
   margin: 0;
   font-size: 30px; }
 
-a {
+a, .Hideblock {
   text-decoration: none;
   color: #00de64; }
+
+.Hideblock {
+  visibility: hidden; }
+
+.toplogo {
+  white-space: nowrap; }
 
 .toplogo, .searchBox {
   display: flex;
@@ -83,6 +89,38 @@ a {
     height: 30px;
     width: 80%;
     margin: auto 3px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    background-color: #eeeeee; }
+
+.MinisearchBox {
+  width: 80%;
+  display: flex;
+  font-size: 100%;
+  font-weight: bold; }
+  .MinisearchBox span {
+    margin: auto 0; }
+  .MinisearchBox img {
+    width: 55px;
+    height: 50px; }
+  .MinisearchBox #searchBtn {
+    background: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    overflow: visible;
+    cursor: pointer; }
+    .MinisearchBox #searchBtn img {
+      width: 40px;
+      height: 40px; }
+  .MinisearchBox input {
+    height: 30px;
+    width: 100%;
+    margin: 5px auto;
     border-radius: 10px;
     font-weight: bold;
     border: none;
@@ -168,13 +206,13 @@ a {
   background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
   transition: all 250ms ease-out;
   transform: translateX(-100%); }
-  .nav-container a {
+  .nav-container .Minilink {
     text-decoration: none;
     color: white;
     font-size: clamp(1.4rem, 2.4vw, 2.2rem);
     font-weight: bold;
     margin: 1rem auto; }
-  .nav-container a:hover {
+  .nav-container .Minilink:hover {
     color: #00de64; }
 
 .checkbox:checked ~ .nav-container {
@@ -199,7 +237,10 @@ a {
     transition: none;
     transform: none; }
     .nav-container a {
-      margin-right: 1.5rem; } }
+      margin-right: 1.5rem; }
+
+  .Hideblock {
+    visibility: visible; } }
 @media screen and (max-width: 1000px) {
   header .span-container {
     display: flex;
@@ -208,6 +249,11 @@ a {
     z-index: 90; }
   header .userbox {
     display: none; }
+  header .Miniuserbox {
+    display: flex;
+    flex-direction: column; }
+    header .Miniuserbox a {
+      margin: 10px auto; }
   header .searchBox {
     display: none; } }
 

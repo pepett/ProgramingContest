@@ -5,6 +5,9 @@
 <main>
     <link rel="stylesheet" href="{% static 'css/music.css' %}">
     <br><br>
+    <button type="button">
+        <img src="{% static 'img//tmp/play_green.png' %}" alt="">
+    </button>
     <img src="{{ album.images.1.url }}" alt="{{ name }}">
     <h1>{{ name }}</h1>
     <h2>{{ artists.0.name }}</h2>

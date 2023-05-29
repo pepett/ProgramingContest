@@ -10,6 +10,15 @@ window.addEventListener( 'load', () => {
 }, false );
 /*ここまで*/
 
+window.onunload = ( e ) =>{
+    const elem = document.getElementsByClassName( 'PlaySongBT' );
+    for( let i = 0;i < elem.length;i ++ ){
+        stop_display( elem[ i ] );
+    }
+    music_history = [];
+    play_btn_history = [];
+}
+
 let music_history = [];
 let play_btn_history = [];
 

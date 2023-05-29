@@ -2,6 +2,7 @@ $greenCL: #00de64;
 
 main{
     text-align: center;
+    margin: 70px auto 0 auto;
 }
 strong{
     color: $greenCL;
@@ -11,6 +12,9 @@ strong{
     color: #ffffff;
     font-weight: bold;
     font-size: 15px;
+    .titletext{
+        font-size: 5vw;
+    }
     p{
         margin: 0;
     }
@@ -22,7 +26,7 @@ strong{
     .userbox{
         margin: 40px;
         a{
-            margin: 0 20px;
+            margin: 0;
         }
     }
 }

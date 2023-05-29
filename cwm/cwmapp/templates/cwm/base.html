@@ -14,6 +14,22 @@
 </head>
 <body>
     <header>
+        <!-- スマホ用ハンバーガーメニュー -->
+        <div class="humberger">
+            <input type="checkbox" class="checkbox">
+            <div class="span-container">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-container">
+                <a href="{% url 'index'%}" class="greentext">indexに移動</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+          <!-- ここまで -->
         <a href="{% url 'top'%}" class="toplogo">
             <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
             <span>Connect With Music</span>

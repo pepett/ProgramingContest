@@ -1,4 +1,5 @@
 $greenCL:#00de64;
+$gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
 
 html{
     min-height: 100%;
@@ -31,7 +32,7 @@ height: 60px;
 background: #252323;
 display: flex;
 align-items: center;
-justify-content: space-around;
+justify-content: space-between;
 position: fixed;
 z-index: 2;
 top: 0;
@@ -59,7 +60,7 @@ a{
 }
 .toplogo,.searchBox{
     display: flex;
-    font-size: 20px;
+    font-size: 100%;
     margin: auto 2px;
     font-weight: bold;
     span{
@@ -117,4 +118,166 @@ color: #252323;
 background-color: $greenCL;
 border-radius: 50px;
 text-decoration: none;
+}
+
+//ハンバーガーメニュー　※コピペしたもの
+
+//  --------BURGER MENU CODE :D 
+
+.humberger {
+    height: 100px;
+    margin-left: 20px;
+    background: none;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+  }
+  
+  //Set up our checkbox + Span container positioning and size
+  
+  .span-container,
+  .checkbox {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  //Lets make our checkbox function but dissapear. Also lets add some z-index so it's always on top [clickable]
+  .checkbox {
+    opacity: 0;
+    z-index: 100;
+  }
+  
+  //Add some flex for our Three lines. Our span-container will have flex
+  
+  .span-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    z-index: 90;
+  }
+  
+  //Style our span (3 burger-menu lines)
+  
+  .span-container span {
+    width: 100%;
+    height: 3px;
+    background: $greenCL;
+    //We need to add transition and a transform origin of 0 0 (top left).
+    //Try commenting bits out to see what happens and why it's important.
+    transition: all 250ms ease-out;
+    transform-origin: 0 0;
+  }
+  
+  //Transitions [animations]
+  //Logic: When checkbox is checked:
+  //Rotate Span1 -45Deg (first child or nth-last-child(1))
+  //Make Span2 smaller + hide it.
+  //rotate Span3 45 Deg.
+  //The translate stuff is just for small adjustments. Try changing them and see //how the X looks like when checkbox:checked.
+  .checkbox:checked ~ .span-container span:nth-last-child(1) {
+      transform: rotate(-45deg) translate(-1px, 0px);
+  }
+  
+  .checkbox:checked ~ .span-container span:nth-last-child(2) {
+      transform: rotate(0deg) scale(0.2, 0.2);
+      opacity: 0;
+  }
+  
+  .checkbox:checked ~ .span-container span:nth-last-child(3) {
+      transform: rotate(45deg) translate(0px, -1px);
+  }
+  
+  
+  //style our navigation for full screen when checkbox:checked.
+  .nav-container{
+    position: fixed;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 65%;
+    height: 100vh;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 50;
+    background: $gradationBG;
+    transition: all 250ms ease-out;
+    //translate(-100%, 0%) basically hides the entire navigation to the left by 100%. [invisible.]
+    //This is great as all we do when we checkbox:checked is change these values to 0%, 0% and it will
+    //transition. Pretty good.
+    transform: translateX(-100%);
+  
+    a {
+      text-decoration: none;
+      color: white;
+      font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+      font-weight: bold;
+      margin: 1rem auto;
+    }
+    
+    a:hover {
+      color: $greenCL;
+    }
+  }
+  
+  .checkbox:checked ~ .nav-container {
+    transform: translateX(0%);
+  }
+  
+  
+  //Now we add style for full-width screen [not mobile]
+  
+  @media screen and (min-width: 1000px) {
+  
+    
+    //Lets hide our checkbox and spans, we won't need them.
+    .humberger{
+      display: none;
+    }
+    
+    //Copy EVERYTHING from .nav-container above and then change all values.
+    //We must do this as our aim is to OVERWRITE everything to be exactly as we need.
+    .nav-container{
+      position: relative;
+      left: none;
+      top: none;
+      width: auto;
+      height: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      background: transparent;
+      transition: none;
+      transform: none;
+      
+      a {
+        margin-right: 1.5rem;
+      }
+    }
+  }
+@media screen and (max-width: 1000px) {
+    header{
+        .span-container {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            z-index: 90;
+          }
+        .userbox{
+        display: none;
+        }
+        .searchBox{
+            display: none;
+        }
+    }
 }

@@ -54,9 +54,15 @@ color: $greenCL;
     margin: 0;
     font-size: 30px;
 }
-a{
+a,.Hideblock{
     text-decoration: none;
     color: #00de64;
+}
+.Hideblock{
+    visibility: hidden;
+}
+.toplogo{
+    white-space: nowrap;
 }
 .toplogo,.searchBox{
     display: flex;
@@ -92,6 +98,43 @@ a{
         height: 30px;
         width: 80%;
         margin: auto 3px;
+        border-radius: 10px;
+        font-weight: bold;
+        border: none;
+        background-color: #eeeeee;
+    }
+}
+.MinisearchBox{
+    width: 80%;
+    display: flex;
+    font-size: 100%;
+    font-weight: bold;
+    span{
+        margin: auto 0;
+    }
+    img{
+        width: 55px;
+        height: 50px;
+    }
+    #searchBtn{
+        background: none;
+        width: auto;
+        padding:0;
+        margin:0;
+        border:0;
+        font-size:0;
+        line-height:0;
+        overflow:visible;
+        cursor:pointer;
+        img{
+            width: 40px;
+            height: 40px;
+        }
+    }
+    input{
+        height: 30px;
+        width: 100%;
+        margin: 5px auto;
         border-radius: 10px;
         font-weight: bold;
         border: none;
@@ -215,7 +258,7 @@ text-decoration: none;
     //transition. Pretty good.
     transform: translateX(-100%);
   
-    a {
+    .Minilink {
       text-decoration: none;
       color: white;
       font-size: clamp(1.4rem, 2.4vw, 2.2rem);
@@ -223,7 +266,7 @@ text-decoration: none;
       margin: 1rem auto;
     }
     
-    a:hover {
+    .Minilink:hover {
       color: $greenCL;
     }
   }
@@ -264,6 +307,10 @@ text-decoration: none;
         margin-right: 1.5rem;
       }
     }
+
+    .Hideblock{
+        visibility: visible;
+    }
   }
 @media screen and (max-width: 1000px) {
     header{
@@ -275,6 +322,13 @@ text-decoration: none;
           }
         .userbox{
         display: none;
+        }
+        .Miniuserbox{
+            display: flex;
+            flex-direction: column;
+            a{
+            margin: 10px auto;
+            }
         }
         .searchBox{
             display: none;

@@ -1,7 +1,67 @@
-
-*{
+main{
+    position: relative;
     color: white;
 }
 .music-text{
     color: white;
+}
+.album-img{
+    width: 200px;
+    height: 200px;
+    border-radius: 29px;
+}
+.play-btn{
+    img{
+        width: 50px;
+        height: 50px;
+    }
+    background: none;
+    border: none;
+    z-index: 1;
+    position: absolute;
+    top: 220px;
+    left: -5px;
+}
+main{
+    .music{
+        border: solid black 1px;
+        .music-content-main{
+            display: flex;
+            .name-container{
+                /* padding: 0 0 0 20px; */
+                margin: 0;
+                .music-name{
+                    font-size: 32px;
+                    font-weight: bold;
+                    padding: 10px 0 0 10px;
+                }
+                .stars{
+                    margin: 0;
+                    padding-left: 10px;
+                    img{
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
+        .contents{
+            padding-left: 25px;
+            
+            .spotify-url{
+                img{
+                    width: 100px;
+                    height: 30px;
+                }
+            }
+            .utils{
+                .like{
+                    img{
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
+    }
 }

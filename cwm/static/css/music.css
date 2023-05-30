@@ -1,7 +1,50 @@
-* {
+main {
+  position: relative;
   color: white; }
 
 .music-text {
   color: white; }
+
+.album-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 29px; }
+
+.play-btn {
+  background: none;
+  border: none;
+  z-index: 1;
+  position: absolute;
+  top: 220px;
+  left: -5px; }
+  .play-btn img {
+    width: 50px;
+    height: 50px; }
+
+main .music {
+  border: solid black 1px; }
+  main .music .music-content-main {
+    display: flex; }
+    main .music .music-content-main .name-container {
+      /* padding: 0 0 0 20px; */
+      margin: 0; }
+      main .music .music-content-main .name-container .music-name {
+        font-size: 32px;
+        font-weight: bold;
+        padding: 10px 0 0 10px; }
+      main .music .music-content-main .name-container .stars {
+        margin: 0;
+        padding-left: 10px; }
+        main .music .music-content-main .name-container .stars img {
+          width: 30px;
+          height: 30px; }
+  main .music .contents {
+    padding-left: 25px; }
+    main .music .contents .spotify-url img {
+      width: 100px;
+      height: 30px; }
+    main .music .contents .utils .like img {
+      width: 30px;
+      height: 30px; }
 
 /*# sourceMappingURL=music.css.map */

@@ -4,16 +4,49 @@
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/music.css' %}">
-    <br><br>
-    <button type="button">
-        <img src="{% static 'img//tmp/play_green.png' %}" alt="">
-    </button>
-    <img src="{{ album.images.1.url }}" alt="{{ name }}">
-    <h1>{{ name }}</h1>
-    <h2>{{ artists.0.name }}</h2>
-    <div class="contents">
-        <p class="spotify-url"><span class="music-text">曲へのURL: </span><a href="{{ external_urls.spotify }}" target="_blank">{{ external_urls.spotify }}</a></p>
-    </div>
+    <br><br><br>
+    <div class="music">
+        <div class="music-content-main">
+            <div class="album-image-container">
+                <button type="button" onclick="play( this, '{{ preview_url }}' )" class="play-btn">
+                    <img src="{% static 'img//tmp/play_green.png' %}">
+                </button>
+                <img src="{{ album.images.1.url }}" alt="{{ name }}" class="album-img">
+            </div>
+            <div class="name-container">
+                <div class="music-name">{{ name }}</div>
+                <p class="stars"></p>
+                <div class="artist-name">アーティスト：{{ artists.0.name }}</div>
+                <div class="album-name">アルバム：{{ album.name }}</div>
+            </div>
+        </div>
+        <div class="contents">
+            
+            <p style="display:none;" class="spotify-url"><span class="music-text"></span><a href="{{ external_urls.spotify }}" target="_blank"><img src="{% static 'img/tmp/Spotify_Logo_RGB_Green.png' %}" alt="スポティファイの画像"></a></p>
+            <div class="utils">
+                <div class="like">
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="comments">
+        
+    </div>
 </main>
+        <script type="text/javascript">
+            const PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+            const StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+            const star_img_green = "<img src='{% static 'img/tmp/star_green.png' %}'>";
+            const star_img_black = "<img src='{% static 'img/tmp/star_black.png' %}'>";
+            const heart_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>"
+            const heart_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>"
+            //試し
+            for( let i = 0;i < 4;i ++ ){
+                document.querySelector( '.stars' ).innerHTML += star_img_green;
+            }
+            document.querySelector( '.stars' ).innerHTML += star_img_black;
+            document.querySelector( '.like' ).innerHTML = heart_img_green;
+        </script>
+        <script src="{% static 'js/music.js' %}"></script>
 {% endblock %}

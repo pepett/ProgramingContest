@@ -141,6 +141,7 @@ main{
     display: flex;
     white-space: nowrap;
     overflow-x: scroll;
+    padding: 5px 0;
 }
 .toprank::-webkit-scrollbar{
     height: 10px;
@@ -159,6 +160,12 @@ h3{
 .SongNameText{
     font-size: 15px;
     margin: 2px 0;
+    a{
+    transition: 0.2s;
+    }
+}
+.SongNameText > a:hover{
+  color: #ffffff;
 }
 .songbox{
     width: 200px;
@@ -166,7 +173,12 @@ h3{
     background: rgb(47,45,45);
     background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
     border-radius: 10px;
+    border: solid 2px #323232;
     position: relative;
+    transition: 0.3s;
+}
+.songbox:hover{
+  transform: scale(1.05,1.05);
 }
 .PlaySongBT{
     position: absolute;
@@ -181,10 +193,15 @@ h3{
     cursor:pointer;
     top: 112px;
     left: 9px;
+    transition: 0.3s;
     img{
         width: 40px;
         height: 40px;
     }
+}
+.PlaySongBT:hover,.StopSongBT:hover{
+  transform: translateY(-5px);
+  filter: drop-shadow( 0px 2px 3px);
 }
 .StopSongBT{
     position: absolute;
@@ -199,6 +216,7 @@ h3{
     cursor:pointer;
     top: 112px;
     left: 9px;
+    transition: 0.3s;
     img{
         width: 40px;
         height: 40px;

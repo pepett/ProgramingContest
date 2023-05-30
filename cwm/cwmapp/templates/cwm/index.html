@@ -33,8 +33,8 @@
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
-            <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
             <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
+            <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
         </div>
         {% endfor %}
         {% endif %}
@@ -48,8 +48,8 @@
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
-            <h3 class="SongNameText" >{{y.artists.0.name}}</h3>
             <h3 class="SongNameText" ><a href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
+            <h3 class="SongNameText" >{{y.artists.0.name}}</h3>
         </div>
         {% endfor %}
         {% endif %}
@@ -63,8 +63,8 @@
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <img class="music_img" src="{{z.album.images.0.url}}" width="150" height="150" class="" alt="">
-            <h3 class="SongNameText" >{{z.artists.0.name}}</h3>
             <h3 class="SongNameText" ><a href="{% url 'mus' z.id %}">{{z.name}}</a></h3>
+            <h3 class="SongNameText" >{{z.artists.0.name}}</h3>
         </div>
         {% endfor %}
         {% endif %}

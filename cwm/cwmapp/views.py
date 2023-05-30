@@ -25,7 +25,7 @@ def result( request ):
 
 def index( request ):
         
-        max_length = 15
+        max_length = 13
 
         lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
         

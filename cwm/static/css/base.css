@@ -136,11 +136,26 @@ a, .Hideblock {
   background-color: #252323;
   border: 2px solid #00de64;
   border-radius: 50px;
+  text-decoration: none;
+  transition: 0.5s; }
+
+.registerBT:hover {
+  color: #252323;
+  background-color: #eeeeee;
+  border-radius: 50px;
   text-decoration: none; }
 
 .loginBT {
   color: #252323;
   background-color: #00de64;
+  border: 2px solid #00de64;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: 0.5s; }
+
+.loginBT:hover {
+  color: #252323;
+  background-color: #eeeeee;
   border-radius: 50px;
   text-decoration: none; }
 
@@ -211,7 +226,8 @@ a, .Hideblock {
     color: white;
     font-size: clamp(1.4rem, 2.4vw, 2.2rem);
     font-weight: bold;
-    margin: 1rem auto; }
+    margin: 1rem auto;
+    transition: 0.2s; }
   .nav-container .Minilink:hover {
     color: #00de64; }
 

@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}music{% endblock %}
 {% block content %}
-<main>
+<main class="main1">
     <link rel="stylesheet" href="{% static 'css/music.css' %}">
     <div class="music">
         <div class="music-content-main">
@@ -31,6 +31,7 @@
             </div>
         </div>
         <div class="tags">
+            
         </div>
     </div>
     <div class="comments">
@@ -40,7 +41,27 @@
         <form action="" method="post"></form>
     </div>
 </main>
-        <script type="text/javascript">
+<main class="main-test">
+    <div class="music-main">
+        <div id="spotify-iframe"></div>
+    </div>
+</main>
+<script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
+<script>
+    window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
+        const elem = document.getElementById( 'spotify-iframe' );
+        const options = {
+            width: '95%',
+            height: '700',
+            uri: '{{ uri }}'
+        }
+        const callback = ( EmbedController ) => {
+            //code
+        }
+        IFrameAPI.createController( elem, options, callback );
+    }
+</script>
+        <!-- <script type="text/javascript">
             const PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
             const StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
             const star_img_green = "<img src='{% static 'img/tmp/star_green.png' %}'>";
@@ -64,5 +85,5 @@
             document.querySelector( 'body' ).style.height = window.screen.height - 221 + 'px';
             document.querySelector( '.music' ).style.width = window.screen.width / 2 - 50 + 'px';
         </script>
-        <script src="{% static 'js/music.js' %}"></script>
+        <script src="{% static 'js/music.js' %}"></script> -->
 {% endblock %}

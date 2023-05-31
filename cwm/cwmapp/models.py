@@ -5,11 +5,12 @@ class User( models.Model ):
     user_mail = models.EmailField( primary_key = True )
     user_pass = models.CharField( max_length = 30 )
     user_image = models.ImageField( upload_to = 'images/' )
-    user_birthday = models.DateTimeField()
+    user_birthday = models.DateField()
 
 class Music( models.Model ):
     music_id = models.TextField( primary_key = True )
     music_star = models.IntegerField()
+    music_ad = models.BooleanField()
 
 class Comment( models.Model ):
     comment_id = models.AutoField( primary_key = True )

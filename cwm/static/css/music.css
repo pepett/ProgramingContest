@@ -1,7 +1,7 @@
 * {
   margin: 0; }
 
-main {
+.main1 {
   height: 100%;
   color: white; }
 
@@ -14,32 +14,33 @@ main {
   /* border-radius: 29px; */
   border-radius: 10px; }
 
-main {
+.main1 {
   margin: 60px 0;
   padding: 10px;
-  display: flex; }
-  main .music .music-content-main {
+  display: flex;
+  display: none; }
+  .main1 .music .music-content-main {
     display: flex; }
-    main .music .music-content-main .name-container {
+    .main1 .music .music-content-main .name-container {
       padding: 0 0 0 20px;
       margin: 0; }
-      main .music .music-content-main .name-container .music-name {
+      .main1 .music .music-content-main .name-container .music-name {
         font-size: 32px;
         font-weight: bold;
         padding: 10px 0 0 10px; }
-      main .music .music-content-main .name-container .stars {
+      .main1 .music .music-content-main .name-container .stars {
         margin: 0;
         padding-left: 10px; }
-        main .music .music-content-main .name-container .stars img {
+        .main1 .music .music-content-main .name-container .stars img {
           width: 30px;
           height: 30px; }
-  main .music .contents .spotify-url img {
+  .main1 .music .contents .spotify-url img {
     width: 100px;
     height: 30px; }
-  main .music .contents .utils {
+  .main1 .music .contents .utils {
     display: flex;
     margin: 0; }
-    main .music .contents .utils .play-btn {
+    .main1 .music .contents .utils .play-btn {
       margin: auto 0;
       background: none;
       border: none;
@@ -47,18 +48,18 @@ main {
       position: absolute;
       top: 220px;
       left: -5px; */ }
-      main .music .contents .utils .play-btn img {
+      .main1 .music .contents .utils .play-btn img {
         width: 50px;
         height: 50px; }
-    main .music .contents .utils .like {
+    .main1 .music .contents .utils .like {
       margin-top: 5px; }
-      main .music .contents .utils .like img {
+      .main1 .music .contents .utils .like img {
         width: 50px;
         height: 45px; }
-    main .music .contents .utils .share {
+    .main1 .music .contents .utils .share {
       padding: 0 10px;
       padding-top: 4px; }
-      main .music .contents .utils .share p {
+      .main1 .music .contents .utils .share p {
         font-weight: bold;
         margin: auto;
         padding: 9px 10px 7px 10px;
@@ -66,20 +67,26 @@ main {
         border-radius: 25%;
         color: black;
         font-size: 20px; }
-  main .music .tags {
+  .main1 .music .tags {
     display: flex; }
-    main .music .tags .tag {
+    .main1 .music .tags .tag {
       margin: 0 10px;
       background-color: white;
       border-radius: 5px; }
-      main .music .tags .tag p {
+      .main1 .music .tags .tag p {
         margin: 0;
         color: black;
         font-weight: bold; }
-  main .comments {
+  .main1 .comments {
     padding: 5px 10px; }
-    main .comments .title {
+    .main1 .comments .title {
       font-weight: bold;
       font-size: 32px; }
+
+.main-test {
+  margin-top: 70px; }
+
+.music-main {
+  text-align: center; }
 
 /*# sourceMappingURL=music.css.map */

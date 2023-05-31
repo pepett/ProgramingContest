@@ -4,5 +4,8 @@
 {% block content %}
 <main>
     <p>ユーザ</p>
+    {% for obj in db %}
+        <div class="dbcontent">{{ obj.user_name }}</div>
+    {% endfor %}
 </main>
 {% endblock %}

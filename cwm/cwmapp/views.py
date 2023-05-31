@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
+from cwmapp.models import User
 
 # Create your views here.
 def top( request ):
     #例ここから 
-    tmp = Utils.sharp( "unti unti #aaaa \n un#ti #bbb jsflkdsj" )
-    for counter in range( len( tmp ) ):
-        print( tmp[ counter ] )
+    #tmp = Utils.sharp( "unti unti #aaaa \n un#ti #bbb jsflkdsj" )
+    #for counter in range( len( tmp ) ):
+    #    print( tmp[ counter ] )
     #例ここまで
     return render( request, 'cwm/top.html' )
 
@@ -21,7 +22,12 @@ def setting( request ):
     return render( request, 'cwm/setting.html' )
 
 def result( request ):
-    return render( request, 'cwm/result.html' )
+    results = SPOTIFY.search( request.GET['search-music'], limit=10, offset=0, type='track', market=None )
+    ret = {
+        'results': results,
+        'word': request.GET[ 'search-music' ],
+    }
+    return render( request, 'cwm/result.html', ret  )
 
 def index( request ):
         
@@ -71,7 +77,11 @@ def music( request, idn ):
     return render( request, 'cwm/music.html', track_result )
 
 def user( request ):
-    return render( request, 'cwm/user.html' )
+    db = User.objects.all()
+    data = {
+        'db': db,
+    }
+    return render( request, 'cwm/user.html', data )
 
 def search( request ):
-    return render( request, 'cwm/search.html' )
+    return render( request, 'cwm/search.html')

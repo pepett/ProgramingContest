@@ -29,11 +29,11 @@ urlpatterns = [
     path( "login/", login ,name="login"),
     path( "register/", register ,name="register"),
     path( "setting/", setting ),
-    path( "result/", result ),
+    path( "result/", result, name="result" ),
     path( "index/", index, name="index"),
     path( "music/<slug:idn>", music, name="mus" ),
     path( "user/", user ),
-    path( "search/", search ),
+    path( "search/", search, name="search" ),
 ]
 
 #if settings.DEBUG:

@@ -44,9 +44,15 @@
         </a>
         <div class="searchBox">
             <button type="button" id="searchBtn">
-                <img src="{% static 'img/tmp/search.png'%}" alt="searchBtn">
+                <a href="{% url 'search' %}"><img src="{% static 'img/tmp/search.png'%}" alt="searchBtn"></a>
             </button>
-            <input type="search" placeholder="検索"></input>
+            <!-- <form action="{% url 'result' %}"> -->
+                {% if word %}
+                    <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
+                {% else %}
+                    <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
+                {% endif %}
+            <!-- </form> -->
         </div>
         <a href="{% url 'index'%}" class="Hideblock">indexに移動</a>
         <div class="userbox">

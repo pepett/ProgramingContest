@@ -4,13 +4,9 @@
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/music.css' %}">
-    <br><br><br>
     <div class="music">
         <div class="music-content-main">
             <div class="album-image-container">
-                <button type="button" onclick="play( this, '{{ preview_url }}' )" class="play-btn">
-                    <img src="{% static 'img//tmp/play_green.png' %}">
-                </button>
                 <img src="{{ album.images.1.url }}" alt="{{ name }}" class="album-img">
             </div>
             <div class="name-container">
@@ -21,17 +17,27 @@
             </div>
         </div>
         <div class="contents">
-            
             <p style="display:none;" class="spotify-url"><span class="music-text"></span><a href="{{ external_urls.spotify }}" target="_blank"><img src="{% static 'img/tmp/Spotify_Logo_RGB_Green.png' %}" alt="スポティファイの画像"></a></p>
             <div class="utils">
+                <button type="button" onclick="play( this, '{{ preview_url }}' )" class="play-btn">
+                    <img src="{% static 'img//tmp/play_green.png' %}">
+                </button>
                 <div class="like">
 
                 </div>
+                <div class="share">
+                    <p>共有</p>
+                </div>
             </div>
+        </div>
+        <div class="tags">
         </div>
     </div>
     <div class="comments">
-        
+        <div class="title">
+            コメント
+        </div>
+        <form action="" method="post"></form>
     </div>
 </main>
         <script type="text/javascript">
@@ -41,12 +47,22 @@
             const star_img_black = "<img src='{% static 'img/tmp/star_black.png' %}'>";
             const heart_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>"
             const heart_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>"
+            const demo_tag_start = '<div class="tag">';
+            const demo_tag_end = '</div>';
             //試し
             for( let i = 0;i < 4;i ++ ){
                 document.querySelector( '.stars' ).innerHTML += star_img_green;
             }
             document.querySelector( '.stars' ).innerHTML += star_img_black;
             document.querySelector( '.like' ).innerHTML = heart_img_green;
+            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+            /* document.querySelector( '.music' ).style.height = window.screen.height  - 282  + 'px'; */
+            document.querySelector( 'body' ).style.height = window.screen.height - 221 + 'px';
+            document.querySelector( '.music' ).style.width = window.screen.width / 2 - 50 + 'px';
         </script>
         <script src="{% static 'js/music.js' %}"></script>
 {% endblock %}

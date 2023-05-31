@@ -1,5 +1,10 @@
+$greenCL:#00de64;
+*{
+    margin: 0;
+}
+
 main{
-    position: relative;
+    height: 100%;
     color: white;
 }
 .music-text{
@@ -8,27 +13,18 @@ main{
 .album-img{
     width: 200px;
     height: 200px;
-    border-radius: 29px;
-}
-.play-btn{
-    img{
-        width: 50px;
-        height: 50px;
-    }
-    background: none;
-    border: none;
-    z-index: 1;
-    position: absolute;
-    top: 220px;
-    left: -5px;
+    /* border-radius: 29px; */
+    border-radius: 10px;
 }
 main{
+    margin: 60px 0;
+    padding: 10px;
+    display: flex;
     .music{
-        border: solid black 1px;
         .music-content-main{
             display: flex;
             .name-container{
-                /* padding: 0 0 0 20px; */
+                padding: 0 0 0 20px;
                 margin: 0;
                 .music-name{
                     font-size: 32px;
@@ -46,7 +42,6 @@ main{
             }
         }
         .contents{
-            padding-left: 25px;
             
             .spotify-url{
                 img{
@@ -55,13 +50,64 @@ main{
                 }
             }
             .utils{
-                .like{
+                display: flex;
+                
+                margin: 0;
+                .play-btn{
                     img{
-                        width: 30px;
-                        height: 30px;
+                        width: 50px;
+                        height: 50px;
+                    }
+                    margin: auto 0;
+                    background: none;
+                    border: none;
+                    /* z-index: 1;
+                    position: absolute;
+                    top: 220px;
+                    left: -5px; */
+                }
+                .like{
+                    margin-top: 5px;
+                    img{
+                        width: 50px;
+                        height: 45px;
+                    }
+                }
+                .share{
+                    padding: 0 10px;
+                    padding-top: 4px;
+                    p{
+                        font-weight: bold;
+                        margin: auto;
+                        padding: 9px 10px 7px 10px;
+                        background-color: $greenCL;
+                        border-radius: 25%;
+                        color: black;
+                        font-size: 20px;
                     }
                 }
             }
+        }
+        .tags{
+            display: flex;
+            
+            .tag{
+                margin: 0 10px;
+                background-color: white;
+                border-radius: 5px;
+                p{
+                    margin: 0;
+                    color: black;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .comments{
+        padding: 5px 10px;
+        .title{
+            font-weight: bold;
+            font-size: 32px;
         }
     }
 }

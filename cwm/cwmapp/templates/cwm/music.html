@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}music{% endblock %}
 {% block content %}
-<main class="main1">
-    <link rel="stylesheet" href="{% static 'css/music.css' %}">
+<link rel="stylesheet" href="{% static 'css/music.css' %}">
+<!-- <main class="main1">
     <div class="music">
         <div class="music-content-main">
             <div class="album-image-container">
@@ -40,41 +40,76 @@
         </div>
         <form action="" method="post"></form>
     </div>
-</main>
+</main> -->
 <main class="main-test">
+    <div id="loading">
+        <div class="logo">
+            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+            <span>Connect With Music</span>
+        </div>
+        <div class="fingerprint-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+          </div>
+    </div>
     <div class="music-main">
         <div id="spotify-iframe"></div>
+        <div class="stars"></div>
+        <div class="album-name">
+            アルバム: <span class="album-title">{{ track_result.album.name }}</span>
+        </div>
+        <div class="tags">
+            
+            {% for t in tags %}
+                <span class="t">タグ:{{ t }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="comments" style="font-size: 64px;">
+        {{ comments.comment_text }}
     </div>
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <script>
     window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
+        const star_img_green = "<img src='{% static 'img/tmp/star_green.png' %}'>";
+        const star_img_black = "<img src='{% static 'img/tmp/star_black.png' %}'>";
+        for( let i = 0;i < 4;i ++ ){
+            document.querySelector( '.stars' ).innerHTML += star_img_green;
+        }
+        document.querySelector( '.stars' ).innerHTML += star_img_black;
         const elem = document.getElementById( 'spotify-iframe' );
         const options = {
             width: '95%',
             height: '700',
-            uri: '{{ uri }}'
+            uri: '{{ track_result.uri }}'
         }
         const callback = ( EmbedController ) => {
-            //code
+            EmbedController.addListener('ready', () => {
+                loading.classList.add( 'loaded' );
+            }, false );
         }
         IFrameAPI.createController( elem, options, callback );
     }
 </script>
+<script src="{% static 'js/music.js' %}"></script>
         <!-- <script type="text/javascript">
             const PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
             const StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
-            const star_img_green = "<img src='{% static 'img/tmp/star_green.png' %}'>";
-            const star_img_black = "<img src='{% static 'img/tmp/star_black.png' %}'>";
+            
             const heart_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>"
             const heart_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>"
             const demo_tag_start = '<div class="tag">';
             const demo_tag_end = '</div>';
             //試し
-            for( let i = 0;i < 4;i ++ ){
-                document.querySelector( '.stars' ).innerHTML += star_img_green;
-            }
-            document.querySelector( '.stars' ).innerHTML += star_img_black;
+            
             document.querySelector( '.like' ).innerHTML = heart_img_green;
             document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
             document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
@@ -85,5 +120,5 @@
             document.querySelector( 'body' ).style.height = window.screen.height - 221 + 'px';
             document.querySelector( '.music' ).style.width = window.screen.width / 2 - 50 + 'px';
         </script>
-        <script src="{% static 'js/music.js' %}"></script> -->
+         -->
 {% endblock %}

@@ -1,92 +1,239 @@
+.fingerprint-spinner, .fingerprint-spinner * {
+  box-sizing: border-box;
+  margin: 0 auto; }
+
+.fingerprint-spinner {
+  height: 64px;
+  width: 64px;
+  padding: 2px;
+  overflow: hidden;
+  position: relative; }
+
+.fingerprint-spinner .spinner-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #00DE64;
+  animation: fingerprint-spinner-animation 1500ms cubic-bezier(0.68, -0.75, 0.265, 1.75) infinite forwards;
+  margin: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0; }
+
+.fingerprint-spinner .spinner-ring:nth-child(1) {
+  height: calc(60px / 9 + 0 * 60px / 9);
+  width: calc(60px / 9 + 0 * 60px / 9);
+  animation-delay: calc(50ms * 1); }
+
+.fingerprint-spinner .spinner-ring:nth-child(2) {
+  height: calc(60px / 9 + 1 * 60px / 9);
+  width: calc(60px / 9 + 1 * 60px / 9);
+  animation-delay: calc(50ms * 2); }
+
+.fingerprint-spinner .spinner-ring:nth-child(3) {
+  height: calc(60px / 9 + 2 * 60px / 9);
+  width: calc(60px / 9 + 2 * 60px / 9);
+  animation-delay: calc(50ms * 3); }
+
+.fingerprint-spinner .spinner-ring:nth-child(4) {
+  height: calc(60px / 9 + 3 * 60px / 9);
+  width: calc(60px / 9 + 3 * 60px / 9);
+  animation-delay: calc(50ms * 4); }
+
+.fingerprint-spinner .spinner-ring:nth-child(5) {
+  height: calc(60px / 9 + 4 * 60px / 9);
+  width: calc(60px / 9 + 4 * 60px / 9);
+  animation-delay: calc(50ms * 5); }
+
+.fingerprint-spinner .spinner-ring:nth-child(6) {
+  height: calc(60px / 9 + 5 * 60px / 9);
+  width: calc(60px / 9 + 5 * 60px / 9);
+  animation-delay: calc(50ms * 6); }
+
+.fingerprint-spinner .spinner-ring:nth-child(7) {
+  height: calc(60px / 9 + 6 * 60px / 9);
+  width: calc(60px / 9 + 6 * 60px / 9);
+  animation-delay: calc(50ms * 7); }
+
+.fingerprint-spinner .spinner-ring:nth-child(8) {
+  height: calc(60px / 9 + 7 * 60px / 9);
+  width: calc(60px / 9 + 7 * 60px / 9);
+  animation-delay: calc(50ms * 8); }
+
+.fingerprint-spinner .spinner-ring:nth-child(9) {
+  height: calc(60px / 9 + 8 * 60px / 9);
+  width: calc(60px / 9 + 8 * 60px / 9);
+  animation-delay: calc(50ms * 9); }
+
+@keyframes fingerprint-spinner-animation {
+  100% {
+    transform: rotate(360deg); } }
+.loaded {
+  opacity: 0;
+  visibility: hidden; }
+
 * {
   margin: 0; }
 
-.main1 {
-  height: 100%;
-  color: white; }
-
-.music-text {
-  color: white; }
-
-.album-img {
-  width: 200px;
-  height: 200px;
-  /* border-radius: 29px; */
-  border-radius: 10px; }
-
-.main1 {
-  margin: 60px 0;
-  padding: 10px;
-  display: flex;
-  display: none; }
-  .main1 .music .music-content-main {
-    display: flex; }
-    .main1 .music .music-content-main .name-container {
-      padding: 0 0 0 20px;
-      margin: 0; }
-      .main1 .music .music-content-main .name-container .music-name {
-        font-size: 32px;
-        font-weight: bold;
-        padding: 10px 0 0 10px; }
-      .main1 .music .music-content-main .name-container .stars {
-        margin: 0;
-        padding-left: 10px; }
-        .main1 .music .music-content-main .name-container .stars img {
-          width: 30px;
-          height: 30px; }
-  .main1 .music .contents .spotify-url img {
-    width: 100px;
-    height: 30px; }
-  .main1 .music .contents .utils {
+/* 
+.main1{
+    height: 100%;
+    color: white;
+}
+.music-text{
+    color: white;
+}
+.album-img{
+    width: 200px;
+    height: 200px;
+    border-radius: 29px;
+    border-radius: 10px;
+}
+.main1{
+    margin: 60px 0;
+    padding: 10px;
     display: flex;
-    margin: 0; }
-    .main1 .music .contents .utils .play-btn {
-      margin: auto 0;
-      background: none;
-      border: none;
-      /* z-index: 1;
-      position: absolute;
-      top: 220px;
-      left: -5px; */ }
-      .main1 .music .contents .utils .play-btn img {
-        width: 50px;
-        height: 50px; }
-    .main1 .music .contents .utils .like {
-      margin-top: 5px; }
-      .main1 .music .contents .utils .like img {
-        width: 50px;
-        height: 45px; }
-    .main1 .music .contents .utils .share {
-      padding: 0 10px;
-      padding-top: 4px; }
-      .main1 .music .contents .utils .share p {
-        font-weight: bold;
-        margin: auto;
-        padding: 9px 10px 7px 10px;
-        background-color: #00de64;
-        border-radius: 25%;
-        color: black;
-        font-size: 20px; }
-  .main1 .music .tags {
-    display: flex; }
-    .main1 .music .tags .tag {
-      margin: 0 10px;
-      background-color: white;
-      border-radius: 5px; }
-      .main1 .music .tags .tag p {
-        margin: 0;
-        color: black;
-        font-weight: bold; }
-  .main1 .comments {
-    padding: 5px 10px; }
-    .main1 .comments .title {
-      font-weight: bold;
-      font-size: 32px; }
-
+    .music{
+        .music-content-main{
+            display: flex;
+            .name-container{
+                padding: 0 0 0 20px;
+                margin: 0;
+                .music-name{
+                    font-size: 32px;
+                    font-weight: bold;
+                    padding: 10px 0 0 10px;
+                }
+                .stars{
+                    margin: 0;
+                    padding-left: 10px;
+                    img{
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
+        .contents{
+            
+            .spotify-url{
+                img{
+                    width: 100px;
+                    height: 30px;
+                }
+            }
+            .utils{
+                display: flex;
+                
+                margin: 0;
+                .play-btn{
+                    img{
+                        width: 50px;
+                        height: 50px;
+                    }
+                    margin: auto 0;
+                    background: none;
+                    border: none;
+                    z-index: 1;
+                    position: absolute;
+                    top: 220px;
+                    left: -5px;
+                }
+                .like{
+                    margin-top: 5px;
+                    img{
+                        width: 50px;
+                        height: 45px;
+                    }
+                }
+                .share{
+                    padding: 0 10px;
+                    padding-top: 4px;
+                    p{
+                        font-weight: bold;
+                        margin: auto;
+                        padding: 9px 10px 7px 10px;
+                        background-color: $greenCL;
+                        border-radius: 25%;
+                        color: black;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        .tags{
+            display: flex;
+            
+            .tag{
+                margin: 0 10px;
+                background-color: white;
+                border-radius: 5px;
+                p{
+                    margin: 0;
+                    color: black;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .comments{
+        padding: 5px 10px;
+        .title{
+            font-weight: bold;
+            font-size: 32px;
+        }
+    }
+    display: none;
+} */
 .main-test {
-  margin-top: 70px; }
+  margin-top: 70px;
+  display: flex; }
+  .main-test .music-main {
+    padding: 10px; }
+    .main-test .music-main iframe {
+      height: 250px;
+      width: 500px; }
+    .main-test .music-main .stars {
+      display: block;
+      margin: 0;
+      padding-left: 10px; }
+      .main-test .music-main .stars img {
+        width: 30px;
+        height: 30px; }
+    .main-test .music-main .album-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: white; }
+      .main-test .music-main .album-name .album-title {
+        font-size: 25px; }
+    .main-test .music-main .tags .t {
+      color: white; }
 
-.music-main {
-  text-align: center; }
+#loading {
+  width: 100vw;
+  height: 100vh;
+  transition: all 1s;
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  z-index: 1; }
+  #loading .logo {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    margin: 220px auto 0 auto;
+    font-weight: bold; }
+    #loading .logo span {
+      margin: 0 auto 20px auto;
+      color: #00DE64;
+      font-weight: bold; }
+    #loading .logo img {
+      margin: 0 auto;
+      width: 55px;
+      height: 50px; }
 
 /*# sourceMappingURL=music.css.map */

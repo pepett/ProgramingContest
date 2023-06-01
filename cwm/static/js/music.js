@@ -3,6 +3,8 @@ let play_music = {
     is_play: false,//boolean
 };
 
+const loading = document.querySelector( '#loading' );
+
 
 window.onload = () => {
 }

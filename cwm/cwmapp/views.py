@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User
+from cwmapp.models import User, Comment
 
 # Create your views here.
 def top( request ):
@@ -37,6 +38,8 @@ def setting( request ):
             return render(request,'cwm/setting.html',{"results":final_result})
 
 def result( request ):
+    if not request.GET[ 'search-music' ]:
+        return redirect( 'search' )
     results = SPOTIFY.search( request.GET['search-music'], limit=10, offset=0, type='track', market=None )
     ret = {
         'results': results,
@@ -83,13 +86,20 @@ def index( request ):
         for tracks in final_result:
             return render(request,'cwm/index.html',{"results":final_result,"results2":final_result2,"results3":final_result3})
 
-def music( request, idn ):
+def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
     track_result = SPOTIFY.track( idn, market=None )
+    #comment = Comment.objects.filter( comment_music_id=idn )#comment_music_id__exact=idn
+    #tag = Utils.sharp( comment[0].comment_text ) 
+    content = {
+        'track_result': track_result,
+        #'comments': comment[0],
+        #'tags': tag
+    }
     #print( track_result )
     #content = {
     #    'id': track_result[ 'id' ],
     #}
-    return render( request, 'cwm/music.html', track_result )
+    return render( request, 'cwm/music.html', content )
 
 def user( request ):
     db = User.objects.all()
@@ -99,4 +109,5 @@ def user( request ):
     return render( request, 'cwm/user.html', data )
 
 def search( request ):
+    #if len( request.GET[ 'search-music' ] ) != 0:
     return render( request, 'cwm/search.html')

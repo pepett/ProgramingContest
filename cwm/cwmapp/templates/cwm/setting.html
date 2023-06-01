@@ -35,9 +35,9 @@
         </div>
         <ul>
             <li> 
-                <label><input type="radio" class="UserRadioBox" name="link" checked></input>お気に入り</label>
-                <label><input type="radio" class="UserRadioBox" name="link"></input>履歴</label>
-                <label><input type="radio" class="UserRadioBox" name="link"></input>設定</label>
+                <label id="FavLabel"><input type="radio" class="UserRadioBox" name="link" checked></input>お気に入り</label>
+                <label id="HisLabel"><input type="radio" class="UserRadioBox" name="link"></input>履歴</label>
+                <label id="SetLabel"><input type="radio" class="UserRadioBox" name="link"></input>設定</label>
             </li>
         </ul>
     </div>
@@ -49,34 +49,38 @@
                 {% if results %}
                 {% for x in results %}
                 <div class="songbox">
-                    <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}',this);">
+                    <button class="PlaySongBT" type="button" value="{{ x.preview_url }}" onclick="PlayMusic('{{ x.preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
-                    <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
-                    <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
-                    <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                    <a href="{% url 'mus' x.id %}">
+                        <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
+                        <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
+                        <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                    </a>
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
         </div>
         <div id="UserProFile">
-            <div id="profile">
-                <!--プロフィールdiv-->
-                <p class="bigtext">プロフィール画像</p>
-                <div id="ProfileBox">
-                    <img class="NewUserIcon" src="{% static 'img/users/仮アイコン.jpg' %}" alt="選択ユーザーアイコン">
-                    <input type="file" alt="画像をアップロード">
+            <div id="ProfileBox">
+                <div id="profile">
+                    <!--プロフィールdiv-->
+                    <p class="bigtext">プロフィール画像</p>
+                    <div id="ProfileBox">
+                        <img class="NewUserIcon" src="{% static 'img/users/仮アイコン.jpg' %}" alt="選択ユーザーアイコン">
+                        <input type="file" alt="画像をアップロード">
+                    </div>
                 </div>
-            </div>
-            <div id="username">
-                <!--プロフィールdiv-->
-                <p>ユーザー名変更</p>
-                <div id="usernameBox">
-                    <input type="text" src="" placeholder="ユーザー名">
+                <div id="username">
+                    <!--プロフィールdiv-->
+                    <p class="bigtext">ユーザー名変更</p>
+                    <div id="usernameBox">
+                        <input type="text" src="" placeholder="ユーザー名">
+                    </div>
                 </div>
+                <button class="loginBT" id="submit">変更を確定する</button>
             </div>
-            <button class="loginBT" id="submit">変更を確定する</button>
         </div>
         <div id="UserHistory">
             <p class="bigtext">履歴</p>
@@ -85,12 +89,14 @@
                 {% if results %}
                 {% for x in results %}
                 <div class="songbox">
-                    <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}',this);">
+                    <button class="PlaySongBT" type="button" value="{{ x.preview_url }}" onclick="PlayMusic('{{ x.preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
-                    <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
-                    <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
-                    <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                    <a href="{% url 'mus' x.id %}">
+                        <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
+                        <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
+                        <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                    </a>
                 </div>
                 {% endfor %}
                 {% endif %}

@@ -32,7 +32,7 @@ header {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  z-index: 2;
+  z-index: 10;
   top: 0;
   right: 0; }
 
@@ -85,14 +85,17 @@ a, .Hideblock {
     .searchBox #searchBtn img {
       width: 40px;
       height: 40px; }
-  .searchBox input {
-    height: 30px;
-    width: 80%;
-    margin: auto 3px;
-    border-radius: 10px;
-    font-weight: bold;
-    border: none;
-    background-color: #eeeeee; }
+  .searchBox form {
+    display: flex;
+    width: 80%; }
+    .searchBox form input {
+      height: 85%;
+      width: 100%;
+      margin: auto 0;
+      border-radius: 15px;
+      font-weight: bold;
+      border: none;
+      background-color: #eeeeee; }
 
 .MinisearchBox {
   width: 80%;
@@ -117,14 +120,15 @@ a, .Hideblock {
     .MinisearchBox #searchBtn img {
       width: 40px;
       height: 40px; }
-  .MinisearchBox input {
-    height: 30px;
-    width: 100%;
-    margin: 5px auto;
-    border-radius: 10px;
-    font-weight: bold;
-    border: none;
-    background-color: #eeeeee; }
+  .MinisearchBox form {
+    display: flex; }
+    .MinisearchBox form input {
+      height: 85%;
+      margin: auto 0;
+      border-radius: 10px;
+      font-weight: bold;
+      border: none;
+      background-color: #eeeeee; }
 
 .registerBT, .loginBT, .titletext, footer {
   font-weight: bold; }

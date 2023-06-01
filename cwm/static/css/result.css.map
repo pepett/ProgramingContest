@@ -1,7 +1,7 @@
 {
 "version": 3,
 "mappings": "AACI,OAAE;EACE,UAAU,EAAE,MAAM;EAClB,KAAK,EAAE,KAAK",
-"sources": ["../scss/result.scss"],
+"sources": ["result.scss"],
 "names": [],
 "file": "result.css"
 }

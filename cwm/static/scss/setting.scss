@@ -67,6 +67,12 @@ li > label:hover{
 #box2{
   width: 70%;
 }
+#FavLabel{
+  color: $greenCL;
+}
 #UserProFile,#UserHistory{
   display: none;
+}
+#UserProFile{
+  margin: 5px;
 }

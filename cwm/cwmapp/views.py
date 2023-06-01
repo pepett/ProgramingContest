@@ -19,7 +19,22 @@ def register( request ):
     return render( request, 'cwm/register.html' )
 
 def setting( request ):
-    return render( request, 'cwm/setting.html' )
+            
+        max_length = 13
+
+        lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
+        
+        results = SPOTIFY.artist_top_tracks(lz_uri)
+        final_result=results['tracks']
+
+        j = 0
+        for i in final_result:
+            final_result[j]['name'] = Utils.truncate_string(i['name'],max_length)
+            final_result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+            j = j + 1
+
+        for tracks in final_result:
+            return render(request,'cwm/setting.html',{"results":final_result})
 
 def result( request ):
     results = SPOTIFY.search( request.GET['search-music'], limit=10, offset=0, type='track', market=None )

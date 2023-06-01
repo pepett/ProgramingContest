@@ -4,40 +4,104 @@
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/setting.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <!--ローディング画面ここから-->
+    <div id="loading">
+        <div class="logo">
+            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+            <span>Connect With Music</span>
+        </div>
+        <div class="fingerprint-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+    </div>
+    <!--ここまで-->
     <div id="box1">
+        <div class="BackDiv">
+            <img src="{% static 'img/tmp/back.png' %}" alt="backimage">
+            <a href="#">戻る</a>
+        </div>
         <div id="user">
-            <img src="" alt="ユーザー">
+            <img class="NowUserIcon" src="{% static 'img/users/仮アイコン.jpg' %}" alt="現在のユーザーアイコン">
             <p>ユーザー名</p>
         </div>
         <ul>
             <li> 
-                <a href="#">お気に入り</a>
-            </li>
-            <li> 
-                <a href="#">履歴</a>
-            </li>
-            <li> 
-                <a href="#">設定</a>
+                <label><input type="radio" class="UserRadioBox" name="link" checked></input>お気に入り</label>
+                <label><input type="radio" class="UserRadioBox" name="link"></input>履歴</label>
+                <label><input type="radio" class="UserRadioBox" name="link"></input>設定</label>
             </li>
         </ul>
     </div>
     <div id="box2">
-        <div id="profile">
-            <!--プロフィールdiv-->
-            <p>プロフィール画像</p>
-            <div id="ProfileBox">
-                <h2>画像</h2>
-                <input type="file" alt="画像をアップロード">
+        <div id="UserFavorite">
+            <p class="bigtext">お気に入り</p>
+            <div id="trackbox" class="toprank">
+                <!--試しにFake typeの人気順に表示する-->
+                {% if results %}
+                {% for x in results %}
+                <div class="songbox">
+                    <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}',this);">
+                        <img src="{% static 'img/tmp/play_green.png' %}">
+                    </button>
+                    <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
+                    <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
+                    <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                </div>
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
-        <div id="username">
-            <!--プロフィールdiv-->
-            <p>ユーザー名変更</p>
-            <div id="usernameBox">
-                <input type="text" src="" placeholder="ユーザー名">
+        <div id="UserProFile">
+            <div id="profile">
+                <!--プロフィールdiv-->
+                <p class="bigtext">プロフィール画像</p>
+                <div id="ProfileBox">
+                    <img class="NewUserIcon" src="{% static 'img/users/仮アイコン.jpg' %}" alt="選択ユーザーアイコン">
+                    <input type="file" alt="画像をアップロード">
+                </div>
+            </div>
+            <div id="username">
+                <!--プロフィールdiv-->
+                <p>ユーザー名変更</p>
+                <div id="usernameBox">
+                    <input type="text" src="" placeholder="ユーザー名">
+                </div>
+            </div>
+            <button class="loginBT" id="submit">変更を確定する</button>
+        </div>
+        <div id="UserHistory">
+            <p class="bigtext">履歴</p>
+            <div id="trackbox" class="toprank">
+                <!--試しにFake typeの人気順に表示する-->
+                {% if results %}
+                {% for x in results %}
+                <div class="songbox">
+                    <button class="PlaySongBT" type="button" onclick="PlayMusic('{{ x.preview_url }}',this);">
+                        <img src="{% static 'img/tmp/play_green.png' %}">
+                    </button>
+                    <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
+                    <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
+                    <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                </div>
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
-        <button class="loginBT" id="submit">変更を確定する</button>
     </div>
+    <script type="text/javascript">
+        var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+        var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+    </script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/setting.js' %}"></script>
 </main>
 {% endblock %}

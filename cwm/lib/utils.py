@@ -13,6 +13,13 @@ class Utils:
         return result
     
     @staticmethod
+    def del_duplicate( arr, is_rough ):
+        tmp = arr
+        result = []
+        #for i in range( len( arr ) ):
+
+
+    @staticmethod
     def truncate_string(text, max_length):
         if len(text) <= max_length:
             return text

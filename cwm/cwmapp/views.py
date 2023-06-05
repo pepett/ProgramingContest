@@ -88,13 +88,18 @@ def index( request ):
 
 def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
     track_result = SPOTIFY.track( idn, market=None )
-    #comment = Comment.objects.filter( comment_music_id=idn )#comment_music_id__exact=idn
-    #tag = Utils.sharp( comment[0].comment_text ) 
+    comments = ''
+    tag = []
     content = {
         'track_result': track_result,
-        #'comments': comment[0],
-        #'tags': tag
+        'comments': comments,
+        'tags': tags
     }
+    if Comment.objects.filter( comment_music_id=idn ).exists():
+        comments = Comment.objects.filter( comment_music_id=idn )
+        
+    #comment = Comment.objects.filter( comment_music_id=idn )#comment_music_id__exact=idn
+    #tag = Utils.sharp( comment[0].comment_text ) 
     #print( track_result )
     #content = {
     #    'id': track_result[ 'id' ],

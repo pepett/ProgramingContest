@@ -75,11 +75,13 @@
     <div class="comments">
         {% if comments %}
             {% for u in users %}
-                <div class="user-name">{{ u.user_name }}</div>
+                <div class="user-name" style="font-size: 20px; background-color: white;">{{ u.user_name }}</div>
             {% endfor %}
             {% for c in comments %}
-                <div style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>
+                <div class="comment-text" style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>
             {% endfor %}
+        {% else %}
+            <h2>コメントはまだありません</h2>
         {% endif %}
     </div>
 </main>

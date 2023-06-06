@@ -113,7 +113,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media_local/'
 MEDIA_ROOT = BASE_DIR / "media_local"
 
 

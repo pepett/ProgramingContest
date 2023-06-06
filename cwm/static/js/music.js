@@ -5,9 +5,19 @@ let play_music = {
 
 const loading = document.querySelector( '#loading' );
 
+const correct = () => {
+    const user_name = document.getElementsByClassName( 'user-name' );
+    const comment_text = document.getElementsByClassName( 'comment-text' );
+    const comments = document.getElementsByClassName( 'comments' )[ 0 ];
 
-window.onload = () => {
+    for( let i = 0;i < user_name.length;i ++ ){
+        comments.insertBefore( user_name[ i ], comment_text[ i ] );
+    }
 }
+
+addEventListener( 'DOMContentLoaded', ()=>{
+    correct();
+} )
 
 const play = ( obj, url ) => {
     if( play_music.audio == null ){

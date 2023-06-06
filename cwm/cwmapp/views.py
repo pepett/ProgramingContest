@@ -89,21 +89,25 @@ def index( request ):
 def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
     track_result = SPOTIFY.track( idn, market=None )
     comments = ''
-    tag = []
+    tags = []
+    users = ''
     content = {
         'track_result': track_result,
         'comments': comments,
-        'tags': tags
+        'tags': tags,
+        'users': users,
     }
     if Comment.objects.filter( comment_music_id=idn ).exists():
         comments = Comment.objects.filter( comment_music_id=idn )
+        users = User.objects.filter( user_mail=comments[0].comment_user_mail )#一つしかとってきてない
+        for i in range( comments.count() ):
+            tags.extend( Utils.sharp( comments[ i ].comment_text ) )
+            print( users[ i ].user_name )#ユーザー名を出力
+        tags = Utils.del_duplicate( tags, False )
         
-    #comment = Comment.objects.filter( comment_music_id=idn )#comment_music_id__exact=idn
-    #tag = Utils.sharp( comment[0].comment_text ) 
-    #print( track_result )
-    #content = {
-    #    'id': track_result[ 'id' ],
-    #}
+        content[ 'tags' ] = tags
+        content[ 'comments' ] = comments
+        content[ 'users' ] = users
     return render( request, 'cwm/music.html', content )
 
 def user( request ):

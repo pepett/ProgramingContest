@@ -68,12 +68,19 @@
         <div class="tags">
             
             {% for t in tags %}
-                <span class="t">タグ:{{ t }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="t">#{{ t }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {% endfor %}
         </div>
     </div>
-    <div class="comments" style="font-size: 64px;">
-        {{ comments.comment_text }}
+    <div class="comments">
+        {% if comments %}
+            {% for u in users %}
+                <div class="user-name">{{ u.user_name }}</div>
+            {% endfor %}
+            {% for c in comments %}
+                <div style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>
+            {% endfor %}
+        {% endif %}
     </div>
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>

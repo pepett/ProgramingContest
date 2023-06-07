@@ -3,8 +3,8 @@ main {
   display: flex; }
 
 #box1 {
-  width: 30%;
-  height: 100%; }
+  width: 28%;
+  height: 106%; }
   #box1 .BackDiv {
     margin: 0 0 3px 0;
     height: 50px;
@@ -52,10 +52,12 @@ li > label {
   transition: 0.3s; }
 
 li > label:hover {
-  color: #00DE64; }
+  color: #00DE64;
+  text-decoration: underline; }
 
 #box2 {
-  width: 70%; }
+  width: 70%;
+  height: 106%; }
 
 #FavLabel {
   color: #00DE64; }
@@ -63,7 +65,63 @@ li > label:hover {
 #UserProFile, #UserHistory {
   display: none; }
 
-#UserProFile {
-  margin: 5px; }
+#IconBox div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end; }
+
+.NewUserIcon {
+  width: 150px;
+  height: 150px;
+  margin: 0 5px;
+  border: 1px solid #b7b7b7; }
+
+.UploadImageBT {
+  height: 20px;
+  margin: 0 5px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: bold;
+  background-color: #b7b7b7; }
+
+#usernameBox {
+  margin: 10px; }
+  #usernameBox input {
+    width: 200px;
+    height: 30px;
+    margin: auto 0;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    background-color: #eeeeee; }
+
+@media screen and (max-width: 1000px) {
+  main {
+    flex-direction: column; }
+
+  #box1, #box2 {
+    width: 100%; }
+
+  .NowUserIcon {
+    margin: 3px auto;
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    border: 2px solid #00DE64; }
+
+  p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 3px auto;
+    color: #ffffff; }
+
+  li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; }
+
+  li > label {
+    font-size: 20px; } }
 
 /*# sourceMappingURL=setting.css.map */

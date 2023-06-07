@@ -30,8 +30,8 @@
             <a href="#">戻る</a>
         </div>
         <div id="user">
-            <img class="NowUserIcon" src="{% static 'img/users/仮アイコン.jpg' %}" alt="現在のユーザーアイコン">
-            <p>ユーザー名</p>
+            <img class="NowUserIcon" src="{{ data.0.user_image.url }}" alt="現在のユーザーアイコン">
+            <p>{{ data.0.user_name }}</p>
         </div>
         <ul>
             <li> 
@@ -67,16 +67,19 @@
                 <div id="profile">
                     <!--プロフィールdiv-->
                     <p class="bigtext">プロフィール画像</p>
-                    <div id="ProfileBox">
-                        <img class="NewUserIcon" src="{% static 'img/users/仮アイコン.jpg' %}" alt="選択ユーザーアイコン">
-                        <input type="file" alt="画像をアップロード">
+                    <div id="IconBox">
+                        <div>
+                            <img class="NewUserIcon" src="{{ data.0.user_image.url }}" alt="選択ユーザーアイコン">
+                            <input class="UploadImageBT" type="file" alt="画像をアップロード" accept="image/png, image/jpeg, image/jpg, image/gif">
+                        </div>
+                        <p class="greentext">※画像のサイズは 1:1 にすることを推奨します</p>
                     </div>
                 </div>
                 <div id="username">
                     <!--プロフィールdiv-->
                     <p class="bigtext">ユーザー名変更</p>
                     <div id="usernameBox">
-                        <input type="text" src="" placeholder="ユーザー名">
+                        <input type="text" src="" placeholder="新しいユーザー名を入力" value="{{ data.0.user_name }}">
                     </div>
                 </div>
                 <button class="loginBT" id="submit">変更を確定する</button>
@@ -86,16 +89,16 @@
             <p class="bigtext">履歴</p>
             <div id="trackbox" class="toprank">
                 <!--試しにFake typeの人気順に表示する-->
-                {% if results %}
-                {% for x in results %}
+                {% if results2 %}
+                {% for y in results2 %}
                 <div class="songbox">
-                    <button class="PlaySongBT" type="button" value="{{ x.preview_url }}" onclick="PlayMusic('{{ x.preview_url }}',this);">
+                    <button class="PlaySongBT" type="button" value="{{ y.preview_url }}" onclick="PlayMusic('{{ y.preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
-                    <a href="{% url 'mus' x.id %}">
-                        <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
-                        <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
-                        <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+                    <a href="{% url 'mus' y.id %}">
+                        <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
+                        <h3 class="SongNameText" ><a href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
+                        <h3 class="SongNameText" >{{y.artists.0.name}}</h3>
                     </a>
                 </div>
                 {% endfor %}

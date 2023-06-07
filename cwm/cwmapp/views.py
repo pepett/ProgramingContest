@@ -20,7 +20,9 @@ def register( request ):
     return render( request, 'cwm/register.html' )
 
 def setting( request ):
-            
+        
+        Userdata = User.objects.filter( user_name = 'morikin' , user_mail = 'k228021@kccollege.ac.jp')
+
         max_length = 13
 
         lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
@@ -28,14 +30,24 @@ def setting( request ):
         results = SPOTIFY.artist_top_tracks(lz_uri)
         final_result=results['tracks']
 
+        lz_uri2 = 'spotify:artist:5Vo1hnCRmCM6M4thZCInCj'
+        results2 = SPOTIFY.artist_top_tracks(lz_uri2)
+        final_result2=results2['tracks']
+
         j = 0
         for i in final_result:
             final_result[j]['name'] = Utils.truncate_string(i['name'],max_length)
             final_result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
             j = j + 1
 
-        for tracks in final_result:
-            return render(request,'cwm/setting.html',{"results":final_result})
+        j = 0
+        for i in final_result2:
+            final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
+            final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+            j = j + 1
+
+        return render(request,'cwm/setting.html',{"results":final_result,"results2":final_result2, "data":Userdata})
+
 
 def result( request ):
     if not request.GET[ 'search-music' ]:

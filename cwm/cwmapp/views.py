@@ -133,9 +133,14 @@ def search( request ):
 
 def artist( request, id ):
     artist_result = SPOTIFY.artist( id )
-    print( artist_result )
+    artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
+    artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=10, offset=0)
+    print( artist_album[ 'items' ][ 0 ][ 'id' ] )
+    print( artist_album[ 'items' ][ 0 ][ 'name' ] )
     content = {
-        'artist': artist_result
+        'artist': artist_result,
+        'artist_track': artist_track,
+        'artist_album': artist_album,
     }
     return render( request, 'cwm/artist.html', content )
 

@@ -4,7 +4,25 @@
 {% block content %}
 <br><br><br>
     <main>
-        {{ artist.name }}
-        <img src="{{ artist.images.1.url }}" alt="">
+        <div class="artist">
+            <h2>{{ artist.name }}</h2>
+            <img src="{{ artist.images.1.url }}" alt="">
+        </div>
+        <div class="artist-track">
+            {% for i in artist_track.tracks %}
+                <div class="track">
+                    <a href="{% url 'mus' i.id %}">{{ i.name }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="artist-album">
+            {% for i in artist_album.items %}
+                <div class="album">
+                    <h2>{{ i.name }}</h2>
+                    <img src="{{ i.images.1.url }}" alt="">
+                </div>
+            {% endfor %}
+        </div>
+
     </main>
 {% endblock %}

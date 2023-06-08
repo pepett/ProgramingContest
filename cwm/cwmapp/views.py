@@ -145,4 +145,7 @@ def artist( request, id ):
     return render( request, 'cwm/artist.html', content )
 
 def album( request, id ):
+    
+    albums = SPOTIFY.albums( [id], market=None )
+    print( albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ][ 0 ][ 'name' ] )
     return render( request, 'cwm/album.html' )

@@ -1,5 +1,17 @@
 main h2 {
   text-align: center;
   color: white; }
+main .music {
+  border: solid 1px #00de64;
+  border-radius: 5px;
+  display: flex;
+  margin: 20px; }
+  main .music .images img {
+    height: 100%;
+    border-radius: 10px; }
+  main .music .contents {
+    margin-left: 10px; }
+    main .music .contents .music-name {
+      font-size: 32px; }
 
 /*# sourceMappingURL=result.css.map */

@@ -26,27 +26,6 @@ class Utils:
                     break
             if flg:
                 result.append( text )
-        '''while True:
-            break
-            tmp = ver_arr.pop( 0 )
-            flg = True
-            for i in range( 0, len( ver_arr ) ):
-                print( i )
-                if tmp == ver_arr[ i ]:
-                    flg = False
-                    break
-            if flg:
-                result.append( tmp )
-        for i in range( len( arr ) ):
-            tmp = arr[ i ]
-            flg = True
-            for j in range( len( arr ) ):
-                if result[ i ] == tmp:
-                    flg = False
-                    break
-            if flg:
-                result.append( tmp )
-        '''
         return result
 
     @staticmethod

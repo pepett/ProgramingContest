@@ -27,7 +27,7 @@ class Comment( models.Model ):
     comment_posted = models.DateTimeField( auto_now_add = True )
 
     def __str__( self ):
-        return self.comment_id
+        return self.comment_user_mail
 
 class Result( models.Model ):
     result_comment_id = models.IntegerField()

@@ -1,0 +1,10 @@
+{% extends "cwm/base.html" %}
+{% load static %}
+{% block title %}artist{% endblock %}
+{% block content %}
+<br><br><br>
+    <main>
+        {{ artist.name }}
+        <img src="{{ artist.images.1.url }}" alt="">
+    </main>
+{% endblock %}

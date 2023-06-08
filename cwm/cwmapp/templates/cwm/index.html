@@ -23,19 +23,18 @@
           </div>
     </div>
     <!--ここまで-->
-    <p class="bigtext">一覧ページ</p>
+    <p class="bigtext">トップ10</p>
     <div id="trackbox" class="toprank">
-        <!--試しにFake typeの人気順に表示する-->
         {% if results %}
         {% for x in results %}
         <div class="songbox">
-            <button class="PlaySongBT" type="button" value="{{ x.preview_url }}" onclick="PlayMusic('{{ x.preview_url }}',this);">
+            <button class="PlaySongBT" type="button" value="{{ x.track.preview_url }}" onclick="PlayMusic('{{ x.track.preview_url }}',this);">
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
-            <a href="{% url 'mus' x.id %}">
-                <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
-                <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
-                <h3 class="SongNameText" >{{x.artists.0.name}}</h3>
+            <a href="{% url 'mus' x.track.id %}">
+                <img class="music_img" src="{{x.track.album.images.0.url}}" width="150" height="150" class="" alt="">
+                <h3 class="SongNameText" ><a href="{% url 'mus' x.track.id %}">{{x.track.name}}</a></h3>
+                <h3 class="SongNameText" >{{x.track.artists.0.name}}</h3>
             </a>
         </div>
         {% endfor %}

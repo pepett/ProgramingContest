@@ -62,11 +62,10 @@ def result( request ):
 def index( request ):
         
         max_length = 13
-
-        lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
+        Playlist_uri = 'spotify:playlist:37i9dQZEVXbKXQ4mDTEBXq'
         
-        results = SPOTIFY.artist_top_tracks(lz_uri)
-        final_result=results['tracks']
+        results = SPOTIFY.playlist_tracks(Playlist_uri)['items']
+        final_result = results[:10]
 
         lz_uri2 = 'spotify:artist:1snhtMLeb2DYoMOcVbb8iB'
         results2 = SPOTIFY.artist_top_tracks(lz_uri2)
@@ -78,8 +77,8 @@ def index( request ):
 
         j = 0
         for i in final_result:
-            final_result[j]['name'] = Utils.truncate_string(i['name'],max_length)
-            final_result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+            final_result[j]['track']['name'] = Utils.truncate_string(i['track']['name'],max_length)
+            final_result[j]['track']['artists'][0]['name'] = Utils.truncate_string(i['track']['artists'][0]['name'],max_length)
             j = j + 1
 
         j = 0
@@ -95,8 +94,7 @@ def index( request ):
             final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
             j = j + 1
 
-        for tracks in final_result:
-            return render(request,'cwm/index.html',{"results":final_result,"results2":final_result2,"results3":final_result3})
+        return render(request,'cwm/index.html',{"results":final_result,"results2":final_result2,"results3":final_result3})
 
 def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
     track_result = SPOTIFY.track( idn, market=None )

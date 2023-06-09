@@ -28,7 +28,7 @@ urlpatterns = [
     path( "", top ,name="top"),
     path( "login/", login ,name="login"),
     path( "register/", register ,name="register"),
-    path( "setting/", setting ),
+    path( "setting/", setting ,name="setting"),
     path( "result/", result, name="result" ),
     path( "index/", index, name="index"),
     path( "music/<slug:idn>", music, name="mus" ),

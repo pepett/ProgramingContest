@@ -11,7 +11,6 @@ body::-webkit-scrollbar-thumb {
   border-radius: 10px; }
 
 body {
-  margin: 0 auto;
   height: 100%;
   font-family: 'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
   background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%); }
@@ -40,7 +39,8 @@ footer {
   position: fixed;
   bottom: 0px;
   background-color: rgba(0, 222, 100, 0.527);
-  width: 100%; }
+  width: 100%;
+  z-index: 6; }
 
 .titletext, .greentext, .registerBT {
   color: #00de64; }
@@ -163,6 +163,26 @@ a, .Hideblock {
   border-radius: 50px;
   text-decoration: none; }
 
+.Login_userbox {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: auto 0;
+  align-items: center; }
+  .Login_userbox a {
+    margin: 3px; }
+
+.UserIcon {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 2.5px solid #00de64; }
+
+.usernameText {
+  margin: 0 auto;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff; }
+
 .humberger {
   height: 100px;
   margin-left: 20px;
@@ -257,10 +277,7 @@ a, .Hideblock {
     transition: none;
     transform: none; }
     .nav-container a {
-      margin-right: 1.5rem; }
-
-  .Hideblock {
-    visibility: visible; } }
+      margin-right: 1.5rem; } }
 @media screen and (max-width: 1000px) {
   header .span-container {
     display: flex;
@@ -275,6 +292,8 @@ a, .Hideblock {
     header .Miniuserbox a {
       margin: 10px auto; }
   header .searchBox {
+    display: none; }
+  header .usernameText {
     display: none; } }
 
 /*# sourceMappingURL=base.css.map */

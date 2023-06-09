@@ -5,6 +5,11 @@ from lib.utils import Utils
 from cwmapp.models import User, Comment
 
 # Create your views here.
+
+#仮ログイン
+IsLogin = True
+
+
 def top( request ):
     #例ここから 
     #tmp = Utils.sharp( "unti unti #aaaa \n un#ti #bbb jsflkdsj" )
@@ -12,7 +17,6 @@ def top( request ):
     #    print( tmp[ counter ] )
     #例ここまで
     return render( request, 'cwm/top.html' )
-
 def login( request ):
     return render( request, 'cwm/login.html' )
 
@@ -20,8 +24,6 @@ def register( request ):
     return render( request, 'cwm/register.html' )
 
 def setting( request ):
-    
-    Userdata = User.objects.filter( user_name = 'morikin' , user_mail = 'k228021@kccollege.ac.jp')
 
     max_length = 13
 
@@ -46,7 +48,13 @@ def setting( request ):
         final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
         j = j + 1
 
-    return render(request,'cwm/setting.html',{"results":final_result,"results2":final_result2, "data":Userdata})
+    content = {
+        "results":final_result,
+        "results2":final_result2,
+        "IsLogin":IsLogin,
+        "data":User.objects.filter( user_name = 'morikin' , user_mail = 'k228021@kccollege.ac.jp')
+    }
+    return render(request,'cwm/setting.html',content)
 
 
 def result( request ):
@@ -94,7 +102,15 @@ def index( request ):
         final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
         j = j + 1
 
-    return render(request,'cwm/index.html',{"results":final_result,"results2":final_result2,"results3":final_result3})
+    content = {
+        "results":final_result,
+        "results2":final_result2,
+        "results3":final_result3,
+        "IsLogin":IsLogin,
+        "data":User.objects.filter( user_name = 'morikin' , user_mail = 'k228021@kccollege.ac.jp')
+    }
+
+    return render(request,'cwm/index.html',content)
 
 def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
     track_result = SPOTIFY.track( idn, market=None )

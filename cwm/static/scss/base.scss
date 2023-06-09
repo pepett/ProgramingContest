@@ -13,7 +13,6 @@ body::-webkit-scrollbar-thumb{
     border-radius: 10px;
 }
 body{
-    margin: 0 auto;
     height: 100%;
     font-family:'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
     background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
@@ -44,6 +43,7 @@ footer{
     bottom: 0px;
     background-color: rgba(0, 222, 100, 0.527);
     width: 100%;
+    z-index: 6;
 }
 
 .titletext,.greentext,.registerBT{
@@ -183,7 +183,27 @@ transition: 0.5s;
     border-radius: 50px;
     text-decoration: none;
 }
-
+.Login_userbox{
+    display: flex;
+    flex-direction: row-reverse;
+    margin: auto 0;
+    align-items: center;
+    a{
+        margin: 3px;
+    }
+}
+.UserIcon{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 2.5px solid $greenCL;
+}
+.usernameText{
+    margin: 0 auto;
+    font-size:20px;
+    font-weight: bold;
+    color: #ffffff;
+}
 //ハンバーガーメニュー　※コピペしたもの
 
 //  --------BURGER MENU CODE :D 
@@ -329,10 +349,6 @@ transition: 0.5s;
         margin-right: 1.5rem;
       }
     }
-
-    .Hideblock{
-        visibility: visible;
-    }
   }
 @media screen and (max-width: 1000px) {
     header{
@@ -353,6 +369,9 @@ transition: 0.5s;
             }
         }
         .searchBox{
+            display: none;
+        }
+        .usernameText{
             display: none;
         }
     }

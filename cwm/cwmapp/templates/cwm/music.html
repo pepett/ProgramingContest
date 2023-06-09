@@ -63,7 +63,10 @@
         <div id="spotify-iframe"></div>
         <div class="stars"></div>
         <div class="album-name">
-            アルバム: <span class="album-title">{{ track_result.album.name }}</span>
+            アルバム: <span class="album-title"><a href="{% url 'album' track_result.album.id %}">{{ track_result.album.name }}</a></span>
+        </div>
+        <div class="artist-name">
+            アーティスト: <span class="artist-title"><a href="{% url 'artist' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a></span>
         </div>
         <div class="tags">
             

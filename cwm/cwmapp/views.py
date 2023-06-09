@@ -150,7 +150,7 @@ def search( request ):
 def artist( request, id ):
     artist_result = SPOTIFY.artist( id )
     artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
-    artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=10, offset=0)
+    artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
     print( artist_album[ 'items' ][ 0 ][ 'id' ] )
     print( artist_album[ 'items' ][ 0 ][ 'name' ] )
     content = {
@@ -163,5 +163,8 @@ def artist( request, id ):
 def album( request, id ):
     
     albums = SPOTIFY.albums( [id], market=None )
+    content = {
+        'album_tracks': albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ],
+    }
     print( albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ][ 0 ][ 'name' ] )
-    return render( request, 'cwm/album.html' )
+    return render( request, 'cwm/album.html', content )

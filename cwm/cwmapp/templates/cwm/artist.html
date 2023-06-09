@@ -18,7 +18,7 @@
         <div class="artist-album">
             {% for i in artist_album.items %}
                 <div class="album">
-                    <h2>{{ i.name }}</h2>
+                    <h2><a href="{% url 'album' i.id %}">{{ i.name }}</a></h2>
                     <img src="{{ i.images.1.url }}" alt="">
                 </div>
             {% endfor %}

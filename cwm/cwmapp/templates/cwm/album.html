@@ -2,7 +2,10 @@
 {% load static %}
 {% block title %}artist{% endblock %}
 {% block content %}
+<br><br><br>
 <main>
-
+    {% for i in album_tracks %}
+        <h1><a href="{% url 'mus' i.id %}">{{ i.name }}</a></h1>
+    {% endfor %}
 </main>
 {% endblock %}

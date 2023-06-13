@@ -233,11 +233,18 @@ $greenCL: #00DE64;
                 font-size: 25px;
             }
         }
+        .artist-name{ 
+            color: white;
+        }
         .tags{
             .t{
                 color: white;
             }
         }
+    }
+    .comments{
+        width: 100%;
+        text-align: center;
     }
 }
 

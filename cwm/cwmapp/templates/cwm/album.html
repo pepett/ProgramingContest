@@ -4,8 +4,18 @@
 {% block content %}
 <br><br><br>
 <main>
+    <h2>{{album_desc.name}}</h2>
+    <img src="{{ album_desc.images.1.url }}" alt="">
     {% for i in album_tracks %}
-        <h1><a href="{% url 'mus' i.id %}">{{ i.name }}</a></h1>
+        <div class="track" style="display: flex;">
+            <div class="play-btn">
+                <a data-preview="{{ i.preview_url }}" class="preview">
+                    <button type="button"><img src="{% static 'img/tmp/play_green.png' %}" alt="button"></button>
+                </a>
+            </div>
+            <div class="album-name"><a href="{% url 'mus' i.id %}">{{ i.name }}</a></div>
+        </div>
     {% endfor %}
 </main>
+<script src="{% static 'js/album.js' %}" type="module"></script>
 {% endblock %}

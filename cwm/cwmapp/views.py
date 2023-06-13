@@ -4,11 +4,13 @@ from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from cwmapp.models import User, Comment, HistoryList
 
+from .forms import CommentForm
+
 # Create your views here.
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_name = 'PK' , user_mail = 'k228016@kccollege.ac.jp')
+UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -25,7 +27,7 @@ def register( request ):
 
 def setting( request ):
 
-    MusHistory = HistoryList.objects.filter(history_user_mail = 'k228016@kccollege.ac.jp')
+    MusHistory = HistoryList.objects.filter(history_user_mail = 'k228021@kccollege.ac.jp')
     Historyresult = []
 
     max_length = 13
@@ -117,15 +119,20 @@ def index( request ):
     return render(request,'cwm/index.html',content)
 
 def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
+    if request.method == 'POST':
+        c = Comment( comment_user_mail='k228021@kccollege.ac.jp', comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
+        c.save()
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
     users = []
+    form = CommentForm()
     content = {
         'track_result': track_result,
         'comments': comments,
         'tags': tags,
         'users': users,
+        'form': form,
     }
     if Comment.objects.filter( comment_music_id=idn ).exists():
         comments = Comment.objects.filter( comment_music_id=idn )
@@ -164,8 +171,10 @@ def artist( request, id ):
 
 def album( request, id ):
     
-    albums = SPOTIFY.albums( [id], market=None )
+    albums = SPOTIFY.albums( [ id ], market=None )
+    print( albums[ 'albums' ][ 0 ][ 'name' ] )
     content = {
         'album_tracks': albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ],
+        'album_desc': albums[ 'albums' ][ 0 ],
     }
     return render( request, 'cwm/album.html', content )

@@ -207,8 +207,13 @@
       color: white; }
       .main-test .music-main .album-name .album-title {
         font-size: 25px; }
+    .main-test .music-main .artist-name {
+      color: white; }
     .main-test .music-main .tags .t {
       color: white; }
+  .main-test .comments {
+    width: 100%;
+    text-align: center; }
 
 #loading {
   width: 100vw;

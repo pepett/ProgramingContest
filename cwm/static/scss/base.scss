@@ -58,9 +58,6 @@ a,.Hideblock{
     text-decoration: none;
     color: #00de64;
 }
-.Hideblock{
-    visibility: hidden;
-}
 .toplogo{
     white-space: nowrap;
 }
@@ -139,6 +136,7 @@ a,.Hideblock{
         display: flex;
         input{
             height: 85%;
+            width: 100%;
             margin: auto 0;
             border-radius: 10px;
             font-weight: bold;
@@ -203,6 +201,9 @@ transition: 0.5s;
     font-size:20px;
     font-weight: bold;
     color: #ffffff;
+}
+.Hideblock{
+    display: none;
 }
 //ハンバーガーメニュー　※コピペしたもの
 
@@ -282,14 +283,13 @@ transition: 0.5s;
   //style our navigation for full screen when checkbox:checked.
   .nav-container{
     position: fixed;
-    padding-top: 50px;
     left: 0;
     top: 0;
     width: 65%;
     height: 100vh;
     display: flex;
     flex-flow: column wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     z-index: 50;
     background: $gradationBG;
@@ -361,11 +361,37 @@ transition: 0.5s;
         .userbox{
         display: none;
         }
+        .Hideblock{
+            display: block;
+            width: 50px;
+            height: 50px;
+        }
         .Miniuserbox{
             display: flex;
             flex-direction: column;
             a{
             margin: 10px auto;
+            }
+        }
+        .MiniLogin_userbox{
+            a{
+                img{
+                    height: 130px;
+                    width: 130px;
+                }
+            }
+            .MiniusernameText{
+                text-align: center;
+                display: block;
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 20px;
+                margin: 0 auto 10px auto;
+            }
+        }
+        .MinisearchBox{
+            form{
+                width: 100%;
             }
         }
         .searchBox{

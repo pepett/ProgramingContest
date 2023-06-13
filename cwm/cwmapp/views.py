@@ -2,13 +2,13 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User, Comment
+from cwmapp.models import User, Comment, HistoryList
 
 # Create your views here.
 
 #仮ログイン
 IsLogin = True
-
+UserData = User.objects.filter( user_name = 'PK' , user_mail = 'k228016@kccollege.ac.jp')
 
 def top( request ):
     #例ここから 
@@ -25,6 +25,9 @@ def register( request ):
 
 def setting( request ):
 
+    MusHistory = HistoryList.objects.filter(history_user_mail = 'k228016@kccollege.ac.jp')
+    Historyresult = []
+
     max_length = 13
 
     lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
@@ -32,9 +35,10 @@ def setting( request ):
     results = SPOTIFY.artist_top_tracks(lz_uri)
     final_result=results['tracks']
 
-    lz_uri2 = 'spotify:artist:5Vo1hnCRmCM6M4thZCInCj'
-    results2 = SPOTIFY.artist_top_tracks(lz_uri2)
-    final_result2=results2['tracks']
+    for i in range(MusHistory.count()):
+        x = SPOTIFY.track(MusHistory[i].history_music_id)
+        Historyresult.append(x)
+
 
     j = 0
     for i in final_result:
@@ -43,16 +47,16 @@ def setting( request ):
         j = j + 1
 
     j = 0
-    for i in final_result2:
-        final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+    for i in Historyresult:
+        Historyresult[j]['name'] = Utils.truncate_string(i['name'],max_length)
+        Historyresult[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
         j = j + 1
 
     content = {
         "results":final_result,
-        "results2":final_result2,
+        "results2":Historyresult,
         "IsLogin":IsLogin,
-        "data":User.objects.filter( user_name = 'morikin' , user_mail = 'k228021@kccollege.ac.jp')
+        "data":UserData
     }
     return render(request,'cwm/setting.html',content)
 
@@ -107,7 +111,7 @@ def index( request ):
         "results2":final_result2,
         "results3":final_result3,
         "IsLogin":IsLogin,
-        "data":User.objects.filter( user_name = 'morikin' , user_mail = 'k228021@kccollege.ac.jp')
+        "data":UserData
     }
 
     return render(request,'cwm/index.html',content)

@@ -137,7 +137,7 @@ main{
 }
 #trackbox{
     margin: 5px;
-    width: 100%;
+    width: 98%;
     display: flex;
     white-space: nowrap;
     overflow-x: scroll;
@@ -168,7 +168,6 @@ h3{
   color: #ffffff;
 }
 .songbox{
-    width: 200px;
     margin: 2px 6px;
     background: rgb(47,45,45);
     background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);

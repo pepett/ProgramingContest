@@ -47,7 +47,7 @@ class LikeList( models.Model ):
 
 class HistoryList( models.Model ):
     history_user_mail = models.EmailField()
-    history_music_id = models.IntegerField()
+    history_music_id = models.TextField()
 
     def __str__( self ):
         return self.history_user_mail

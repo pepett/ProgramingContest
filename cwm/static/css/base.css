@@ -53,9 +53,6 @@ a, .Hideblock {
   text-decoration: none;
   color: #00de64; }
 
-.Hideblock {
-  visibility: hidden; }
-
 .toplogo {
   white-space: nowrap; }
 
@@ -124,6 +121,7 @@ a, .Hideblock {
     display: flex; }
     .MinisearchBox form input {
       height: 85%;
+      width: 100%;
       margin: auto 0;
       border-radius: 10px;
       font-weight: bold;
@@ -183,6 +181,9 @@ a, .Hideblock {
   font-weight: bold;
   color: #ffffff; }
 
+.Hideblock {
+  display: none; }
+
 .humberger {
   height: 100px;
   margin-left: 20px;
@@ -232,14 +233,13 @@ a, .Hideblock {
 
 .nav-container {
   position: fixed;
-  padding-top: 50px;
   left: 0;
   top: 0;
   width: 65%;
   height: 100vh;
   display: flex;
   flex-flow: column wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   z-index: 50;
   background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
@@ -286,11 +286,27 @@ a, .Hideblock {
     z-index: 90; }
   header .userbox {
     display: none; }
+  header .Hideblock {
+    display: block;
+    width: 50px;
+    height: 50px; }
   header .Miniuserbox {
     display: flex;
     flex-direction: column; }
     header .Miniuserbox a {
       margin: 10px auto; }
+  header .MiniLogin_userbox a img {
+    height: 130px;
+    width: 130px; }
+  header .MiniLogin_userbox .MiniusernameText {
+    text-align: center;
+    display: block;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 auto 10px auto; }
+  header .MinisearchBox form {
+    width: 100%; }
   header .searchBox {
     display: none; }
   header .usernameText {

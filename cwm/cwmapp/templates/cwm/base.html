@@ -23,11 +23,20 @@
                 <span></span>
             </div>
             <div class="nav-container">
+                {% if IsLogin %}
+                <div class="MiniLogin_userbox">
+                    <a href="{% url 'setting' %}">
+                        <img class="UserIcon" src="{{ data.0.user_image.url }}" alt="ユーザーアイコン">
+                    </a>
+                    <p class="MiniusernameText">{{ data.0.user_name }}</p>
+                </div>
+                {% else %}
                 <div class="Miniuserbox">
                     <p class="greentext"> 新規登録またはログイン</p>
                     <a href="{% url 'register'%}" class="registerBT">新規登録</a>
                     <a href="{% url 'login'%}" class="loginBT">ログイン</a>
                 </div>
+                {% endif %}
                 <div class="MinisearchBox">
                     <button type="button" id="searchBtn">
                         <img src="{% static 'img/tmp/search.png'%}" alt="searchBtn">
@@ -71,6 +80,8 @@
         <div class="userbox">
             <a href="{% url 'register'%}" class="registerBT">新規登録</a>
             <a href="{% url 'login'%}" class="loginBT">ログイン</a>
+        </div>
+        <div class="Hideblock">
         </div>
         {% endif %}
     </header>

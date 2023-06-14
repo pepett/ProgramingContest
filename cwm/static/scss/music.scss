@@ -1,6 +1,7 @@
 $gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
 $greenCL: #00DE64;
 
+
 //ローディングアニメーション https://epic-spinners.epicmax.co/#/ここから持ってきたやつ
 .fingerprint-spinner, .fingerprint-spinner * {
     box-sizing: border-box;
@@ -245,6 +246,13 @@ $greenCL: #00DE64;
     .comments{
         width: 100%;
         text-align: center;
+        .comment-list{
+            background: white;
+            .user-name{
+                font-weight: bold;
+                font-size: 50px;
+            }
+        }
     }
 }
 

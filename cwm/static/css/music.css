@@ -214,6 +214,11 @@
   .main-test .comments {
     width: 100%;
     text-align: center; }
+    .main-test .comments .comment-list {
+      background: white; }
+      .main-test .comments .comment-list .user-name {
+        font-weight: bold;
+        font-size: 50px; }
 
 #loading {
   width: 100vw;

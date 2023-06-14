@@ -76,22 +76,22 @@
         </div>
     </div>
     <div class="comments">
-        <form action="{% url 'mus' track_result.id %}" method="post">
+        <form action="{% url 'create' track_result.id %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" name="submit" value="投稿">
         </form>
-        {% if comments %}
-            <h2>コメント</h2>
-            {% for u in users %}
-                <div class="user-name" style="font-size: 20px; background-color: white;">{{ u.user_name }}</div>
-            {% endfor %}
-            {% for c in comments %}
-                <div class="comment-text" style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>
-            {% endfor %}
-        {% else %}
-            <h2>コメントはまだありません</h2>
-        {% endif %}
+        <div class="comment-list">
+            {% if comments %}
+                <h2>コメント</h2>
+                {% for u in users %}
+                    <div class="user-name" style="font-size: 20px; background-color: white;">{{ u.user_name }}</div>
+                {% endfor %}
+                {% for c in comments %}
+                    <div class="comment-text" style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>   
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>

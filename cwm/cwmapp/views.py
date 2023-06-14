@@ -10,7 +10,7 @@ from .forms import CommentForm
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -139,10 +139,13 @@ def index( request ):
 
     return render(request,'cwm/index.html',content)
 
-def music( request, idn ):#次回やることは、タグをどのコメントでも表示する,( コメントの複数表示 ) & エラー処理
+def create( request, idn ):
     if request.method == 'POST':
         c = Comment( comment_user_mail='k228021@kccollege.ac.jp', comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
         c.save()
+    return redirect( 'mus', idn )
+
+def music( request, idn ):
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
@@ -161,7 +164,6 @@ def music( request, idn ):#次回やることは、タグをどのコメント�
             users.append( User.objects.get( user_mail=comments[ i ].comment_user_mail ) )#一つしかとってきてない
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
         tags = Utils.del_duplicate( tags, False )
-        print( vars( comments[ 0 ] ) )
         
         content[ 'tags' ] = tags
         content[ 'comments' ] = comments

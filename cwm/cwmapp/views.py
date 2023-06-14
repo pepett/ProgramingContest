@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User, Comment, HistoryList
+from cwmapp.models import User, Comment, HistoryList, LikeList
 
 from .forms import CommentForm
 
@@ -10,7 +10,7 @@ from .forms import CommentForm
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -27,25 +27,46 @@ def register( request ):
 
 def setting( request ):
 
-    MusHistory = HistoryList.objects.filter(history_user_mail = 'k228021@kccollege.ac.jp')
+    MusHistory = HistoryList.objects.filter(history_user_mail = UserData[0].user_mail)
     Historyresult = []
+
+    MusLiked = LikeList.objects.filter(like_user_mail = UserData[0].user_mail)
+    Likeresult = []
 
     max_length = 13
 
-    lz_uri = 'spotify:artist:3wvCMqwyJachksGLF0kjMJ'
-    
-    results = SPOTIFY.artist_top_tracks(lz_uri)
-    final_result=results['tracks']
-
     for i in range(MusHistory.count()):
-        x = SPOTIFY.track(MusHistory[i].history_music_id)
+        for j in range(MusHistory.count())[i + 1:]:
+            if MusHistory[i].history_music_id == MusHistory[j].history_music_id:
+                print('MusHistory:'+str(i)+':'+str(j))
+                print('history_music_id:'+MusHistory[i].history_music_id+':'+MusHistory[j].history_music_id)
+                MusHistory[i].delete()
+                break
+
+    for i in range(MusLiked.count()):
+        for j in range(MusLiked.count())[i + 1:]:
+            if MusLiked[i].like_music_id == MusLiked[j].like_music_id:
+                print('MusLiked:'+str(i)+':'+str(j))
+                print('like_music_id:'+MusLiked[i].like_music_id+':'+MusLiked[j].like_music_id)
+                MusLiked[i].delete()
+
+    for i in MusHistory:
+        x = SPOTIFY.track(i.history_music_id)
         Historyresult.append(x)
+
+    Historyresult.reverse()
+
+    for i in MusLiked:
+        x = SPOTIFY.track(i.like_music_id)
+        Likeresult.append(x)
+
+    Likeresult.reverse()
 
 
     j = 0
-    for i in final_result:
-        final_result[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        final_result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+    for i in Likeresult:
+        Likeresult[j]['name'] = Utils.truncate_string(i['name'],max_length)
+        Likeresult[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
         j = j + 1
 
     j = 0
@@ -55,8 +76,8 @@ def setting( request ):
         j = j + 1
 
     content = {
-        "results":final_result,
-        "results2":Historyresult,
+        "results":Likeresult[:30],
+        "results2":Historyresult[:30],
         "IsLogin":IsLogin,
         "data":UserData
     }

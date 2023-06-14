@@ -40,7 +40,7 @@ class Result( models.Model ):
 
 class LikeList( models.Model ):
     like_user_mail = models.EmailField()
-    like_music_id = models.IntegerField()
+    like_music_id = models.TextField()
 
     def __str__( self ):
         return self.like_user_mail

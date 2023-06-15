@@ -6,10 +6,9 @@ let play_music = {
 const loading = document.querySelector( '#loading' );
 
 const correct = () => {
-    const user_name = document.getElementsByClassName( 'user-name' );
-    const comment_text = document.getElementsByClassName( 'comment-text' );
+    let user_name = document.getElementsByClassName( 'user-name' );
+    let comment_text = document.getElementsByClassName( 'comment-text' );
     const comments = document.getElementsByClassName( 'comment-list' )[ 0 ];
-    let arr = [];
 
     const elem = document.createElement( 'div' );
     elem.setAttribute( 'class', 'comment-contents' );
@@ -18,9 +17,10 @@ const correct = () => {
     for( let i = 0;i < user_name.length;i ++ ){
         console.log( user_name[ i ].innerHTML )
         console.log( comment_text[ i ].innerHTML )
-        //elem.append( user_name[ i ] );
-        //elem.append( comment_text[ i ] );
+        elem.innerHTML += user_name[ i ].outerHTML;
+        elem.innerHTML += comment_text[ i ].outerHTML;
     }
+    
     comments.innerHTML = '';
     comments.appendChild( elem );
 }

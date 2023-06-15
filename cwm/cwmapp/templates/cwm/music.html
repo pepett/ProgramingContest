@@ -76,19 +76,32 @@
         </div>
     </div>
     <div class="comments">
-        <form action="{% url 'create' track_result.id %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" name="submit" value="投稿">
-        </form>
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'create' track_result.id %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" name="submit" value="投稿">
+            </form>
+        {% endif %}
+        <h2>コメント</h2>
         <div class="comment-list">
             {% if comments %}
-                <h2>コメント</h2>
                 {% for u in users %}
+                    {% if db.user_mail == u.user_mail and request.user.is_authenticated %}
+                        <form action="{% url 'delete' track_result.id %}" method="post" class="delete-form">
+                            {% csrf_token %}
+                            <input type="submit" name="submit" value="削除">
+                        </form>
+                    {% else %}
+                        
+                    {% endif %}
                     <div class="user-name" style="font-size: 20px; background-color: white;">{{ u.user_name }}</div>
                 {% endfor %}
                 {% for c in comments %}
-                    <div class="comment-text" style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>   
+                    <div class="comment-text" style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>
+                    {% if request.user.is_authenticated %}
+                        <input style="display: none;" type="number" name="id" value="{{ c.comment_id }}" class="id" readonly>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

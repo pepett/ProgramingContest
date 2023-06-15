@@ -145,6 +145,12 @@ def create( request, idn ):
         c.save()
     return redirect( 'mus', idn )
 
+def delete( request, idn ):
+    if request.method == 'POST':
+        d = Comment.objects.get( comment_id = request.POST[ 'id' ] )
+        d.delete()
+    return redirect( 'mus', idn )
+
 def music( request, idn ):
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
@@ -152,11 +158,12 @@ def music( request, idn ):
     users = []
     form = CommentForm()
     content = {
-        'track_result': track_result,
-        'comments': comments,
-        'tags': tags,
-        'users': users,
-        'form': form,
+        'track_result': track_result,#曲のトラック
+        'comments': comments,#コメントのテーブルのレコード
+        'tags': tags,#タグ
+        'users': users,#
+        'form': form,#コメント投稿用のフォーム
+        'db': UserData[ 0 ],#ログイン中のユーザ情報( 仮 )
     }
     if Comment.objects.filter( comment_music_id=idn ).exists():
         comments = Comment.objects.filter( comment_music_id=idn )
@@ -164,7 +171,6 @@ def music( request, idn ):
             users.append( User.objects.get( user_mail=comments[ i ].comment_user_mail ) )#一つしかとってきてない
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
         tags = Utils.del_duplicate( tags, False )
-        
         content[ 'tags' ] = tags
         content[ 'comments' ] = comments
         content[ 'users' ] = users

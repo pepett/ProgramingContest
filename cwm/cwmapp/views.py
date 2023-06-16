@@ -87,9 +87,17 @@ def setting( request ):
 def result( request ):
     if not request.GET[ 'search-music' ]:
         return redirect( 'search' )
-    results = SPOTIFY.search( request.GET['search-music'], limit=10, offset=0, type='track', market=None )
+    li = 10
+    results_track = SPOTIFY.search( request.GET['search-music'], limit=li, offset=0, type='track,album,artist', market=None )
+    for i in range( li ):
+        results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ], 9)
+        results_track[ 'albums' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'albums' ][ 'items' ][ i ][ 'name' ], 9)
+        results_track[ 'artists' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'artists' ][ 'items' ][ i ][ 'name' ], 9)
+    #if results_track[ 'artists' ][ 'items' ][ i ][ 'images' ][ 0 ][ 'url' ] == None:
+    #    print( 'aa' )
+    #    results_track[ 'artists' ][ 'items' ][ i ][ 'images' ][ 0 ][ 'url' ] = "{% static 'img/tmp/karee.jpg' %}"
     ret = {
-        'results': results,
+        'results_track': results_track,
         'word': request.GET[ 'search-music' ],
     }
     return render( request, 'cwm/result.html', ret  )

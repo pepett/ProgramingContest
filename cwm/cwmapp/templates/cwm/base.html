@@ -42,11 +42,7 @@
                         <img src="{% static 'img/tmp/search.png'%}" alt="searchBtn">
                     </button>
                     <form action="{% url 'result' %}">
-                        {% if word %}
-                            <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
-                        {% else %}
-                            <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
-                        {% endif %}
+                        <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
                     </form>
                 </div>
                 <a class="Minilink" href="{% url 'index'%}" class="greentext">indexに移動</a>

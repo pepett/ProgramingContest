@@ -6,16 +6,34 @@
     <link rel="stylesheet" href="{% static 'css/result.css' %}">
     <br><br>
     <h2>検索結果</h2>
-    {% for v in results.tracks.items %}
-        <div class="music">
-            <div class="images">
-                <img src="{{ v.album.images.1.url }}" alt="画像">
+    <h3 class="bigtext">曲</h3>
+    <div class="trackbox toprank">
+        {% for v in results_track.tracks.items %}
+            <div class="track songbox">
+                <img src="{{ v.album.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
+                <div class="SongNameText"><a href="{% url 'mus' v.id %}">{{ v.name }}</a></div>
+                <div class="SongNameText"><a href="{% url 'artist' v.artists.0.id %}">{{ v.artists.0.name }}</a></div>
             </div>
-            <div class="contents">
-                <div class="music-name"><a href="{% url 'mus' v.id %}">{{ v.name }}</a></div>
-                <div class="artist-name"><a href="{% url 'artist' v.artists.0.id %}">{{ v.artists.0.name }}</a></div>
+        {% endfor %}
+    </div>
+    <h3 class="bigtext">アルバム</h3>
+    <div class="trackbox toprank">
+        {% for v in results_track.albums.items %}
+            <div class="album songbox">
+                <img src="{{ v.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
+                <div class="SongNameText"><a href="{% url 'album' v.id %}">{{ v.name }}</a></div>
+                <div class="SongNameText"><a href="{% url 'artist' v.artists.0.id %}">{{ v.artists.0.name }}</a></div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+    <h3 class="bigtext">アーティスト</h3>
+    <div class="trackbox toprank">
+        {% for v in results_track.artists.items %}
+            <div class="artist songbox">
+                <img src="{{ v.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
+                <div class="SongNameText"><a href="{% url 'artist' v.id %}">{{ v.name }}</a></div>
+            </div>
+        {% endfor %}
+    </div>
 </main>
 {% endblock %}

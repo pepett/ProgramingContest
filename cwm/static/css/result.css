@@ -1,17 +1,86 @@
 main h2 {
   text-align: center;
   color: white; }
-main .music {
-  border: solid 1px #00de64;
-  border-radius: 5px;
+
+.trackbox {
+  margin: 5px;
+  width: 98%;
   display: flex;
-  margin: 20px; }
-  main .music .images img {
-    height: 100%;
-    border-radius: 10px; }
-  main .music .contents {
-    margin-left: 10px; }
-    main .music .contents .music-name {
-      font-size: 32px; }
+  white-space: nowrap;
+  overflow-x: scroll;
+  padding: 5px 0; }
+
+.bigtext {
+  margin: 0 2px 0 16px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff; }
+
+.toprank::-webkit-scrollbar {
+  height: 10px; }
+
+.toprank::-webkit-scrollbar-track {
+  background-color: none; }
+
+.toprank::-webkit-scrollbar-thumb {
+  background-color: #696969;
+  border-radius: 10px; }
+
+.songbox {
+  margin: 2px 6px;
+  background: #2f2d2d;
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  border-radius: 10px;
+  border: solid 2px #323232;
+  position: relative;
+  transition: 0.3s; }
+
+.songbox:hover {
+  transform: scale(1.05, 1.05); }
+
+h3 {
+  font-size: 10px;
+  color: #ffffff; }
+
+.SongNameText {
+  font-size: 15px;
+  margin: 2px 5px; }
+  .SongNameText a {
+    transition: 0.2s; }
+
+.SongNameText > a:hover {
+  color: #ffffff; }
+
+.music_img {
+  margin: 5px;
+  border-radius: 10px;
+  overflow: hidden; }
+
+/* 
+main{
+    h2{
+        text-align: center;
+        color: white;
+    }
+    .music{
+        border: solid 1px $greenCL;
+        border-radius: 5px;
+        display: flex;
+        margin: 20px;
+        .images{
+            img{
+                height: 100%;
+                border-radius: 10px;
+            }
+        }
+        .contents{
+            margin-left: 10px;
+            .music-name{
+                font-size: 32px;
+            }
+        }
+    }
+}
+ */
 
 /*# sourceMappingURL=result.css.map */

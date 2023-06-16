@@ -1,4 +1,67 @@
 $greenCL:#00de64;
+
+main{
+    h2{
+        text-align: center;
+        color: white;
+    }
+}
+.trackbox{
+    margin: 5px;
+    width: 98%;
+    display: flex;
+    white-space: nowrap;
+    overflow-x: scroll;
+    padding: 5px 0;
+}
+.bigtext{
+    margin: 0 2px 0 16px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+}
+.toprank::-webkit-scrollbar{
+    height: 10px;
+}
+.toprank::-webkit-scrollbar-track{
+    background-color: none;
+}
+.toprank::-webkit-scrollbar-thumb{
+    background-color: #696969;
+    border-radius: 10px;
+}
+.songbox{
+    margin: 2px 6px;
+    background: rgb(47,45,45);
+    background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+    border-radius: 10px;
+    border: solid 2px #323232;
+    position: relative;
+    transition: 0.3s;
+}
+.songbox:hover{
+  transform: scale(1.05,1.05);
+}
+h3{
+    font-size: 10px;
+    color: #ffffff;
+}
+.SongNameText{
+    font-size: 15px;
+    margin: 2px 5px;
+    a{
+    transition: 0.2s;
+    }
+}
+.SongNameText > a:hover{
+  color: #ffffff;
+}
+.music_img{
+    margin: 5px;
+    border-radius: 10px;
+    overflow:hidden;
+}
+/* 
 main{
     h2{
         text-align: center;
@@ -23,3 +86,4 @@ main{
         }
     }
 }
+ */

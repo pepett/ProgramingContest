@@ -4,7 +4,8 @@
 {% block content %}
 <br><br><br>
 <main>
-    <h2>{{album_desc.name}}</h2>
+    <h2>{{ album_desc.name }}</h2>
+    <h3><a href="{% url 'artist' album_desc.artists.0.id %}">{{ album_desc.artists.0.name }}</a></h3>
     <img src="{{ album_desc.images.1.url }}" alt="">
     {% for i in album_tracks %}
         <div class="track" style="display: flex;">

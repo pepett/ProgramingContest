@@ -10,6 +10,9 @@ class User( models.Model ):
     def __str__( self ):
         return self.user_mail
 
+class UploadImage( models.Model ):
+    image = models.ImageField( upload_to = 'images/' )
+    
 class Music( models.Model ):
     music_id = models.TextField( primary_key = True )
     music_star = models.IntegerField()

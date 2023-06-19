@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}設定{% endblock %}
 {% block content %}
+<meta http-equiv="Cache-Control" content="no-cache">
 <main>
     <link rel="stylesheet" href="{% static 'css/setting.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
@@ -45,7 +46,6 @@
         <div id="UserFavorite">
             <p class="bigtext">お気に入り</p>
             <div id="trackbox" class="toprank">
-                <!--試しにFake typeの人気順に表示する-->
                 {% if results %}
                 {% for x in results %}
                 <div class="songbox">
@@ -59,18 +59,21 @@
                     </a>
                 </div>
                 {% endfor %}
+                {% else %}
+                <p class="bigtext">お気に入り登録している曲がありません</p>
                 {% endif %}
             </div>
         </div>
         <div id="UserProFile">
-            <div id="ProfileBox">
+            <form id="ProfileBox" action="{% url 'setting' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div id="profile">
                     <!--プロフィールdiv-->
                     <p class="bigtext">プロフィール画像</p>
                     <div id="IconBox">
                         <div>
-                            <img class="NewUserIcon" src="{{ data.0.user_image.url }}" alt="選択ユーザーアイコン">
-                            <input class="UploadImageBT" type="file" alt="画像をアップロード" accept="image/png, image/jpeg, image/jpg, image/gif">
+                            <img id="NewUserIcon" class="NewUserIcon" src="{{ data.0.user_image.url }}" alt="選択ユーザーアイコン">
+                            {{ upload_form.as_p }}
                         </div>
                         <p class="greentext">※画像のサイズは 1:1 にすることを推奨します</p>
                     </div>
@@ -82,13 +85,12 @@
                         <input type="text" src="" placeholder="新しいユーザー名を入力" value="{{ data.0.user_name }}">
                     </div>
                 </div>
-                <button class="loginBT" id="submit">変更を確定する</button>
-            </div>
+                <input type="submit" class="loginBT" id="submit" value="変更を確定する">
+            </form>
         </div>
         <div id="UserHistory">
             <p class="bigtext">履歴</p>
             <div id="trackbox" class="toprank">
-                <!--試しにFake typeの人気順に表示する-->
                 {% if results2 %}
                 {% for y in results2 %}
                 <div class="songbox">
@@ -102,6 +104,8 @@
                     </a>
                 </div>
                 {% endfor %}
+                {% else %}
+                <p class="bigtext">履歴がありません</p>
                 {% endif %}
             </div>
         </div>

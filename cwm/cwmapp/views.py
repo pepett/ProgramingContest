@@ -1,16 +1,17 @@
+import os
 from django.shortcuts import render
 from django.shortcuts import redirect
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User, Comment, HistoryList, LikeList
+from cwmapp.models import User, Comment, HistoryList, LikeList, UploadImage
 
-from .forms import CommentForm
+from .forms import CommentForm, UploadImageForm
 
 # Create your views here.
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -26,12 +27,34 @@ def register( request ):
     return render( request, 'cwm/register.html' )
 
 def setting( request ):
+    Likeresult = []
+    Historyresult = []
+    content = {
+        "results":Likeresult,
+        "results2":Historyresult,
+        "IsLogin":IsLogin,
+        "data":UserData,
+        "upload_form":UploadImageForm(),
+        "id":None
+    }
+    if (request.method == 'POST'):
+        UpdateFileName = UserData[0].user_name+os.path.splitext(request.FILES['image'].name)[1]
+        request.FILES['image'].name = UpdateFileName
+        image = UploadImageForm(request.POST,request.FILES)
+        print(str(request.FILES['image'].name))
+        print(os.path.splitext(request.FILES['image'].name)[1])
+        print(str(request.POST))
+        print(str(request.FILES))
+        UserData[0].user_image.delete()
+        if image.is_valid():
+            image.save()
+            User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' ).update(user_image = 'images/'+UpdateFileName)
+            
 
     MusHistory = HistoryList.objects.filter(history_user_mail = UserData[0].user_mail)
-    Historyresult = []
+
 
     MusLiked = LikeList.objects.filter(like_user_mail = UserData[0].user_mail)
-    Likeresult = []
 
     max_length = 13
 
@@ -75,12 +98,8 @@ def setting( request ):
         Historyresult[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
         j = j + 1
 
-    content = {
-        "results":Likeresult[:30],
-        "results2":Historyresult[:30],
-        "IsLogin":IsLogin,
-        "data":UserData
-    }
+    content['results'] = Likeresult[:30]
+    content['results2'] = Historyresult[:30]
     return render(request,'cwm/setting.html',content)
 
 
@@ -160,6 +179,8 @@ def delete( request, idn ):
     return redirect( 'mus', idn )
 
 def music( request, idn ):
+    MusHistory = HistoryList(history_user_mail = UserData[0].user_mail,history_music_id = idn)
+    MusHistory.save()
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []

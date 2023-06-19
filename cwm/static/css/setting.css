@@ -76,7 +76,7 @@ li > label:hover {
   margin: 0 5px;
   border: 1px solid #b7b7b7; }
 
-.UploadImageBT {
+#id_image {
   height: 20px;
   margin: 0 5px;
   padding: 5px;

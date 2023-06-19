@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment
+from .models import Comment, UploadImage
 
 class Register(forms.Form):
     user_name = forms.CharField(label = "名前",widget=forms.TextInput(attrs={'placeholder':'スポティパイ太郎'}))
@@ -13,3 +13,8 @@ class CommentForm( forms.ModelForm ):
         model = Comment
         fields = ('comment_text',)
         labels = { 'comment_text': 'コメント' }
+
+class UploadImageForm( forms.ModelForm ):
+    class Meta:
+        model = UploadImage
+        fields = ['image']

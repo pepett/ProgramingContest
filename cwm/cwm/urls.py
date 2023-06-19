@@ -19,7 +19,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from cwmapp.views import top, login, register, setting, result, index, music, user, search, artist, album, create, delete
+from cwmapp.views import top, login, register, setting, result, index, music, user, search, artist, album, create, delete, edit
 
 app_name = 'cwm'
 
@@ -32,7 +32,8 @@ urlpatterns = [
     path( "result/", result, name="result" ),
     path( "index/", index, name="index"),
     path( "create/<slug:idn>", create, name="create" ),
-    path( "delete/<slug:idn>", delete, name="delete" ),
+    path( "delete/<slug:idn>/<int:cid>", delete, name="delete" ),
+    path( "edit/<slug:idn>/<int:cid>", edit, name="edit" ),
     path( "music/<slug:idn>", music, name="mus" ),
     path( "user/", user ),
     path( "search/", search, name="search" ),

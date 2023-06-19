@@ -187,6 +187,7 @@
     display: none;
 } */
 .main-test {
+  height: 450px;
   margin-top: 70px;
   display: flex; }
   .main-test .music-main {
@@ -212,13 +213,25 @@
     .main-test .music-main .tags .t {
       color: white; }
   .main-test .comments {
+    overflow-y: scroll;
     width: 100%;
-    text-align: center; }
-    .main-test .comments .comment-list {
-      background: white; }
-      .main-test .comments .comment-list .user-name {
-        font-weight: bold;
-        font-size: 50px; }
+    text-align: center;
+    /*.comment-list{
+        background: white;
+        .user-name{
+            font-weight: bold;
+            font-size: 50px;
+        }
+    }*/ }
+    .main-test .comments .comment-box {
+      margin: 5px auto;
+      background-color: #00DE64;
+      border-radius: 5px; }
+      .main-test .comments .comment-box .user-name {
+        color: white; }
+      .main-test .comments .comment-box .comment-text {
+        background-color: white;
+        border-radius: 5px; }
 
 #loading {
   width: 100vw;

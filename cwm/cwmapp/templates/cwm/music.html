@@ -68,6 +68,11 @@
         <div class="artist-name">
             アーティスト: <span class="artist-title"><a href="{% url 'artist' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a></span>
         </div>
+        <div class="shere">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="私は {{ track_result.name }} を聴いています" data-hashtags="cwm,{{ track_result.artists.0.name }}" data-size="large" data-lang="ja" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div class="line-it-button" data-lang="ja" data-type="share-a" data-env="REAL" data-url="http://localhost:8000/index" data-color="default" data-size="large" data-count="false" data-ver="3" style="display: none;"></div>
+            <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+        </div>
         <div class="tags">
             
             {% for t in tags %}
@@ -77,34 +82,33 @@
     </div>
     <div class="comments">
         {% if request.user.is_authenticated %}
-            <form action="{% url 'create' track_result.id %}" method="post">
+            <form action="{% url 'create' track_result.id %}" method="post" id="create">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" name="submit" value="投稿">
             </form>
         {% endif %}
-        <h2>コメント</h2>
-        <div class="comment-list">
-            {% if comments %}
-                {% for u in users %}
-                    {% if db.user_mail == u.user_mail and request.user.is_authenticated %}
-                        <form action="{% url 'delete' track_result.id %}" method="post" class="delete-form">
+        <h2 id="c-title">コメント</h2>
+        {% if is_comment %}
+            {% for item in model %}
+                <div class="comment-box">
+                    <div class="user-name">{{ item.user_name }}</div>
+                    <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
+                    {% if db.user_mail == item.user_mail and request.user.is_authenticated %}
+                        <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
                             {% csrf_token %}
                             <input type="submit" name="submit" value="削除">
                         </form>
-                    {% else %}
-                        
+                        <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
+                            {% csrf_token %}
+                            <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
+                            <input type="submit" name="submit" value="変更">
+                        </form>
+                        <input type="button" class="edit-btn" value="編集">
                     {% endif %}
-                    <div class="user-name" style="font-size: 20px; background-color: white;">{{ u.user_name }}</div>
-                {% endfor %}
-                {% for c in comments %}
-                    <div class="comment-text" style="font-size: 16px; margin-bottom: 10px; background: white;">{{ c.comment_text | linebreaks}}</div>
-                    {% if request.user.is_authenticated %}
-                        <input style="display: none;" type="number" name="id" value="{{ c.comment_id }}" class="id" readonly>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
@@ -128,6 +132,21 @@
             }, false );
         }
         IFrameAPI.createController( elem, options, callback );
+    }
+
+    document.getElementById( 'edit-btn' ).onclick = ( e ) => {
+        if( document.getElementById( 'edit_form' ) ){
+            document.getElementById( 'edit_form' ).remove();
+        }
+         
+        const edit_form = document.createElement( 'form' );
+        const music_id = '{{ track_result.id }}';
+        edit_form.action = `/edit/${ music_id }/${ e.target.dataset.id }`;
+        edit_form.method = 'post';
+        edit_form.innerHTML = '{{ csrf_token }}';
+        edit_form.innerHTML += '<input type="submit" name="submit" value="保存">'
+        edit_form.id = 'edit_form';
+        
     }
 </script>
 <script src="{% static 'js/music.js' %}"></script>

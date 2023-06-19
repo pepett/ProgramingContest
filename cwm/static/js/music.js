@@ -4,6 +4,9 @@ let play_music = {
 };
 
 const loading = document.querySelector( '#loading' );
+window.addEventListener( 'load', () => {
+    loading.classList.add( 'loaded' );
+  }, false );
 
 const correct = () => {
     let user_name = document.getElementsByClassName( 'user-name' );
@@ -32,8 +35,21 @@ const correct = () => {
 }
 
 addEventListener( 'DOMContentLoaded', ()=>{
-    correct();
+    //correct();
 } )
+
+for( let i = 0;i < document.getElementsByClassName( 'edit-btn' ).length;i ++ ){
+    document.getElementsByClassName( 'edit-btn' )[ i ].addEventListener( 'click', ( e ) => {
+        const obj = document.getElementsByClassName( 'edit-form' )[ i ];
+        if( obj.style.display == 'none' ){
+            obj.style.display = 'block';
+            e.target.value = 'キャンセル';
+        }else{
+            obj.style.display = 'none';
+            e.target.value = '編集';
+        }
+    }, false );
+}
 
 const play = ( obj, url ) => {
     if( play_music.audio == null ){

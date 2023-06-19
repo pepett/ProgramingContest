@@ -11,7 +11,7 @@ from .forms import CommentForm, UploadImageForm
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -111,7 +111,7 @@ def result( request ):
     for i in range( li ):
         results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ], 9)
         results_track[ 'albums' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'albums' ][ 'items' ][ i ][ 'name' ], 9)
-        results_track[ 'artists' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'artists' ][ 'items' ][ i ][ 'name' ], 9)
+        #results_track[ 'artists' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'artists' ][ 'items' ][ i ][ 'name' ], 9)
     #if results_track[ 'artists' ][ 'items' ][ i ][ 'images' ][ 0 ][ 'url' ] == None:
     #    print( 'aa' )
     #    results_track[ 'artists' ][ 'items' ][ i ][ 'images' ][ 0 ][ 'url' ] = "{% static 'img/tmp/karee.jpg' %}"
@@ -168,14 +168,21 @@ def index( request ):
 
 def create( request, idn ):
     if request.method == 'POST':
-        c = Comment( comment_user_mail='k228021@kccollege.ac.jp', comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
+        c = Comment( comment_user_mail=UserData[ 0 ].user_mail, comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
         c.save()
     return redirect( 'mus', idn )
 
-def delete( request, idn ):
+def delete( request, idn, cid ):
     if request.method == 'POST':
-        d = Comment.objects.get( comment_id = request.POST[ 'id' ] )
+        d = Comment.objects.get( comment_id = cid )
         d.delete()
+    return redirect( 'mus', idn )
+
+def edit( request, idn, cid ):
+    if request.method == 'POST':
+        e = Comment.objects.get( comment_id = cid )
+        e.comment_text = request.POST[ 'edit_content' ]
+        e.save()
     return redirect( 'mus', idn )
 
 def music( request, idn ):
@@ -186,6 +193,8 @@ def music( request, idn ):
     tags = []
     users = []
     form = CommentForm()
+    mdl = []
+    results = []
     content = {
         'track_result': track_result,#曲のトラック
         'comments': comments,#コメントのテーブルのレコード
@@ -193,12 +202,27 @@ def music( request, idn ):
         'users': users,#
         'form': form,#コメント投稿用のフォーム
         'db': UserData[ 0 ],#ログイン中のユーザ情報( 仮 )
+        'model': mdl,
+        'is_comment': False,
     }
     if Comment.objects.filter( comment_music_id=idn ).exists():
+        content[ 'is_comment' ] = True
         comments = Comment.objects.filter( comment_music_id=idn )
         for i in range( comments.count() ):
             users.append( User.objects.get( user_mail=comments[ i ].comment_user_mail ) )#一つしかとってきてない
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
+            tmp = {
+                'user_name': users[ i ].user_name,
+                'user_mail': users[ i ].user_mail,
+                'user_image': users[ i ].user_image,
+                'comment_id': comments[ i ].comment_id,
+                'comment_good': comments[ i ].comment_good,
+                'comment_text': comments[ i ].comment_text,
+                'comment_posted': comments[ i ].comment_posted,
+                'result': results
+            }
+            mdl.append( tmp )
+        
         tags = Utils.del_duplicate( tags, False )
         content[ 'tags' ] = tags
         content[ 'comments' ] = comments

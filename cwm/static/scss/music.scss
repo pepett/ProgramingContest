@@ -209,6 +209,7 @@ $greenCL: #00DE64;
 } */
 
 .main-test{
+    height: 450px;
     margin-top: 70px;
     display: flex;
     .music-main{
@@ -244,15 +245,28 @@ $greenCL: #00DE64;
         }
     }
     .comments{
+        overflow-y: scroll;
         width: 100%;
         text-align: center;
-        .comment-list{
+        .comment-box{
+            margin: 5px auto;
+            background-color: #00DE64;
+            border-radius: 5px;
+            .user-name{
+                color: white;
+            }
+            .comment-text{
+                background-color: white;
+                border-radius: 5px;
+            }
+        }
+        /*.comment-list{
             background: white;
             .user-name{
                 font-weight: bold;
                 font-size: 50px;
             }
-        }
+        }*/
     }
 }
 

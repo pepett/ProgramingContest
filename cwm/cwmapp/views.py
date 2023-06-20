@@ -11,7 +11,7 @@ from .forms import CommentForm, UploadImageForm, UsernameForm
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 

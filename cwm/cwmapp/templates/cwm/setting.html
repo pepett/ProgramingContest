@@ -82,7 +82,7 @@
                     <!--プロフィールdiv-->
                     <p class="bigtext">ユーザー名変更</p>
                     <div id="usernameBox">
-                        <input type="text" src="" placeholder="新しいユーザー名を入力" value="{{ data.0.user_name }}">
+                        {{ username_form.as_div}}
                     </div>
                 </div>
                 <input type="submit" class="loginBT" id="submit" value="変更を確定する">

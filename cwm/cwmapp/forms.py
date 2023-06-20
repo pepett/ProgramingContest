@@ -16,5 +16,19 @@ class CommentForm( forms.ModelForm ):
 
 class UploadImageForm( forms.ModelForm ):
     class Meta:
+        required=False,
         model = UploadImage
         fields = ['image']
+
+class UsernameForm(forms.Form):
+    """履歴削除"""
+    NewUsername = forms.CharField(
+        required=False,
+        min_length=1,
+        max_length=16,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': ''
+            }
+        )
+    )

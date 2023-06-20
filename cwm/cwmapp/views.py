@@ -3,15 +3,15 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User, Comment, HistoryList, LikeList, UploadImage
+from cwmapp.models import User, Comment, HistoryList, LikeList
 
-from .forms import CommentForm, UploadImageForm
+from .forms import CommentForm, UploadImageForm, UsernameForm
 
 # Create your views here.
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -27,6 +27,10 @@ def register( request ):
     return render( request, 'cwm/register.html' )
 
 def setting( request ):
+
+    if IsLogin == False:#ログインしていなければログインページにリダイレクト
+        return redirect(login)
+    
     Likeresult = []
     Historyresult = []
     content = {
@@ -35,25 +39,27 @@ def setting( request ):
         "IsLogin":IsLogin,
         "data":UserData,
         "upload_form":UploadImageForm(),
+        "username_form":UsernameForm(),
         "id":None
     }
     if (request.method == 'POST'):
-        UpdateFileName = UserData[0].user_name+os.path.splitext(request.FILES['image'].name)[1]
-        request.FILES['image'].name = UpdateFileName
-        image = UploadImageForm(request.POST,request.FILES)
-        print(str(request.FILES['image'].name))
-        print(os.path.splitext(request.FILES['image'].name)[1])
-        print(str(request.POST))
-        print(str(request.FILES))
-        UserData[0].user_image.delete()
-        if image.is_valid():
-            image.save()
-            User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' ).update(user_image = 'images/'+UpdateFileName)
-            
+        NewUsername = request.POST['NewUsername']
+        if (request.FILES):
+            UpdateFileName = UserData[0].user_name+os.path.splitext(request.FILES['image'].name)[1]
+            if NewUsername:
+                UpdateFileName = NewUsername+os.path.splitext(request.FILES['image'].name)[1]
+            request.FILES['image'].name = UpdateFileName
+            image = UploadImageForm(request.POST,request.FILES)
+            print(str(request.FILES['image'].name))
+            print(os.path.splitext(request.FILES['image'].name)[1])
+            UserData[0].user_image.delete()
+            if image.is_valid():
+                image.save()
+                User.objects.filter( user_mail = UserData[0].user_mail ).update(user_image = 'images/'+UpdateFileName)
+                if NewUsername:
+                    User.objects.filter( user_mail = UserData[0].user_mail ).update(user_name = NewUsername)
 
     MusHistory = HistoryList.objects.filter(history_user_mail = UserData[0].user_mail)
-
-
     MusLiked = LikeList.objects.filter(like_user_mail = UserData[0].user_mail)
 
     max_length = 13
@@ -204,6 +210,8 @@ def music( request, idn ):
         'db': UserData[ 0 ],#ログイン中のユーザ情報( 仮 )
         'model': mdl,
         'is_comment': False,
+        'data': UserData,#Base内のユーザー情報
+        'IsLogin':IsLogin,#Base内のユーザー情報
     }
     if Comment.objects.filter( comment_music_id=idn ).exists():
         content[ 'is_comment' ] = True

@@ -69,6 +69,10 @@ li > label:hover {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end; }
+  #IconBox div p {
+    margin: 0; }
+    #IconBox div p label {
+      display: none; }
 
 .NewUserIcon {
   width: 150px;
@@ -83,6 +87,7 @@ li > label:hover {
   border-radius: 5px;
   font-size: 10px;
   font-weight: bold;
+  color: #000000;
   background-color: #b7b7b7; }
 
 #usernameBox {

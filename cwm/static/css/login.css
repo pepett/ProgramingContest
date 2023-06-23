@@ -1,0 +1,83 @@
+@charset "UTF-8";
+main {
+  height: 70vh;
+  display: flex; }
+
+.box1 {
+  margin: 70px auto 130px auto;
+  width: 45%; }
+
+form {
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column; }
+  form hr {
+    margin: 20px 0;
+    width: 100%; }
+  form .FormBox {
+    margin-top: 10px;
+    width: 98%; }
+    form .FormBox .formtext {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 15px; }
+    form .FormBox div {
+      display: flex;
+      justify-content: center; }
+    form .FormBox input {
+      width: 100%;
+      height: 50px;
+      border-radius: 10px;
+      border: 1px solid #00DE64;
+      background-color: #4e4e4e;
+      font-weight: bold; }
+
+.ImageForm {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end; }
+  .ImageForm .UploadImageBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .ImageForm .UploadImageBox #FilenameText {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 12px; }
+    .ImageForm .UploadImageBox p {
+      height: 30px;
+      width: 180px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin: 0 5px;
+      padding: 5px;
+      border-radius: 5px;
+      background-color: #000000;
+      border: 1px solid #00DE64; }
+      .ImageForm .UploadImageBox p label {
+        display: none; }
+      .ImageForm .UploadImageBox p #id_image {
+        left: 0;
+        top: 0;
+        position: absolute;
+        opacity: 0;
+        height: 100%;
+        width: 100%; }
+    .ImageForm .UploadImageBox p::after {
+      content: '画像をアップロードする';
+      margin-bottom: 3px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #00DE64;
+      margin-top: 5px; }
+
+.NewUserIcon {
+  width: 150px;
+  height: 150px;
+  margin: 0 5px;
+  border: 1px solid #b7b7b7; }
+
+/*# sourceMappingURL=login.css.map */

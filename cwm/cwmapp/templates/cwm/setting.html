@@ -73,7 +73,10 @@
                     <div id="IconBox">
                         <div>
                             <img id="NewUserIcon" class="NewUserIcon" src="{{ data.0.user_image.url }}" alt="選択ユーザーアイコン">
-                            {{ upload_form.as_p }}
+                            <div class="UploadForm">
+                                <span id="FilenameText">アイコンを設定してください</span>
+                                {{ upload_form.as_p }}
+                            </div>
                         </div>
                         <p class="greentext">※画像のサイズは 1:1 にすることを推奨します</p>
                     </div>

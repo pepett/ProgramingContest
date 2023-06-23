@@ -1,0 +1,99 @@
+@charset "UTF-8";
+$gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+$greenCL: #00DE64;
+
+main{
+  height: 70vh;
+  display: flex;
+}
+.box1{
+  margin: 70px auto 130px auto;
+  width: 45%;
+}
+form{
+  background: $gradationBG;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  hr{
+    margin: 20px 0;
+    width: 100%;
+  }
+  .FormBox{
+    margin-top: 10px;
+    width: 98%;
+    .formtext{
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    div{
+      display: flex;
+      justify-content: center;
+    }
+    input{
+      width: 100%;
+      height: 50px;
+      border-radius: 10px;
+      border: 1px solid $greenCL;
+      background-color: #4e4e4e;
+      font-weight: bold;
+    }
+  }
+}
+
+.ImageForm{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    .UploadImageBox{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      #FilenameText{
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      p{
+        height: 30px;
+        width: 180px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin: 0 5px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #000000;
+        border: 1px solid $greenCL;
+        label{
+          display: none;
+        }
+        #id_image{
+          left: 0;
+          top: 0;
+          position: absolute;
+          opacity: 0;
+          height: 100%;
+          width: 100%;
+        }
+      }
+      p::after{
+        content: '画像をアップロードする';
+        margin-bottom: 3px;
+        font-size: 15px;
+        font-weight: bold;
+        color: $greenCL;
+        margin-top: 5px;
+      }
+  }
+}
+.NewUserIcon{
+  width: 150px;
+  height: 150px;
+  margin: 0 5px;
+  border: 1px solid #b7b7b7;
+}
+@media screen and (max-width: 1000px) {
+}

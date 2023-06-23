@@ -35,12 +35,13 @@ justify-content: space-between;
 position: fixed;
 z-index: 10;
 top: 0;
-right: 0;
+left: 0;
 }
 
 footer{
     position: fixed;
     bottom: 0px;
+    left: 0;
     background-color: rgba(0, 222, 100, 0.527);
     width: 100%;
     z-index: 6;

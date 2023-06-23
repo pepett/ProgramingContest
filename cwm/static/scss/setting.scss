@@ -80,10 +80,45 @@ li > label:hover{
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
-    p{
-      margin: 0;
-      label{
-        display: none;
+    .UploadForm{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      #FilenameText{
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      p{
+        height: 30px;
+        width: 180px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin: 0 5px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #000000;
+        border: 1px solid $greenCL;
+        label{
+          display: none;
+        }
+        #id_image{
+          left: 0;
+          top: 0;
+          position: absolute;
+          opacity: 0;
+          height: 100%;
+          width: 100%;
+        }
+      }
+      p::after{
+        content: '画像をアップロードする';
+        margin-bottom: 3px;
+        font-size: 15px;
+        font-weight: bold;
+        color: $greenCL;
+        margin-top: 5px;
       }
     }
   }
@@ -94,29 +129,22 @@ li > label:hover{
   margin: 0 5px;
   border: 1px solid #b7b7b7;
 }
-#id_image{
-  height: 20px;
-  margin: 0 5px;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
-  color: #000000;
-  background-color: #b7b7b7;
-}
 #usernameBox{
   margin: 10px;
   label{
     display: none;
   }
   input{
-    width: 200px;
-    height: 30px;
+    width: 400px;
+    height: 40px;
     margin: auto 0;
     border-radius: 5px;
     font-weight: bold;
+    font-size: 20px;
+    color: #ffffff;
     border: none;
-    background-color: #eeeeee;
+    border: 1px solid $greenCL;
+    background-color: #4e4e4e;
   }
 }
 @media screen and (max-width: 1000px) {

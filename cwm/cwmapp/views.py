@@ -1,4 +1,5 @@
 import os
+import re
 from django.shortcuts import render
 from django.shortcuts import redirect
 from lib.spotify_conect import SPOTIFY
@@ -112,6 +113,15 @@ def setting( request ):
 def result( request ):
     if not request.GET[ 'search-music' ]:
         return redirect( 'search' )
+    res = Comment.objects.filter( comment_text__regex = request.GET[ 'search-music' ] )
+    ctracks = []
+    for i in res:
+        t = {
+            'c_music': SPOTIFY.track( i.comment_music_id, market=None ),
+            'c_text': i.comment_text
+        }
+        ctracks.append( t )
+
     li = 10
     results_track = SPOTIFY.search( request.GET['search-music'], limit=li, offset=0, type='track,album,artist', market=None )
     for i in range( li ):
@@ -124,6 +134,8 @@ def result( request ):
     ret = {
         'results_track': results_track,
         'word': request.GET[ 'search-music' ],
+        'hitcmt': res,
+        'c_tracks': ctracks,
     }
     return render( request, 'cwm/result.html', ret  )
 

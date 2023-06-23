@@ -41,6 +41,18 @@
             </div>
         {% endfor %}
     </div>
+    <h3 class="bigtext">"{{ word }}" が含まれているコメント</h3>
+    <div class="trackbox toprank">
+        {% for v in c_tracks %}
+            <div class="cmt songbox">
+                <a href="{% url 'mus' v.c_music.id %}">
+                    <img src="{{ v.c_music.album.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
+                    <div class="SongNameText"><a href="{% url 'mus' v.c_music.id %}">{{ v.c_music.name }}</a></div>
+                    <div class="SongNameText" style="color: yellow;">{{ v.c_text }}</div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
     <br>
 </main>
 {% endblock %}

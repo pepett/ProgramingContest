@@ -5,32 +5,23 @@
 <main>
     <link rel="stylesheet" href="{% static 'css/Login.css' %}">
     <div class="box1">
-        <form action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+        <form id="RegForm" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
             <h1 class="titletext">CMWにログイン</h1>
             <hr>
             <div class="FormBox">
-                <p class="formtext">ユーザー名</p>
-                <input type="text" class="InputText" placeholder="ユーザー名">
-            </div>
-            <div class="FormBox">
                 <p class="formtext">メールアドレス</p>
+                <!-- {{viewsで置き換えておく}}-->
                 <input type="email" class="InputText" placeholder="メールアドレス">
             </div>
             <div class="FormBox">
                 <p class="formtext">パスワード</p>
+                <!-- {{viewsで置き換えておく}}-->
                 <input type="password" class="InputText" placeholder="パスワード">
             </div>
             <div class="FormBox">
-                <div>
-                    <div class="ImageForm">
-                        <img id="NewUserIcon" class="NewUserIcon" src="{% static 'img/users/仮アイコン.jpg'%}" alt="ユーザーアイコン">
-                        <div class="UploadImageBox">
-                            <span id="FilenameText">アイコンを設定してください</span>
-                            <p>
-                                <input type="file" name="image" accept="image/*" required="" id="id_image">
-                            </p>
-                        </div>
-                    </div>
+                <div class="SubBTBox">
+                    <!-- {{viewsで置き換えておく}}-->
+                    <input type="submit" class="loginBT" id="submit" value="ログイン">
                 </div>
             </div>
             <hr>
@@ -39,5 +30,6 @@
             </div>
         </form>
     </div>
+    <script src="{% static 'js/setting.js' %}"></script>
 </main>
 {% endblock %}

@@ -1,8 +1,54 @@
 {% extends "cwm/base.html" %}
-
+{% load static %}
 {% block title %}新規登録{% endblock %}
 {% block content %}
 <main>
-    <p>新規登録</p>
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+    <div class="box1">
+        <form id="RegForm" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+            <h1 class="titletext">CMWに新規登録</h1>
+            <hr>
+            <div class="FormBox">
+                <p class="formtext">ユーザー名</p>
+                <!-- {{viewsで置き換えておく}}-->
+                <input type="text" class="InputText" placeholder="ユーザー名">
+            </div>
+            <div class="FormBox">
+                <p class="formtext">メールアドレス</p>
+                <!-- {{viewsで置き換えておく}}-->
+                <input type="email" class="InputText" placeholder="メールアドレス">
+            </div>
+            <div class="FormBox">
+                <p class="formtext">パスワード</p>
+                <!-- {{viewsで置き換えておく}}-->
+                <input type="password" class="InputText" placeholder="パスワード">
+            </div>
+            <div class="FormBox">
+                <p class="formtext">ユーザーアイコン</p>
+                <div class="UploadBox">
+                    <div class="ImageForm">
+                        <img id="NewUserIcon" class="NewUserIcon" src="{% static 'img/users/仮アイコン.jpg'%}" alt="ユーザーアイコン">
+                        <div class="UploadImageBox">
+                            <span id="FilenameText">アイコンを設定してください</span>
+                            <!-- {{views.as_pに置き換えておく}}-->
+                            <p>
+                                <input type="file" name="image" accept="image/*" required="" id="id_image">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="FormBox">
+                <div class="SubBTBox">
+                    <input type="submit" class="loginBT" id="submit" value="新規登録">
+                </div>
+            </div>
+            <hr>
+            <div class="linkbox">
+                <p class="descText">アカウントをすでにお持ちの方は</p><a class="greentext" href="{% url 'login' %}">ログイン</a>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'js/setting.js' %}"></script>
 </main>
 {% endblock %}

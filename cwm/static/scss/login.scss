@@ -1,21 +1,28 @@
 @charset "UTF-8";
 $gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+$gradationBG2: linear-gradient(180deg, rgb(30, 30, 30) 0%, rgb(21, 21, 21) 48%, rgb(12, 12, 12) 100%);
 $greenCL: #00DE64;
-
+body{
+  background: $gradationBG;
+  height: 100%;
+}
 main{
-  height: 70vh;
   display: flex;
+  width: 100%;
+  height: 100%;
 }
 .box1{
   margin: 70px auto 130px auto;
   width: 45%;
 }
-form{
-  background: $gradationBG;
+#RegForm{
+  background: $gradationBG2;
   width: 100%;
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding: 30px;
+  border-radius: 20px;
   hr{
     margin: 20px 0;
     width: 100%;
@@ -26,31 +33,34 @@ form{
     .formtext{
       color: #ffffff;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 30px;
+      margin: 20px 0 5px;
     }
-    div{
+    .UploadBox{
       display: flex;
       justify-content: center;
     }
-    input{
+    .InputText{
       width: 100%;
       height: 50px;
       border-radius: 10px;
       border: 1px solid $greenCL;
       background-color: #4e4e4e;
       font-weight: bold;
+      font-size: 20px;
     }
   }
 }
 
 .ImageForm{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
     .UploadImageBox{
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
       #FilenameText{
         color: #ffffff;
         font-weight: bold;
@@ -95,5 +105,32 @@ form{
   margin: 0 5px;
   border: 1px solid #b7b7b7;
 }
+.linkbox{
+  display: flex;
+  font-weight: bold;
+  font-size: 15px;
+  .descText{
+    color: #ffffff;
+    margin: 0 20px 0;
+  }
+}
+.SubBTBox{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
 @media screen and (max-width: 1000px) {
+  .box1{
+    width: 100%;
+  }
+  #RegForm{
+    padding: 30px 0;
+  }
+  .ImageForm{
+    flex-direction: column;
+    align-items: center;
+    .UploadImageBox{
+      margin-top: 20px;
+    }
+  }
 }

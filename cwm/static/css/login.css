@@ -1,47 +1,57 @@
 @charset "UTF-8";
+body {
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  height: 100%; }
+
 main {
-  height: 70vh;
-  display: flex; }
+  display: flex;
+  width: 100%;
+  height: 100%; }
 
 .box1 {
   margin: 70px auto 130px auto;
   width: 45%; }
 
-form {
-  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+#RegForm {
+  background: linear-gradient(180deg, #1e1e1e 0%, #151515 48%, #0c0c0c 100%);
   width: 100%;
   align-items: center;
   display: flex;
-  flex-direction: column; }
-  form hr {
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 20px; }
+  #RegForm hr {
     margin: 20px 0;
     width: 100%; }
-  form .FormBox {
+  #RegForm .FormBox {
     margin-top: 10px;
     width: 98%; }
-    form .FormBox .formtext {
+    #RegForm .FormBox .formtext {
       color: #ffffff;
       font-weight: bold;
-      font-size: 15px; }
-    form .FormBox div {
+      font-size: 30px;
+      margin: 20px 0 5px; }
+    #RegForm .FormBox .UploadBox {
       display: flex;
       justify-content: center; }
-    form .FormBox input {
+    #RegForm .FormBox .InputText {
       width: 100%;
       height: 50px;
       border-radius: 10px;
       border: 1px solid #00DE64;
       background-color: #4e4e4e;
-      font-weight: bold; }
+      font-weight: bold;
+      font-size: 20px; }
 
 .ImageForm {
+  width: 100%;
   display: flex;
-  justify-content: flex-start;
   align-items: flex-end; }
   .ImageForm .UploadImageBox {
     display: flex;
     flex-direction: column;
-    align-items: center; }
+    align-items: center;
+    width: 100%; }
     .ImageForm .UploadImageBox #FilenameText {
       color: #ffffff;
       font-weight: bold;
@@ -79,5 +89,31 @@ form {
   height: 150px;
   margin: 0 5px;
   border: 1px solid #b7b7b7; }
+
+.linkbox {
+  display: flex;
+  font-weight: bold;
+  font-size: 15px; }
+  .linkbox .descText {
+    color: #ffffff;
+    margin: 0 20px 0; }
+
+.SubBTBox {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center; }
+
+@media screen and (max-width: 1000px) {
+  .box1 {
+    width: 100%; }
+
+  #RegForm {
+    padding: 30px 0; }
+
+  .ImageForm {
+    flex-direction: column;
+    align-items: center; }
+    .ImageForm .UploadImageBox {
+      margin-top: 20px; } }
 
 /*# sourceMappingURL=login.css.map */

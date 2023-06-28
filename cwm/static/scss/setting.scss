@@ -100,6 +100,7 @@ li > label:hover{
         border-radius: 5px;
         background-color: #000000;
         border: 1px solid $greenCL;
+        transition: 0.7s;
         label{
           display: none;
         }
@@ -119,6 +120,13 @@ li > label:hover{
         font-weight: bold;
         color: $greenCL;
         margin-top: 5px;
+        transition: 0.7s;
+      }
+      p:hover{
+        background-color: #ffffff;
+      }
+      p::after:hover{
+        color: #000000;
       }
     }
   }
@@ -150,9 +158,18 @@ li > label:hover{
 @media screen and (max-width: 1000px) {
   main{
     flex-direction: column;
+    height: 100%;
   }
   #box1,#box2{
     width: 100%;
+  }
+  #box2{
+    padding-bottom: 20px;
+  }
+  #usernameBox{
+    input{
+      width: auto;
+    }
   }
   .NowUserIcon{
     margin: 3px auto;

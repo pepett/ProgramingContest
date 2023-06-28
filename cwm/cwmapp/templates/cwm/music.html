@@ -42,23 +42,27 @@
     </div>
 </main> -->
 <main class="main-test">
-    <div id="loading">
-        <div class="logo">
-            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
-            <span>Connect With Music</span>
+        <!--ローディング画面ここから-->
+        <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+        <div id="loading">
+            <div class="logo">
+                <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+                <span>Connect With Music</span>
+            </div>
+            <div class="fingerprint-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
         </div>
-        <div class="fingerprint-spinner">
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-          </div>
-    </div>
+        <script src="{% static 'js/loading.js' %}"></script>
+        <!--ここまで-->
     <div class="music-main">
         <div id="spotify-iframe"></div>
         <div class="stars"></div>

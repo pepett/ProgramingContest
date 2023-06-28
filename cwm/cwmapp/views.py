@@ -12,7 +12,7 @@ from .forms import CommentForm, UploadImageForm, UsernameForm
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -261,12 +261,21 @@ def search( request ):
     return render( request, 'cwm/search.html')
 
 def artist( request, id ):
+    max_length = 13
     artist_result = SPOTIFY.artist( id )
     artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
+    result=artist_track['tracks']
     artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
+
+    j = 0
+    for i in result:
+        result[j]['name'] = Utils.truncate_string(i['name'],max_length)
+        result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+        j = j + 1
+
     content = {
         'artist': artist_result,
-        'artist_track': artist_track,
+        'results': result,
         'artist_album': artist_album,
     }
     return render( request, 'cwm/artist.html', content )

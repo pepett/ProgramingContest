@@ -2,27 +2,80 @@
 {% load static %}
 {% block title %}artist{% endblock %}
 {% block content %}
-<br><br><br>
-    <main>
+<main>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/artist.css' %}">
+        <!--ローディング画面ここから-->
+        <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+        <div id="loading">
+            <div class="logo">
+                <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+                <span>Connect With Music</span>
+            </div>
+            <div class="fingerprint-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+        </div>
+        <script src="{% static 'js/loading.js' %}"></script>
+        <!--ここまで-->
+    <div id="box1">
         <div class="artist">
-            <h2>{{ artist.name }}</h2>
             <img src="{{ artist.images.1.url }}" alt="">
+            <p class="bigtext">{{ artist.name }}</p>
         </div>
-        <div class="artist-track">
-            {% for i in artist_track.tracks %}
-                <div class="track">
-                    <a href="{% url 'mus' i.id %}">{{ i.name }}</a>
+        <div class="RelatedArtist">
+            <a href="#" class="RArtist">
+                <img src="" class="RArtistImage" alt="関連アーティスト画像">
+                <h3 class="SongNameText"><a href="">関連アーティスト名</a></h3>
+            </a>
+        </div>
+    </div>
+    <div id="box2">
+        <div class="artist-flex">
+            <p class="bigtext">{{ artist.name }} Top10</p>
+            <div id="trackbox" class="toprank">
+                {% if results %}
+                {% for y in results %}
+                <div class="songbox">
+                    <button class="PlaySongBT" type="button" value="{{ y.preview_url }}" onclick="PlayMusic('{{ y.preview_url }}',this);">
+                        <img src="{% static 'img/tmp/play_green.png' %}">
+                    </button>
+                    <a href="{% url 'mus' y.id %}">
+                        <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
+                        <h3 class="SongNameText" ><a href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
+                        <h3 class="SongNameText" ><a href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
+                    </a>
                 </div>
-            {% endfor %}
+                {% endfor %}
+                {% endif %}
+            </div>
         </div>
-        <div class="artist-album">
-            {% for i in artist_album.items %}
-                <div class="album">
-                    <h2><a href="{% url 'album' i.id %}">{{ i.name }}</a></h2>
-                    <img src="{{ i.images.1.url }}" alt="">
-                </div>
-            {% endfor %}
+        <div class="artist-flex">
+            <p class="bigtext">アルバム</p>
+            <div id="trackbox" class="album">
+                {% for i in artist_album.items %}
+                    <div class="albumbox">
+                        <a href="{% url 'album' i.id %}">
+                            <img src="{{ i.images.1.url }}" alt="画像" width="150" height="150" class="album_img">
+                            <div class="AlbumNameBox">
+                                <p class="AlbumNameText"><a href="{% url 'album' i.id %}">{{ i.name }}</a></p>
+                                <hr>
+                                <p class="AlbumNameTextMini">{{ i.artists.0.name }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-
-    </main>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+</main>
 {% endblock %}

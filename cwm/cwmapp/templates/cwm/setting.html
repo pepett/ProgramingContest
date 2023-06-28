@@ -6,25 +6,27 @@
 <main>
     <link rel="stylesheet" href="{% static 'css/setting.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <!--ローディング画面ここから-->
-    <div id="loading">
-        <div class="logo">
-            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
-            <span>Connect With Music</span>
+        <!--ローディング画面ここから-->
+        <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+        <div id="loading">
+            <div class="logo">
+                <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+                <span>Connect With Music</span>
+            </div>
+            <div class="fingerprint-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
         </div>
-        <div class="fingerprint-spinner">
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-            <div class="spinner-ring"></div>
-        </div>
-    </div>
-    <!--ここまで-->
+        <script src="{% static 'js/loading.js' %}"></script>
+        <!--ここまで-->
     <div id="box1">
         <div class="BackDiv">
             <img src="{% static 'img/tmp/back.png' %}" alt="backimage">

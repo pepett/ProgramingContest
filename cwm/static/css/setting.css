@@ -88,7 +88,8 @@ li > label:hover {
       padding: 5px;
       border-radius: 5px;
       background-color: #000000;
-      border: 1px solid #00DE64; }
+      border: 1px solid #00DE64;
+      transition: 0.7s; }
       #IconBox div .UploadForm p label {
         display: none; }
       #IconBox div .UploadForm p #id_image {
@@ -104,7 +105,12 @@ li > label:hover {
       font-size: 15px;
       font-weight: bold;
       color: #00DE64;
-      margin-top: 5px; }
+      margin-top: 5px;
+      transition: 0.7s; }
+    #IconBox div .UploadForm p:hover {
+      background-color: #ffffff; }
+    #IconBox div .UploadForm p::after:hover {
+      color: #000000; }
 
 .NewUserIcon {
   width: 150px;
@@ -130,10 +136,17 @@ li > label:hover {
 
 @media screen and (max-width: 1000px) {
   main {
-    flex-direction: column; }
+    flex-direction: column;
+    height: 100%; }
 
   #box1, #box2 {
     width: 100%; }
+
+  #box2 {
+    padding-bottom: 20px; }
+
+  #usernameBox input {
+    width: auto; }
 
   .NowUserIcon {
     margin: 3px auto;

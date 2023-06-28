@@ -1,0 +1,98 @@
+.box{
+    /* background-color: aliceblue; */
+    position: sticky;
+    top:0;
+    /*横半分50%　縦を100vhにする*/
+    width: 35%;
+    height: 95vh;
+    /*装飾のためのCSS*/
+    justify-content: center;
+    align-items: center;
+    border: 4px black solid;
+    border-radius: 10px;
+}
+.desc-name{
+    color: white;
+}
+.box2{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    overflow-y: scroll;
+    margin: 0px;
+    white-space: nowrap;
+    border: 4px black solid;
+    border-radius: 10px;
+}
+button{
+    background:none;
+    border: 0px;
+}
+.play-btn img{
+    width: 65px;
+    background: none;
+}
+.track{
+    /* width: 100%;   
+    display: flex;
+    border: 2px black solid; */
+    margin: 2px 6px;
+    padding: 10px;
+    background: #2f2d2d;
+    background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+    border-radius: 10px;
+    border: solid 2px #323232;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    transition: 0.3s;
+}
+.box4{
+    display: flex;
+}
+.main_box{
+    margin-top: 0px;
+    height: 800px;
+    position: relative;/*position stickyの基点にするため relativeをかける*/
+    display: flex;/*左エリア、右エリア横並び指定*/
+    flex-wrap: wrap;/*ボックスの折り返し可*/
+}
+.album-name{
+    font-size: 30px;
+    padding-top: 15px;
+}
+
+main{
+    font-size: 30px;
+    margin-top: 3px;
+}
+@media screen and (max-width: 481px) {
+    .track{
+        width: 100px;
+        margin:30px;
+    }
+    .box{
+        position: initial;
+        width: 100%;
+    }
+    .box2{
+        width: 100%;
+    }
+    main{
+        font-size: 20px;
+    }
+    .album-name{
+        position: relative;
+    }
+    .track{
+        margin: 1px;
+    }
+   .main_box{
+        display: block;
+    }
+    .album-name{
+        position: initial;
+    }
+}

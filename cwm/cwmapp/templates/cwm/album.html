@@ -2,21 +2,34 @@
 {% load static %}
 {% block title %}artist{% endblock %}
 {% block content %}
-<br><br><br>
+<br><br>
+<link rel="stylesheet" href="{% static 'css/album.css' %}">
 <main>
-    <h2>{{ album_desc.name }}</h2>
-    <h3><a href="{% url 'artist' album_desc.artists.0.id %}">{{ album_desc.artists.0.name }}</a></h3>
-    <img src="{{ album_desc.images.1.url }}" alt="">
-    {% for i in album_tracks %}
-        <div class="track" style="display: flex;">
+    <div class="main_box"> 
+    <div class="box">
+        <img src="{{ album_desc.images.1.url }}" alt="">
+        <h2 class="desc-name">{{ album_desc.name }}</h2>
+        <div class="main_test">
+            <h3><a href="{% url 'artist' album_desc.artists.0.id %}">{{ album_desc.artists.0.name }}</a></h3>
+        </div>
+    </div>
+    <div class="box2">
+        {% for i in album_tracks %}
+        <div class="track">
             <div class="play-btn">
                 <a data-preview="{{ i.preview_url }}" class="preview">
-                    <button type="button"><img src="{% static 'img/tmp/play_green.png' %}" alt="button"></button>
+                    <button type="button">
+                        <img src="{% static 'img/tmp/play_green.png' %}" alt="button">
+                    </button>
                 </a>
             </div>
-            <div class="album-name"><a href="{% url 'mus' i.id %}">{{ i.name }}</a></div>
+        <div class="album-name">
+            <a href="{% url 'mus' i.id %}">{{ i.name }}</a>
         </div>
-    {% endfor %}
+    </div>
+        {% endfor %}
+        </div>
+    </div>
 </main>
 <script src="{% static 'js/album.js' %}" type="module"></script>
 {% endblock %}

@@ -1,9 +1,11 @@
-all:
+sassbuild:
 	sass --watch ./static/scss/:./static/css/
-databasereset:
+re:
 	del db.sqlite3
-	del ./cwmapp/migrations/*.py
-	type nul > ./cwmapp/migrations/__init__.py
-	rd -rf __pycache__
+	rmdir /s /q .\$(app)\migrations\__pycache__
+	del .\$(app)\migrations\*.py
+	type nul >.\$(app)\migrations\__init__.py
+	echo 'success!'
+cr:
 	python manage.py makemigrations
 	python manage.py migrate

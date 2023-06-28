@@ -2,17 +2,18 @@ import os
 import re
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from cwmapp.models import User, Comment, HistoryList, LikeList
 
-from .forms import CommentForm, UploadImageForm, UsernameForm
+from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
 
 # Create your views here.
 
 #仮ログイン
 IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228016@kccollege.ac.jp' )
+UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -20,12 +21,47 @@ def top( request ):
     #for counter in range( len( tmp ) ):
     #    print( tmp[ counter ] )
     #例ここまで
+    if request.user.is_authenticated:
+        print( request.user.last_login )
     return render( request, 'cwm/top.html' )
-def login( request ):
+def Login( request ):
+    if request.POST:
+        email = request.POST[ 'email' ]
+        password = request.POST[ 'password' ]
+        user = authenticate( request, email=email, password=password )
+        if user is not None:
+            login( request, user )
+            return redirect( 'index' )
+        else:
+            pass
     return render( request, 'cwm/login.html' )
 
+def Logout( request ):
+    if request.user.is_authenticated:
+        logout( request )
+        return redirect( '/' )
+    else:
+        print( 'error' )
+
 def register( request ):
-    return render( request, 'cwm/register.html' )
+    if request.POST:
+        register_form = RegisterForm( request.POST )
+        if register_form.is_valid():
+            reg = register_form.save()
+            reg.set_password( reg.password )
+            reg.save()
+            content = {
+                'register_form': register_form
+            }
+        else:
+            content = {
+                'register_form': register_form
+            }
+    else:
+        content = {
+            'register_form': None
+        }
+    return render( request, 'cwm/register.html', content )
 
 def setting( request ):
 
@@ -261,21 +297,12 @@ def search( request ):
     return render( request, 'cwm/search.html')
 
 def artist( request, id ):
-    max_length = 13
     artist_result = SPOTIFY.artist( id )
     artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
-    result=artist_track['tracks']
     artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
-
-    j = 0
-    for i in result:
-        result[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
-        j = j + 1
-
     content = {
         'artist': artist_result,
-        'results': result,
+        'artist_track': artist_track,
         'artist_album': artist_album,
     }
     return render( request, 'cwm/artist.html', content )

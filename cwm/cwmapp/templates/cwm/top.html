@@ -4,6 +4,9 @@
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/top.css' %}">
+    {% if request.user.is_authenticated %}
+        <h1>hello,{{ request.user.username }}</h1>
+    {% endif %}
     <div class="box">
         <h1 class="titletext">CMWで音楽好きの仲間を探そう</h1>
         <p>Connect With Music</p>
@@ -23,7 +26,7 @@
         </div>
         <div class="userbox">
             <a href="{% url 'register'%}" class="registerBT">新規登録</a>
-            <a href="{% url 'login'%}" class="loginBT">ログイン</a>
+            <a href="{% url 'Login'%}" class="loginBT">ログイン</a>
         </div>
     </div>
 </main>

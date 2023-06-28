@@ -19,14 +19,15 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from cwmapp.views import top, login, register, setting, result, index, music, user, search, artist, album, create, delete, edit
+from cwmapp.views import top, Login, register, setting, result, index, music, user, search, artist, album, create, delete, edit, Logout
 
 app_name = 'cwm'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path( "", top ,name="top"),
-    path( "login/", login ,name="login"),
+    path( "login/", Login, name="Login"),
+    path( "logout/", Logout, name="Logout" ),
     path( "register/", register ,name="register"),
     path( "setting/", setting ,name="setting"),
     path( "result/", result, name="result" ),

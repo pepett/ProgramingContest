@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, UploadImage
+from .models import Comment, UploadImage, CustomUser
 
 class Register(forms.Form):
     user_name = forms.CharField(label = "名前",widget=forms.TextInput(attrs={'placeholder':'スポティパイ太郎'}))
@@ -32,3 +32,11 @@ class UsernameForm(forms.Form):
             }
         )
     )
+
+class RegisterForm( forms.ModelForm ):
+    class Meta:
+    #username = forms.CharField(label = "ユーザー名",widget=forms.TextInput(attrs={'placeholder':'アーツ三郎'}))
+    #email = forms.EmailField( label="メールアドレス", widget=forms.TextInput(attrs={'placeholder':'arts@gmail.com'}) )
+        model = CustomUser
+        fields = [ 'username', 'email', 'password' ]
+        labels = {'username': 'ユーザー名', 'email': 'メールアドレス', 'password': 'パスワード'}

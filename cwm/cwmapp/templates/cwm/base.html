@@ -23,12 +23,12 @@
                 <span></span>
             </div>
             <div class="nav-container">
-                {% if IsLogin %}
+                {% if request.user.is_authenticated %}
                 <div class="MiniLogin_userbox">
                     <a href="{% url 'setting' %}">
-                        <img class="UserIcon" src="{{ data.0.user_image.url }}" alt="ユーザーアイコン">
+                        <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
                     </a>
-                    <p class="MiniusernameText">{{ data.0.user_name }}</p>
+                    <p class="MiniusernameText">{{ data.0.username }}</p>
                 </div>
                 {% else %}
                 <div class="Miniuserbox">
@@ -68,7 +68,7 @@
         {% if request.user.is_authenticated %}
         <div class="Login_userbox">
             <a href="{% url 'setting' %}">
-                <img class="UserIcon" src="{{ data.0.user_image.url }}" alt="ユーザーアイコン">
+                <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
             </a>
             <p class="usernameText">{{ request.user.username }}</p><!-- data.0.user_name -->
             <a href="{% url 'Logout' %}">ログアウト</a>

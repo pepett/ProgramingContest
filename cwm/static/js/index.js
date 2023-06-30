@@ -84,3 +84,14 @@ function IsPlayTex(btn){
         btn.innerHTML = PlayBTimg;
     }
 } */
+
+const scrollElement = document.querySelectorAll("#trackbox");
+
+for(let i = 0;i < scrollElement.length;i++){
+    scrollElement[i].addEventListener("wheel", (e) => {
+    if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+    e.preventDefault();
+    console.log(i)
+    scrollElement[i].scrollLeft += e.deltaY;
+    });
+}

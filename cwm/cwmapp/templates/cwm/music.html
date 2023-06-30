@@ -61,9 +61,8 @@
                 <div class="spinner-ring"></div>
             </div>
         </div>
-        <script src="{% static 'js/loading.js' %}"></script>
         <!--ここまで-->
-    <div class="music-main">
+        <div class="music-main">
         <div id="spotify-iframe"></div>
         <div class="stars"></div>
         <div class="album-name">
@@ -79,38 +78,38 @@
         </div>
         <div class="tags">
             {% for t in tags %}
-                <span class="t">#{{ t }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="t">#{{ t }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {% endfor %}
         </div>
     </div>
     <div class="comments">
         {% if request.user.is_authenticated %}
-            <form action="{% url 'create' track_result.id %}" method="post" id="create">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" name="submit" value="投稿">
-            </form>
+        <form action="{% url 'create' track_result.id %}" method="post" id="create">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" name="submit" value="投稿">
+        </form>
         {% endif %}
         <h2 id="c-title">コメント</h2>
         {% if is_comment %}
-            {% for item in model %}
-                <div class="comment-box">
-                    <div class="user-name">{{ item.user_name }}</div>
-                    <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
-                    {% if db.user_mail == item.user_mail and request.user.is_authenticated %}
-                        <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
-                            {% csrf_token %}
-                            <input type="submit" name="submit" value="削除">
-                        </form>
-                        <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
-                            {% csrf_token %}
-                            <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
-                            <input type="submit" name="submit" value="変更">
-                        </form>
-                        <input type="button" class="edit-btn" value="編集">
-                    {% endif %}
-                </div>
-            {% endfor %}
+        {% for item in model %}
+        <div class="comment-box">
+            <div class="user-name">{{ item.user_name }}</div>
+            <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
+            {% if db.user_mail == item.user_mail and request.user.is_authenticated %}
+            <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
+                {% csrf_token %}
+                <input type="submit" name="submit" value="削除">
+            </form>
+            <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
+                {% csrf_token %}
+                <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
+                <input type="submit" name="submit" value="変更">
+            </form>
+            <input type="button" class="edit-btn" value="編集">
+            {% endif %}
+        </div>
+        {% endfor %}
         {% endif %}
     </div>
 </main>
@@ -136,12 +135,12 @@
         }
         IFrameAPI.createController( elem, options, callback );
     }
-
+    
     document.getElementById( 'edit-btn' ).onclick = ( e ) => {
         if( document.getElementById( 'edit_form' ) ){
             document.getElementById( 'edit_form' ).remove();
         }
-         
+        
         const edit_form = document.createElement( 'form' );
         const music_id = '{{ track_result.id }}';
         edit_form.action = `/edit/${ music_id }/${ e.target.dataset.id }`;
@@ -153,25 +152,26 @@
     }
 </script>
 <script src="{% static 'js/music.js' %}"></script>
-        <!-- <script type="text/javascript">
+<script src="{% static 'js/loading.js' %}"></script>
+<!-- <script type="text/javascript">
             const PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
             const StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
             
             const heart_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>"
             const heart_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>"
             const demo_tag_start = '<div class="tag">';
-            const demo_tag_end = '</div>';
-            //試し
-            
-            document.querySelector( '.like' ).innerHTML = heart_img_green;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            /* document.querySelector( '.music' ).style.height = window.screen.height  - 282  + 'px'; */
-            document.querySelector( 'body' ).style.height = window.screen.height - 221 + 'px';
-            document.querySelector( '.music' ).style.width = window.screen.width / 2 - 50 + 'px';
-        </script>
-         -->
-{% endblock %}
+                const demo_tag_end = '</div>';
+                //試し
+                
+                document.querySelector( '.like' ).innerHTML = heart_img_green;
+                document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+                document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+                document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+                document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+                document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
+                /* document.querySelector( '.music' ).style.height = window.screen.height  - 282  + 'px'; */
+                document.querySelector( 'body' ).style.height = window.screen.height - 221 + 'px';
+                document.querySelector( '.music' ).style.width = window.screen.width / 2 - 50 + 'px';
+            </script>
+        -->
+        {% endblock %}

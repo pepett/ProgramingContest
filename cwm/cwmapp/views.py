@@ -64,17 +64,17 @@ def register( request ):
     return render( request, 'cwm/register.html', content )
 
 def setting( request ):
-
-    if IsLogin == False:#ログインしていなければログインページにリダイレクト
-        return redirect(login)
     
+    if not request.user.is_authenticated:
+        return redirect(Login)
+    
+    User = CustomUser.objects.filter( email = request.user.email )
     Likeresult = []
     Historyresult = []
     content = {
         "results":Likeresult,
         "results2":Historyresult,
-        "IsLogin":IsLogin,
-        "data":UserData,
+        "data":User,
         "upload_form":UploadImageForm(),
         "username_form":UsernameForm(),
         "id":None
@@ -82,22 +82,22 @@ def setting( request ):
     if (request.method == 'POST'):
         NewUsername = request.POST['NewUsername']
         if (request.FILES):
-            UpdateFileName = UserData[0].user_name+os.path.splitext(request.FILES['image'].name)[1]
+            UpdateFileName = User[0].username+os.path.splitext(request.FILES['image'].name)[1]
             if NewUsername:
                 UpdateFileName = NewUsername+os.path.splitext(request.FILES['image'].name)[1]
             request.FILES['image'].name = UpdateFileName
             image = UploadImageForm(request.POST,request.FILES)
             print(str(request.FILES['image'].name))
             print(os.path.splitext(request.FILES['image'].name)[1])
-            UserData[0].user_image.delete()
+            User[0].image.delete()
             if image.is_valid():
                 image.save()
-                User.objects.filter( user_mail = UserData[0].user_mail ).update(user_image = 'images/'+UpdateFileName)
+                User.update(image = 'images/'+UpdateFileName)
                 if NewUsername:
-                    User.objects.filter( user_mail = UserData[0].user_mail ).update(user_name = NewUsername)
+                    User.update(username = NewUsername)
 
-    MusHistory = HistoryList.objects.filter(history_user_mail = UserData[0].user_mail)
-    MusLiked = LikeList.objects.filter(like_user_mail = UserData[0].user_mail)
+    MusHistory = HistoryList.objects.filter(history_user_mail = User[0].email)
+    MusLiked = LikeList.objects.filter(like_user_mail = User[0].email)
 
     max_length = 13
 
@@ -176,7 +176,23 @@ def result( request ):
     return render( request, 'cwm/result.html', ret  )
 
 def index( request ):
+
+    final_result = []
+    final_result2 = []
+    final_result3 = []
+    User = False
+
+    content = {
+        "results":final_result,
+        "results2":final_result2,
+        "results3":final_result3,
+        "data":User
+    }
     
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
+        content[ 'data' ] = User
+
     max_length = 13
     Playlist_uri = 'spotify:playlist:37i9dQZEVXbKXQ4mDTEBXq'
     
@@ -210,19 +226,15 @@ def index( request ):
         final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
         j = j + 1
 
-    content = {
-        "results":final_result,
-        "results2":final_result2,
-        "results3":final_result3,
-        "IsLogin":IsLogin,
-        "data":UserData
-    }
+    content['results'] = final_result
+    content['results2'] = final_result2
+    content['results3'] = final_result3
 
     return render(request,'cwm/index.html',content)
 
 def create( request, idn ):
     if request.method == 'POST':
-        c = Comment( comment_user_mail=UserData[ 0 ].user_mail, comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
+        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
         c.save()
     return redirect( 'mus', idn )
 
@@ -240,8 +252,7 @@ def edit( request, idn, cid ):
     return redirect( 'mus', idn )
 
 def music( request, idn ):
-    MusHistory = HistoryList(history_user_mail = UserData[0].user_mail,history_music_id = idn)
-    MusHistory.save()
+
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
@@ -255,22 +266,27 @@ def music( request, idn ):
         'tags': tags,#タグ
         'users': users,#
         'form': form,#コメント投稿用のフォーム
-        'db': UserData[ 0 ],#ログイン中のユーザ情報( 仮 )
+        #'db': UserData[ 0 ],#ログイン中のユーザ情報( 仮 )
         'model': mdl,
         'is_comment': False,
-        'data': UserData,#Base内のユーザー情報
-        'IsLogin':IsLogin,#Base内のユーザー情報
     }
+
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
+        content[ 'data' ] = User
+        MusHistory = HistoryList(history_user_mail = request.user.email,history_music_id = idn)
+        MusHistory.save()
+
     if Comment.objects.filter( comment_music_id=idn ).exists():
         content[ 'is_comment' ] = True
         comments = Comment.objects.filter( comment_music_id=idn )
         for i in range( comments.count() ):
-            users.append( User.objects.get( user_mail=comments[ i ].comment_user_mail ) )#一つしかとってきてない
+            users.append( CustomUser.objects.get( email=comments[ i ].comment_user_mail ) )#一つしかとってきてない
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
             tmp = {
-                'user_name': users[ i ].user_name,
-                'user_mail': users[ i ].user_mail,
-                'user_image': users[ i ].user_image,
+                'user_name': users[ i ].username,
+                'user_mail': users[ i ].email,
+                'user_image': users[ i ].image,
                 'comment_id': comments[ i ].comment_id,
                 'comment_good': comments[ i ].comment_good,
                 'comment_text': comments[ i ].comment_text,
@@ -297,22 +313,58 @@ def search( request ):
     return render( request, 'cwm/search.html')
 
 def artist( request, id ):
-    artist_result = SPOTIFY.artist( id )
-    artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
-    artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
+
+    artist_result = []
+    result = []
+    artist_album = []
+    related_artist = []
+    User = False
+
     content = {
         'artist': artist_result,
-        'artist_track': artist_track,
+        'results': result,
         'artist_album': artist_album,
+        'related_artist': related_artist,
+        'data': User
     }
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
+        content[ 'data' ] = User
+
+    max_length = 13
+    artist_result = SPOTIFY.artist( id )
+    related_artist = SPOTIFY.artist_related_artists(id)
+    artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
+    result=artist_track['tracks']
+    artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
+
+    j = 0
+    for i in result:
+        result[j]['name'] = Utils.truncate_string(i['name'],max_length)
+        result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+        j = j + 1
+
+    content[ 'artist' ] = artist_result
+    content[ 'results' ] = result
+    content[ 'artist_album' ] = artist_album
+    content[ 'related_artist' ] = related_artist['artists']
+
     return render( request, 'cwm/artist.html', content )
 
 def album( request, id ):
-    
+
+    User = False
+
+        
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
+
     albums = SPOTIFY.albums( [ id ], market=None )
-    print( albums[ 'albums' ][ 0 ][ 'name' ] )
+    print(albums)
+
     content = {
-        'album_tracks': albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ],
         'album_desc': albums[ 'albums' ][ 0 ],
+        'album_tracks': albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ],
+        'data':User
     }
     return render( request, 'cwm/album.html', content )

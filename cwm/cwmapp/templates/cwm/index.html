@@ -23,30 +23,29 @@
                 <div class="spinner-ring"></div>
             </div>
         </div>
-        <script src="{% static 'js/loading.js' %}"></script>
         <!--ここまで-->
-    <p class="bigtext">トップ10</p>
-    <div id="trackbox" class="toprank">
-        {% if results %}
-        {% for x in results %}
-        <div class="songbox">
-            <button class="PlaySongBT" type="button" value="{{ x.track.preview_url }}" onclick="PlayMusic('{{ x.track.preview_url }}',this);">
-                <img src="{% static 'img/tmp/play_green.png' %}">
-            </button>
-            <a href="{% url 'mus' x.track.id %}">
-                <img class="music_img" src="{{x.track.album.images.0.url}}" width="150" height="150" class="" alt="">
-                <h3 class="SongNameText" ><a href="{% url 'mus' x.track.id %}">{{x.track.name}}</a></h3>
-                <h3 class="SongNameText" ><a href="{% url 'artist' x.track.artists.0.id %}">{{x.track.artists.0.name}}</a></h3>
-            </a>
+        <p class="bigtext">トップ10</p>
+        <div id="trackbox" class="toprank">
+            {% if results %}
+            {% for x in results %}
+            <div class="songbox">
+                <button class="PlaySongBT" type="button" value="{{ x.track.preview_url }}" onclick="PlayMusic('{{ x.track.preview_url }}',this);">
+                    <img src="{% static 'img/tmp/play_green.png' %}">
+                </button>
+                <a href="{% url 'mus' x.track.id %}">
+                    <img class="music_img" src="{{x.track.album.images.0.url}}" width="150" height="150" class="" alt="">
+                    <h3 class="SongNameText" ><a href="{% url 'mus' x.track.id %}">{{x.track.name}}</a></h3>
+                    <h3 class="SongNameText" ><a href="{% url 'artist' x.track.artists.0.id %}">{{x.track.artists.0.name}}</a></h3>
+                </a>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
-    <p class="bigtext">一覧ページ2</p>
-    <div id="trackbox" class="toprank">
-        {% if results2 %}
-        {% for y in results2 %}
-        <div class="songbox">
+        <p class="bigtext">一覧ページ2</p>
+        <div id="trackbox" class="toprank">
+            {% if results2 %}
+            {% for y in results2 %}
+            <div class="songbox">
             <button class="PlaySongBT" type="button" value="{{ y.preview_url }}" onclick="PlayMusic('{{ y.preview_url }}',this);">
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
@@ -80,7 +79,8 @@
     <script type="text/javascript">
         var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
         var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
-    </script>
+        </script>
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/loading.js' %}"></script>
 </main>
 {% endblock %}

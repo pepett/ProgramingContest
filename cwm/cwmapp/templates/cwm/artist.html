@@ -24,21 +24,27 @@
                 <div class="spinner-ring"></div>
             </div>
         </div>
-        <script src="{% static 'js/loading.js' %}"></script>
         <!--ここまで-->
-    <div id="box1">
-        <div class="artist">
-            <img src="{{ artist.images.1.url }}" alt="">
-            <p class="bigtext">{{ artist.name }}</p>
+        <div id="box1">
+            <div class="artist">
+                <img src="{{ artist.images.1.url }}" alt="">
+                <p class="bigtext">{{ artist.name }}</p>
+            </div>
+            <p class="bigtext">関連アーティスト</p>
+            <div class="RelatedArtist">
+                {% if related_artist %}
+                {% for x in related_artist %}
+                <div class="RArtistBox">
+                    <a href="{% url 'artist' x.id %}" class="RArtist">
+                        <img src="{{ x.images.0.url }}" class="RArtistImage" alt="関連アーティスト画像">
+                        <h3 class="SongNameText"><a href="{% url 'artist' x.id %}">{{ x.name }}</a></h3>
+                    </a>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
         </div>
-        <div class="RelatedArtist">
-            <a href="#" class="RArtist">
-                <img src="" class="RArtistImage" alt="関連アーティスト画像">
-                <h3 class="SongNameText"><a href="">関連アーティスト名</a></h3>
-            </a>
-        </div>
-    </div>
-    <div id="box2">
+        <div id="box2">
         <div class="artist-flex">
             <p class="bigtext">{{ artist.name }} Top10</p>
             <div id="trackbox" class="toprank">
@@ -60,22 +66,23 @@
         </div>
         <div class="artist-flex">
             <p class="bigtext">アルバム</p>
-            <div id="trackbox" class="album">
+            <div class="album">
                 {% for i in artist_album.items %}
-                    <div class="albumbox">
-                        <a href="{% url 'album' i.id %}">
-                            <img src="{{ i.images.1.url }}" alt="画像" width="150" height="150" class="album_img">
-                            <div class="AlbumNameBox">
-                                <p class="AlbumNameText"><a href="{% url 'album' i.id %}">{{ i.name }}</a></p>
-                                <hr>
-                                <p class="AlbumNameTextMini">{{ i.artists.0.name }}</p>
-                            </div>
-                        </a>
-                    </div>
+                <div class="albumbox">
+                    <a href="{% url 'album' i.id %}">
+                        <img src="{{ i.images.1.url }}" alt="画像" width="150" height="150" class="album_img">
+                        <div class="AlbumNameBox">
+                            <p class="AlbumNameText"><a href="{% url 'album' i.id %}">{{ i.name }}</a></p>
+                            <hr>
+                            <p class="AlbumNameTextMini">{{ i.artists.0.name }}</p>
+                        </div>
+                    </a>
+                </div>
                 {% endfor %}
             </div>
         </div>
     </div>
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/loading.js' %}"></script>
 </main>
 {% endblock %}

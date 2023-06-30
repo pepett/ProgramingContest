@@ -25,16 +25,15 @@
                 <div class="spinner-ring"></div>
             </div>
         </div>
-        <script src="{% static 'js/loading.js' %}"></script>
         <!--ここまで-->
-    <div id="box1">
-        <div class="BackDiv">
+        <div id="box1">
+            <div class="BackDiv">
             <img src="{% static 'img/tmp/back.png' %}" alt="backimage">
             <a href="#">戻る</a>
         </div>
         <div id="user">
-            <img class="NowUserIcon" src="{{ data.0.user_image.url }}" alt="現在のユーザーアイコン">
-            <p>{{ data.0.user_name }}</p>
+            <img class="NowUserIcon" src="{{ data.0.image.url }}" alt="現在のユーザーアイコン">
+            <p>{{ data.0.username }}</p>
         </div>
         <ul>
             <li> 
@@ -74,7 +73,7 @@
                     <p class="bigtext">プロフィール画像</p>
                     <div id="IconBox">
                         <div>
-                            <img id="NewUserIcon" class="NewUserIcon" src="{{ data.0.user_image.url }}" alt="選択ユーザーアイコン">
+                            <img id="NewUserIcon" class="NewUserIcon" src="{{ data.0.image.url }}" alt="選択ユーザーアイコン">
                             <div class="UploadForm">
                                 <span id="FilenameText">アイコンを設定してください</span>
                                 {{ upload_form.as_p }}
@@ -118,8 +117,9 @@
     <script type="text/javascript">
         var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
         var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
-    </script>
+        </script>
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/loading.js' %}"></script>
     <script src="{% static 'js/setting.js' %}"></script>
 </main>
 {% endblock %}

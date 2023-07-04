@@ -64,6 +64,11 @@ class HistoryList( models.Model ):
     def __str__( self ):
         return self.history_user_mail
 
+class Star( models.Model ):
+    star_user_mail = models.EmailField()
+    star_music_id = models.TextField()
+    star_num = models.IntegerField()
+
 class UserManager( BaseUserManager ):
     use_in_migrations = True
   

@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User, Comment, HistoryList, LikeList
+from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
 
@@ -53,6 +53,7 @@ def register( request ):
             content = {
                 'register_form': register_form
             }
+            return redirect( 'Login' )
         else:
             content = {
                 'register_form': register_form
@@ -161,8 +162,9 @@ def result( request ):
     li = 10
     results_track = SPOTIFY.search( request.GET['search-music'], limit=li, offset=0, type='track,album,artist', market=None )
     for i in range( li ):
-        results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ], 9)
-        results_track[ 'albums' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'albums' ][ 'items' ][ i ][ 'name' ], 9)
+        pass
+        #results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ], 9)
+        #results_track[ 'albums' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'albums' ][ 'items' ][ i ][ 'name' ], 9)
         #results_track[ 'artists' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'artists' ][ 'items' ][ i ][ 'name' ], 9)
     #if results_track[ 'artists' ][ 'items' ][ i ][ 'images' ][ 0 ][ 'url' ] == None:
     #    print( 'aa' )
@@ -252,7 +254,17 @@ def edit( request, idn, cid ):
     return redirect( 'mus', idn )
 
 def music( request, idn ):
-
+    ave_star = 0
+    user_star = 0
+    if Star.objects.filter( star_music_id = idn ).exists():
+        for i in range( Star.objects.filter( star_music_id = idn ).count() ):
+            ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
+        ave_star /= Star.objects.filter( star_music_id = idn ).count()
+        ave_star = Utils.round( ave_star )
+    if request.user.is_authenticated:
+        if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():
+            user_star = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn ).star_num
+    
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
@@ -260,6 +272,10 @@ def music( request, idn ):
     form = CommentForm()
     mdl = []
     results = []
+    print( 'user_star:' )
+    print( user_star )
+    print( 'ave_star:' )
+    print( ave_star )
     content = {
         'track_result': track_result,#曲のトラック
         'comments': comments,#コメントのテーブルのレコード
@@ -269,6 +285,8 @@ def music( request, idn ):
         #'db': UserData[ 0 ],#ログイン中のユーザ情報( 仮 )
         'model': mdl,
         'is_comment': False,
+        'ave_star': ave_star,
+        'user_star': user_star,
     }
 
     if request.user.is_authenticated:

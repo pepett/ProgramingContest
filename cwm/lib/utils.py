@@ -1,4 +1,5 @@
 import re
+import math
 
 class Utils:
     @staticmethod
@@ -34,3 +35,10 @@ class Utils:
             return text
         else:
             return text[:max_length] + "..."
+    @staticmethod
+    def round( n ):
+        _n, _ = math.modf( n )
+        if ( _n * 10 ) > 4.9:
+            return int( n ) + 1
+        else:
+            return int( n )

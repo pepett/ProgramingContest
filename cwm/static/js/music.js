@@ -3,11 +3,6 @@ let play_music = {
     is_play: false,//boolean
 };
 
-const loading = document.querySelector( '#loading' );
-window.addEventListener( 'load', () => {
-    loading.classList.add( 'loaded' );
-  }, false );
-
 const correct = () => {
     let user_name = document.getElementsByClassName( 'user-name' );
     let comment_text = document.getElementsByClassName( 'comment-text' );

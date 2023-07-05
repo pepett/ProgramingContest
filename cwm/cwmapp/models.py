@@ -68,6 +68,10 @@ class Star( models.Model ):
     star_user_mail = models.EmailField()
     star_music_id = models.TextField()
     star_num = models.IntegerField()
+    class Meta:
+        constraints = [
+            models.UniqueConstraint( fields=[ 'star_user_mail', 'star_music_id' ], name='unique_star' )
+        ]
 
 class UserManager( BaseUserManager ):
     use_in_migrations = True

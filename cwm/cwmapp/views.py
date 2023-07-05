@@ -1,7 +1,10 @@
 import os
 import re
+import json
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
@@ -272,10 +275,6 @@ def music( request, idn ):
     form = CommentForm()
     mdl = []
     results = []
-    print( 'user_star:' )
-    print( user_star )
-    print( 'ave_star:' )
-    print( ave_star )
     content = {
         'track_result': track_result,#曲のトラック
         'comments': comments,#コメントのテーブルのレコード
@@ -386,3 +385,32 @@ def album( request, id ):
         'data':User
     }
     return render( request, 'cwm/album.html', content )
+
+def star( request, idn ):
+    if request.POST:
+        data = json.loads( request.POST[ 'star_n' ] )
+        ave_star = 0
+        user_star = 0
+
+        if request.user.is_authenticated:
+            #g_s = None
+            if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():
+                g_s = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn )
+                st = data[ 'number' ] + 1
+                g_s.star_num = st
+                g_s.save()
+            else:
+                st = data[ 'number' ] + 1
+                g_s = Star( star_user_mail = request.user.email, star_music_id = idn, star_num = st )
+                g_s.save()
+            user_star = g_s.star_num
+        if Star.objects.filter( star_music_id = idn ).exists():
+            for i in range( Star.objects.filter( star_music_id = idn ).count() ):
+                ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
+            ave_star /= Star.objects.filter( star_music_id = idn ).count()
+            ave_star = Utils.round( ave_star )
+        content = {
+            'ave_star': ave_star,
+            'user_star': user_star,
+        }
+    return JsonResponse( content )

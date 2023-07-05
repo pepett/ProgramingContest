@@ -29,7 +29,6 @@
         <div id="spotify-iframe"></div>
         <div class="likes">
             <div class="stars">
-                <span class="eval">評価：</span>
             </div>
             <div class="like">
                 <span class="eval">いいね：</span><img src="{% static 'img/tmp/heart_black.png' %}" style="margin-left: 5px;" width="30" height="30">
@@ -86,29 +85,68 @@
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <script>
-    window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
+    const star_eval = ()=>{
+        for( let i = 0;i < document.getElementsByClassName( 'eval-btn' ).length;i ++ ){
+            document.getElementsByClassName( 'eval-btn' )[ i ].addEventListener( 'click', ( e )=>{
+                e.preventDefault();//ページ遷移処理を止める
+                const url = '{% url "star" track_result.id %}';
+                const data = {
+                    number: i
+                };
+                fetch( url, {
+                    method: 'POST',
+                    body: `star_n=${JSON.stringify( data )}`,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                } ).then( response => {
+                    return response.json();
+                } ).then( response => {
+                    init_star( response.ave_star, response.user_star );
+                } ).catch( error => {
+                    console.log( error );
+                } )
+            } )
+        }
+    }
+    const init_star = ( a = '{{ ave_star }}', u = '{{ user_star }}' )=>{
+        const a_s = a;
+        const u_s = u;
         const star_img_green = "<img src='{% static 'img/tmp/star_green.png' %}'>";
         const star_img_linegreen = "<img src='{% static 'img/tmp/greenlinestar.png' %}'>"
         const star_img_black = "<img src='{% static 'img/tmp/star_black.png' %}'>";
         let ver_arr = new Array( 5 );
         for( let i = 0;i < 5;i ++ ){
-            if( i < '{{ ave_star }}' && i < '{{ user_star }}' ){
-                ver_arr[ i ] = star_img_green;
+            let sp = document.createElement( 'span' );
+            sp.setAttribute( 'class', 'eval-btn' );
+            if( i < a_s && i < u_s ){
+                sp.innerHTML = star_img_green;
+                ver_arr[ i ] = sp.outerHTML;
                 continue;
-            }else if( i < '{{ ave_star }}' ){
-                ver_arr[ i ] = star_img_linegreen;
+            }else if( i < a_s ){
+                sp.innerHTML = star_img_linegreen;
+                ver_arr[ i ] = sp.outerHTML;
                 continue;
-            }else if( i < '{{ user_star }}' ){
-                console.log( '{{ user_star }}' )
-                ver_arr[ i ] = star_img_green;
+            }else if( i < u_s ){
+                sp.innerHTML = star_img_green;
+                ver_arr[ i ] = sp.outerHTML;
                 continue;
             }else{
-                ver_arr[ i ] = star_img_black;
+                sp.innerHTML = star_img_black;
+                ver_arr[ i ] = sp.outerHTML;
             }
         }
+        document.querySelector( '.stars' ).innerHTML = '<span class="eval">評価：</span>';
         for( let i = 0;i < 5;i ++ ){
             document.querySelector( '.stars' ).innerHTML += ver_arr[ i ];
         }
+        document.querySelector( '.stars' ).innerHTML += `<br><span class="eval-num">みんなの評価:${ a }/5</span>`;
+        setTimeout( star_eval, 1000 );
+    }
+    window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
+        init_star();
+        
         const elem = document.getElementById( 'spotify-iframe' );
         const options = {
             width: '95%',
@@ -122,43 +160,6 @@
         }
         IFrameAPI.createController( elem, options, callback );
     }
-/*
-    document.getElementById( 'edit-btn' ).onclick = ( e ) => {
-        if( document.getElementById( 'edit_form' ) ){
-            document.getElementById( 'edit_form' ).remove();
-        }
-         
-        const edit_form = document.createElement( 'form' );
-        const music_id = '{{ track_result.id }}';
-        edit_form.action = `/edit/${ music_id }/${ e.target.dataset.id }`;
-        edit_form.method = 'post';
-        edit_form.innerHTML = '{{ csrf_token }}';
-        edit_form.innerHTML += '<input type="submit" name="submit" value="保存">'
-        edit_form.id = 'edit_form';
-        
-    }
-    */
 </script>
 <script src="{% static 'js/music.js' %}"></script>
-        <!-- <script type="text/javascript">
-            const PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
-            const StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
-            
-            const heart_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>"
-            const heart_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>"
-            const demo_tag_start = '<div class="tag">';
-            const demo_tag_end = '</div>';
-            //試し
-            
-            document.querySelector( '.like' ).innerHTML = heart_img_green;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            document.querySelector( '.tags' ).innerHTML += demo_tag_start + '<p>#j-pop</p>' + demo_tag_end;
-            /* document.querySelector( '.music' ).style.height = window.screen.height  - 282  + 'px'; */
-            document.querySelector( 'body' ).style.height = window.screen.height - 221 + 'px';
-            document.querySelector( '.music' ).style.width = window.screen.width / 2 - 50 + 'px';
-        </script>
-         -->
 {% endblock %}

@@ -56,20 +56,36 @@
             <form action="{% url 'create' track_result.id %}" method="post" id="create">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" name="submit" value="投稿">
+                <div class="create-cmnt">
+                    <input type="submit" name="submit" value="投稿" class="create-submit">
+                </div>
             </form>
         {% endif %}
         <h2 id="c-title">コメント</h2>
         {% if is_comment %}
             {% for item in model %}
                 <div class="comment-box">
-                    <img src="{{ item.user_image.url }}" alt="ユーザの画像" width="50" height="50" style="border-radius: 50%;">
-                    <div class="user-name">{{ item.user_name }}</div>
-                    <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
+                    <div class="cmt-top">
+                        <img src="{{ item.user_image.url }}" alt="ユーザの画像" width="50" height="50" style="border-radius: 50%;">
+                        <div class="user-name">{{ item.user_name }}</div>
+                        <div class="menu">
+                            <span class="kebab">
+                                <span class="kebab-ball"></span>
+                                <span class="kebab-ball"></span>
+                                <span class="kebab-ball"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cmt-content">
+                        <div class="good-img">
+                            <img src="{% static 'img/tmp/good_black.png' %}" alt="いいね" width="30" height="30">
+                        </div>
+                        <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
+                    </div>
                     {% if request.user.email == item.user_mail and request.user.is_authenticated %}
                         <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
                             {% csrf_token %}
-                            <input type="submit" name="submit" value="削除">
+                            <input type="submit" name="submit" value="削除" class="del-btn">
                         </form>
                         <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
                             {% csrf_token %}
@@ -79,6 +95,7 @@
                         <input type="button" class="edit-btn" value="編集">
                     {% endif %}
                 </div>
+                <hr>
             {% endfor %}
         {% endif %}
     </div>
@@ -146,7 +163,7 @@
     }
     window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
         init_star();
-        
+        document.getElementById( 'id_comment_text' ).placeholder = 'コメント';
         const elem = document.getElementById( 'spotify-iframe' );
         const options = {
             width: '95%',
@@ -159,6 +176,17 @@
             }, false );
         }
         IFrameAPI.createController( elem, options, callback );
+    }
+    for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){
+        document.getElementsByClassName( 'menu' )[ i ].addEventListener( 'click', ( e )=>{
+            if( document.getElementsByClassName( 'edit-btn' )[ i ].style.display == 'none' ){
+                document.getElementsByClassName( 'edit-btn' )[ i ].style.display = 'block';
+                document.getElementsByClassName( 'del-btn' )[ i ].style.display = 'block';
+            }else{
+                document.getElementsByClassName( 'edit-btn' )[ i ].style.display = 'none';
+                document.getElementsByClassName( 'del-btn' )[ i ].style.display = 'none';
+            }
+        } );
     }
 </script>
 <script src="{% static 'js/music.js' %}"></script>

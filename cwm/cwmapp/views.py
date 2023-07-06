@@ -377,7 +377,6 @@ def album( request, id ):
         User = CustomUser.objects.filter( email = request.user.email )
 
     albums = SPOTIFY.albums( [ id ], market=None )
-    print(albums)
 
     content = {
         'album_desc': albums[ 'albums' ][ 0 ],
@@ -386,7 +385,7 @@ def album( request, id ):
     }
     return render( request, 'cwm/album.html', content )
 
-def star( request, idn ):
+def star( request, idn ):#非同期時に行う処理
     if request.POST:
         data = json.loads( request.POST[ 'star_n' ] )
         ave_star = 0

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .fingerprint-spinner, .fingerprint-spinner * {
   box-sizing: border-box;
   margin: 0 auto; }
@@ -76,116 +77,47 @@
 * {
   margin: 0; }
 
-/* 
-.main1{
-    height: 100%;
-    color: white;
-}
-.music-text{
-    color: white;
-}
-.album-img{
-    width: 200px;
-    height: 200px;
-    border-radius: 29px;
-    border-radius: 10px;
-}
-.main1{
-    margin: 60px 0;
-    padding: 10px;
-    display: flex;
-    .music{
-        .music-content-main{
-            display: flex;
-            .name-container{
-                padding: 0 0 0 20px;
-                margin: 0;
-                .music-name{
-                    font-size: 32px;
-                    font-weight: bold;
-                    padding: 10px 0 0 10px;
-                }
-                .stars{
-                    margin: 0;
-                    padding-left: 10px;
-                    img{
-                        width: 30px;
-                        height: 30px;
-                    }
-                }
-            }
-        }
-        .contents{
-            
-            .spotify-url{
-                img{
-                    width: 100px;
-                    height: 30px;
-                }
-            }
-            .utils{
-                display: flex;
-                
-                margin: 0;
-                .play-btn{
-                    img{
-                        width: 50px;
-                        height: 50px;
-                    }
-                    margin: auto 0;
-                    background: none;
-                    border: none;
-                    z-index: 1;
-                    position: absolute;
-                    top: 220px;
-                    left: -5px;
-                }
-                .like{
-                    margin-top: 5px;
-                    img{
-                        width: 50px;
-                        height: 45px;
-                    }
-                }
-                .share{
-                    padding: 0 10px;
-                    padding-top: 4px;
-                    p{
-                        font-weight: bold;
-                        margin: auto;
-                        padding: 9px 10px 7px 10px;
-                        background-color: $greenCL;
-                        border-radius: 25%;
-                        color: black;
-                        font-size: 20px;
-                    }
-                }
-            }
-        }
-        .tags{
-            display: flex;
-            
-            .tag{
-                margin: 0 10px;
-                background-color: white;
-                border-radius: 5px;
-                p{
-                    margin: 0;
-                    color: black;
-                    font-weight: bold;
-                }
-            }
-        }
-    }
-    .comments{
-        padding: 5px 10px;
-        .title{
-            font-weight: bold;
-            font-size: 32px;
-        }
-    }
-    display: none;
-} */
+/*
+    ケバブメニュー
+*/
+.menu {
+  margin-left: 340px; }
+
+.edit-btn {
+  display: none; }
+
+.del-btn {
+  display: none; }
+
+.kebab {
+  display: inline-block;
+  background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  position: relative;
+  width: 35px;
+  height: 30px;
+  margin-top: 5px; }
+
+.kebab-ball {
+  display: block;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  left: 50%;
+  background: white;
+  border-radius: 50%; }
+
+.kebab-ball:nth-child(1) {
+  top: 0;
+  transform: translate(-50%, 0); }
+
+.kebab-ball:nth-child(2) {
+  top: 50%;
+  transform: translate(-50%, -50%); }
+
+.kebab-ball:nth-child(3) {
+  top: 100%;
+  transform: translate(-50%, -100%); }
+
 .eval {
   color: white;
   font-weight: bold;
@@ -236,15 +168,49 @@
             font-size: 50px;
         }
     }*/ }
+    .main-test .comments #id_comment_text {
+      width: 90%;
+      resize: none;
+      font-size: 20px;
+      height: 70px;
+      border-radius: 20px;
+      text-align: center;
+      padding: 50px 0 0 0; }
+    .main-test .comments #id_comment_text:focus {
+      outline: none; }
+    .main-test .comments .create-submit {
+      margin: 1px 35px 0 0;
+      padding: 5px 30px;
+      background-color: #00DE64;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px; }
+    .main-test .comments .create-cmnt {
+      text-align: right; }
+    .main-test .comments #c-title {
+      color: white; }
     .main-test .comments .comment-box {
       margin: 5px auto;
-      background-color: #00DE64;
       border-radius: 5px; }
-      .main-test .comments .comment-box .user-name {
-        color: white; }
-      .main-test .comments .comment-box .comment-text {
-        background-color: white;
-        border-radius: 5px; }
+      .main-test .comments .comment-box .cmt-top {
+        display: flex; }
+        .main-test .comments .comment-box .cmt-top .user-name {
+          color: white;
+          font-weight: bold;
+          font-size: 30px;
+          margin-top: 5px;
+          margin-left: 10px; }
+      .main-test .comments .comment-box .cmt-content {
+        display: flex; }
+        .main-test .comments .comment-box .cmt-content .good-img {
+          margin-left: 10px;
+          margin-top: 10px; }
+        .main-test .comments .comment-box .cmt-content .comment-text {
+          margin-left: 10px;
+          margin-top: 10px;
+          text-align: left;
+          color: white;
+          border-radius: 5px; }
 
 #loading {
   width: 100vw;

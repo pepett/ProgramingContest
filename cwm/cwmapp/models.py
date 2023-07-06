@@ -24,7 +24,7 @@ class UploadImage( models.Model ):
 
 class Music( models.Model ):
     music_id = models.TextField( primary_key = True )
-    music_star = models.IntegerField()
+    music_star = models.IntegerField()#いらない
     music_ad = models.BooleanField()
 
     def __str__( self ):

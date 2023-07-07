@@ -55,9 +55,9 @@
                     </button>
                     <a href="{% url 'mus' x.id %}">
                         <img class="music_img" src="{{x.album.images.0.url}}" width="150" height="150" class="" alt="">
-                        <h3 class="SongNameText" ><a href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
-                        <h3 class="SongNameText" ><a href="{% url 'artist' x.artists.0.id %}">{{x.artists.0.name}}</a></h3>
                     </a>
+                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' x.id %}">{{x.name}}</a></h3>
+                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' x.artists.0.id %}">{{x.artists.0.name}}</a></h3>
                 </div>
                 {% endfor %}
                 {% else %}
@@ -76,7 +76,10 @@
                             <img id="NewUserIcon" class="NewUserIcon" src="{{ data.0.image.url }}" alt="選択ユーザーアイコン">
                             <div class="UploadForm">
                                 <span id="FilenameText">アイコンを設定してください</span>
-                                {{ upload_form.as_p }}
+                                <p>
+                                    <label for="id_image">Image:</label> 
+                                    <input type="file" name="image" accept="image/*" id="id_image">
+                                </p>
                             </div>
                         </div>
                         <p class="greentext">※画像のサイズは 1:1 にすることを推奨します</p>
@@ -103,9 +106,9 @@
                     </button>
                     <a href="{% url 'mus' y.id %}">
                         <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
-                        <h3 class="SongNameText" ><a href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
-                        <h3 class="SongNameText" ><a href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
                     </a>
+                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
+                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
                 </div>
                 {% endfor %}
                 {% else %}

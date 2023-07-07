@@ -27,7 +27,11 @@
         <!--ここまで-->
         <div id="box1">
             <div class="artist">
-                <img src="{{ artist.images.1.url }}" alt="">
+                {% if artist.images %}
+                    <img src="{{ artist.images.1.url }}" alt="">
+                {% else %}
+                    <img src="{% static 'img/users/baseuser.jpg'%}" alt="">
+                {% endif %}
                 <p class="bigtext">{{ artist.name }}</p>
             </div>
             <p class="bigtext">関連アーティスト</p>
@@ -36,9 +40,13 @@
                 {% for x in related_artist %}
                 <div class="RArtistBox">
                     <a href="{% url 'artist' x.id %}" class="RArtist">
-                        <img src="{{ x.images.0.url }}" class="RArtistImage" alt="関連アーティスト画像">
-                        <h3 class="SongNameText"><a href="{% url 'artist' x.id %}">{{ x.name }}</a></h3>
+                        {% if x.images %}
+                            <img src="{{ x.images.0.url }}" class="RArtistImage" alt="関連アーティスト画像">
+                        {% else %}
+                            <img src="{% static 'img/users/baseuser.jpg'%}" class="RArtistImage" alt="関連アーティスト画像">
+                        {% endif %}
                     </a>
+                        <h3 class="SongNameText"><a href="{% url 'artist' x.id %}">{{ x.name }}</a></h3>
                 </div>
                 {% endfor %}
                 {% endif %}
@@ -56,9 +64,10 @@
                     </button>
                     <a href="{% url 'mus' y.id %}">
                         <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
-                        <h3 class="SongNameText" ><a href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
-                        <h3 class="SongNameText" ><a href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
                     </a>
+                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
+                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
+        
                 </div>
                 {% endfor %}
                 {% endif %}
@@ -82,6 +91,10 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+        var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+    </script>
     <script src="{% static 'js/index.js' %}"></script>
     <script src="{% static 'js/loading.js' %}"></script>
 </main>

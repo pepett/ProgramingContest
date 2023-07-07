@@ -130,4 +130,15 @@ main {
   color: #ffffff;
   margin: 2px 5px; }
 
+@media screen and (max-width: 1000px) {
+  main {
+    flex-direction: column; }
+
+  #box1, #box2 {
+    width: 95%;
+    margin-bottom: 20px; }
+
+  #box1 .RelatedArtist {
+    height: 150px; } }
+
 /*# sourceMappingURL=artist.css.map */

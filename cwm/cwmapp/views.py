@@ -48,10 +48,14 @@ def Logout( request ):
 
 def register( request ):
     if request.POST:
-        register_form = RegisterForm( request.POST )
+        img = Utils.CreateUserImage(request.POST['username'])
+        register_form = RegisterForm( request.POST)
         if register_form.is_valid():
             reg = register_form.save()
+            print(reg)
+            print(img)
             reg.set_password( reg.password )
+            reg.image = img
             reg.save()
             content = {
                 'register_form': register_form
@@ -78,30 +82,35 @@ def setting( request ):
     content = {
         "results":Likeresult,
         "results2":Historyresult,
-        "data":User,
         "upload_form":UploadImageForm(),
+        "data":User,
         "username_form":UsernameForm(),
         "id":None
     }
     if (request.method == 'POST'):
         NewUsername = request.POST['NewUsername']
+        print('NewUsername1'+NewUsername)
         if (request.FILES):
-            UpdateFileName = User[0].username+os.path.splitext(request.FILES['image'].name)[1]
             if NewUsername:
+                User.update(username = NewUsername)
                 UpdateFileName = NewUsername+os.path.splitext(request.FILES['image'].name)[1]
+                print('UpdateFileName1'+UpdateFileName)
+            else:
+                UpdateFileName = request.user.username+os.path.splitext(request.FILES['image'].name)[1]
+                print('UpdateFileName2'+UpdateFileName)
             request.FILES['image'].name = UpdateFileName
-            image = UploadImageForm(request.POST,request.FILES)
-            print(str(request.FILES['image'].name))
-            print(os.path.splitext(request.FILES['image'].name)[1])
             User[0].image.delete()
-            if image.is_valid():
-                image.save()
-                User.update(image = 'images/'+UpdateFileName)
-                if NewUsername:
-                    User.update(username = NewUsername)
+            image = UploadImageForm(request.POST,request.FILES)
+            image.save()
+            User.update(image = 'images/'+UpdateFileName)
 
-    MusHistory = HistoryList.objects.filter(history_user_mail = User[0].email)
-    MusLiked = LikeList.objects.filter(like_user_mail = User[0].email)
+        elif (request.POST['NewUsername']):
+            UpdateFileName = NewUsername+os.path.splitext(User[0].image.name)[1]
+            print('UpdateFileName3'+UpdateFileName)
+            User.update(username = NewUsername)
+
+    MusHistory = HistoryList.objects.filter(history_user_mail = request.user.email)
+    MusLiked = LikeList.objects.filter(like_user_mail = request.user.email)
 
     max_length = 13
 
@@ -147,6 +156,7 @@ def setting( request ):
 
     content['results'] = Likeresult[:30]
     content['results2'] = Historyresult[:30]
+    content['user'] = User
     return render(request,'cwm/setting.html',content)
 
 
@@ -212,24 +222,24 @@ def index( request ):
     results3 = SPOTIFY.artist_top_tracks(lz_uri3)
     final_result3=results3['tracks']
 
-    j = 0
-    for i in final_result:
-        final_result[j]['track']['name'] = Utils.truncate_string(i['track']['name'],max_length)
-        final_result[j]['track']['artists'][0]['name'] = Utils.truncate_string(i['track']['artists'][0]['name'],max_length)
-        j = j + 1
+    #j = 0
+    #for i in final_result:
+    #    final_result[j]['track']['name'] = Utils.truncate_string(i['track']['name'],max_length)
+    #    final_result[j]['track']['artists'][0]['name'] = Utils.truncate_string(i['track']['artists'][0]['name'],max_length)
+    #    j = j + 1
 
-    j = 0
-    for i in final_result2:
-        final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+    #j = 0
+    #for i in final_result2:
+    #    final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
+    #    final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
 #            print( i[ 'id' ] )//これをデータベースに入れる
-        j = j + 1
+    #    j = j + 1
 
-    j = 0
-    for i in final_result3:
-        final_result3[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
-        j = j + 1
+    #j = 0
+    #for i in final_result3:
+    #    final_result3[j]['name'] = Utils.truncate_string(i['name'],max_length)
+    #    final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+    #    j = j + 1
 
     content['results'] = final_result
     content['results2'] = final_result2
@@ -348,23 +358,29 @@ def artist( request, id ):
         User = CustomUser.objects.filter( email = request.user.email )
         content[ 'data' ] = User
 
-    max_length = 13
+    max_length = [13,21]
     artist_result = SPOTIFY.artist( id )
     related_artist = SPOTIFY.artist_related_artists(id)
+    related_result = related_artist['artists']
     artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
     result=artist_track['tracks']
     artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
 
+    #j = 0
+    #for i in result:
+    #    result[j]['name'] = Utils.truncate_string(i['name'],max_length[0])
+    #    result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length[0])
+    #    j = j + 1
+
     j = 0
-    for i in result:
-        result[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        result[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+    for i in related_result:
+        related_result[j]['name'] = Utils.truncate_string(i['name'],max_length[1])
         j = j + 1
 
     content[ 'artist' ] = artist_result
     content[ 'results' ] = result
     content[ 'artist_album' ] = artist_album
-    content[ 'related_artist' ] = related_artist['artists']
+    content[ 'related_artist' ] = related_result
 
     return render( request, 'cwm/artist.html', content )
 

@@ -95,3 +95,12 @@ for(let i = 0;i < scrollElement.length;i++){
     scrollElement[i].scrollLeft += e.deltaY;
     });
 }
+
+const scrollsongtext = document.querySelectorAll("#ScrollText");
+
+for(let i = 0;i < scrollsongtext.length;i++){
+    console.log(i+" : "+scrollsongtext[i])
+    if (scrollsongtext[i].innerHTML.length >= 10){
+        scrollsongtext[i].classList.add("ScrollSongText")
+    }
+};

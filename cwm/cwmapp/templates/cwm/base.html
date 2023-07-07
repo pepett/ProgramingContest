@@ -70,7 +70,7 @@
             <a href="{% url 'setting' %}">
                 <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
             </a>
-            <p class="usernameText">{{ request.user.username }}</p><!-- data.0.user_name -->
+            <p class="usernameText">{{ data.0.username }}</p><!-- data.0.user_name -->
             <a href="{% url 'Logout' %}">ログアウト</a>
         </div>
         {% else %}

@@ -83,17 +83,28 @@
                         <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
                     </div>
                     {% if request.user.email == item.user_mail and request.user.is_authenticated %}
+                    <div class="forms">
+                        <!-- <absolute> -->
                         <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
                             {% csrf_token %}
                             <input type="submit" name="submit" value="削除" class="del-btn">
                         </form>
+                        <!-- </absolute> -->
                         <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
                             {% csrf_token %}
                             <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
                             <input type="submit" name="submit" value="変更">
                         </form>
-                        <input type="button" class="edit-btn" value="編集">
+                        <!-- <absolute> -->
+                        <div class="edit-action">
+                            <input type="button" class="edit-btn" value="編集">
+                        </div>
+                        <!-- </absolute> -->
+                    </div>
                     {% endif %}
+                    <div class="reply">
+                        <a href="" data-comment_id="{{ item.comment_id }}" class="a-reply">返信を見る</a>
+                    </div>
                 </div>
                 <hr>
             {% endfor %}
@@ -102,7 +113,9 @@
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <script>
-    const star_eval = ()=>{
+    const async_star = ()=>{//評価の非同期処理
+        const login = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
+        if( !login ) return;
         for( let i = 0;i < document.getElementsByClassName( 'eval-btn' ).length;i ++ ){
             document.getElementsByClassName( 'eval-btn' )[ i ].addEventListener( 'click', ( e )=>{
                 e.preventDefault();//ページ遷移処理を止める
@@ -127,7 +140,7 @@
             } )
         }
     }
-    const init_star = ( a = '{{ ave_star }}', u = '{{ user_star }}' )=>{
+    const init_star = ( a = '{{ ave_star }}', u = '{{ user_star }}' )=>{//評価の非同期時のDOM操作
         const a_s = a;
         const u_s = u;
         const star_img_green = "<img src='{% static 'img/tmp/star_green.png' %}'>";
@@ -159,11 +172,65 @@
             document.querySelector( '.stars' ).innerHTML += ver_arr[ i ];
         }
         document.querySelector( '.stars' ).innerHTML += `<br><span class="eval-num">みんなの評価:${ a }/5</span>`;
-        setTimeout( star_eval, 1000 );
+        setTimeout( async_star, 1000 );
+    }
+    const view_reply = ( n, res ) => {
+        if( res.len == 0 ){
+            alert( '返信はありません' );
+            return ;
+        }
+        const obj = document.getElementsByClassName( 'reply' )[ n ];
+        document.querySelectorAll( '.a-reply' )[ n ].style.display = 'none';
+        //const nres = JSON.parse( res.contents );
+        for( let i = 0;i < res.len;i ++ ){
+            const container = document.createElement( 'div' );
+            container.setAttribute( 'class', 'rep-container' );
+            const title_container = document.createElement( 'div' );
+            title_container.setAttribute( 'class', 'rep-title-container' );
+            const content_container = document.createElement( 'div' );
+            content_container.setAttribute( 'class', 'rep-content-container' );
+            const rep_name = `<div class="rep-name">${ res.contents[ i ].user_name }</div>`;
+            const rep_image = `<div class="rep-image"><img src="${ res.contents[ i ].user_image }" alt="アイコン" width="50" height="50"></div>`;
+            const rep_good = `<div class="rep-good"><img src="{% static 'img/tmp/good_black.png' %}" alt="good" width="30" height="30"></div>`;
+            const rep_text = `<div class="rep-text">${ res.contents[ i ].reply_text }</div>`;
+            title_container.innerHTML += rep_image + rep_name;
+            content_container.innerHTML += rep_good + rep_text;
+            container.innerHTML += title_container.outerHTML + content_container.outerHTML;
+            obj.appendChild( container );
+        }
+    }
+    const async_view_reply = () => {//返信表示の非同期処理
+        for( let i = 0;i < document.getElementsByClassName( 'reply' ).length;i ++ ){
+            document.querySelectorAll( '.reply > a' )[ i ].addEventListener( 'click', ( e )=>{
+                e.preventDefault();
+                const url = '{% url "view_reply" 0 %}'.replace( '0', document.querySelectorAll( '.reply > a' )[ i ].dataset.comment_id );
+                const data = {
+                    content: '',
+                }
+                fetch( url, {
+                    method: 'POST',
+                    body: `content=${ JSON.stringify( data ) }`,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                } ).then( response => {
+                    return response.json();
+                } ).then( response => {
+                    view_reply( i, response );
+                } ).catch( error => {
+                    console.log( error );
+                } )
+            } );
+        }
     }
     window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
         init_star();
-        document.getElementById( 'id_comment_text' ).placeholder = 'コメント';
+        setTimeout( async_view_reply, 1000 );
+        const flg = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
+        if( flg ){
+            document.getElementById( 'id_comment_text' ).placeholder = 'コメント';
+        }
         const elem = document.getElementById( 'spotify-iframe' );
         const options = {
             width: '95%',
@@ -179,12 +246,14 @@
     }
     for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){
         document.getElementsByClassName( 'menu' )[ i ].addEventListener( 'click', ( e )=>{
-            if( document.getElementsByClassName( 'edit-btn' )[ i ].style.display == 'none' ){
-                document.getElementsByClassName( 'edit-btn' )[ i ].style.display = 'block';
-                document.getElementsByClassName( 'del-btn' )[ i ].style.display = 'block';
+            if( document.getElementsByClassName( 'edit-action' )[ i ].style.display == 'none' ){//edit-action
+                document.getElementsByClassName( 'edit-action' )[ i ].style.display = 'block';
+                document.getElementsByClassName( 'delete-form' )[ i ].style.display = 'block';
+                //document.getElementsByClassName( 'forms' )[ i ].style.display = 'block';
             }else{
-                document.getElementsByClassName( 'edit-btn' )[ i ].style.display = 'none';
-                document.getElementsByClassName( 'del-btn' )[ i ].style.display = 'none';
+                //document.getElementsByClassName( 'forms' )[ i ].style.display = 'none';
+                document.getElementsByClassName( 'edit-action' )[ i ].style.display = 'none';
+                document.getElementsByClassName( 'delete-form' )[ i ].style.display = 'none';
             }
         } );
     }

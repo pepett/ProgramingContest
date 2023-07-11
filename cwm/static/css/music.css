@@ -83,10 +83,10 @@
 .menu {
   margin-left: 340px; }
 
-.edit-btn {
+.edit-action {
   display: none; }
 
-.del-btn {
+.delete-form {
   display: none; }
 
 .kebab {
@@ -191,7 +191,20 @@
       color: white; }
     .main-test .comments .comment-box {
       margin: 5px auto;
-      border-radius: 5px; }
+      border-radius: 5px;
+      position: relative;
+            /* .edit-action{
+                position: absolute;
+                z-index: 1;
+
+            }
+            .delete-form{
+                position: absolute;
+                z-index: 1;
+            }
+            .edit-form{
+              position: absolute;
+            } */ }
       .main-test .comments .comment-box .cmt-top {
         display: flex; }
         .main-test .comments .comment-box .cmt-top .user-name {
@@ -200,6 +213,28 @@
           font-size: 30px;
           margin-top: 5px;
           margin-left: 10px; }
+      .main-test .comments .comment-box .edit-action {
+        position: absolute;
+        z-index: 1;
+        left: 590px;
+        top: 0px; }
+        .main-test .comments .comment-box .edit-action .edit-btn {
+          color: black;
+          background-color: #00DE64;
+          border: none;
+          font-weight: bold;
+          font-size: 16px; }
+      .main-test .comments .comment-box .delete-form {
+        position: absolute;
+        z-index: 1;
+        left: 590px;
+        top: 30px; }
+        .main-test .comments .comment-box .delete-form .del-btn {
+          color: black;
+          background-color: #00DE64;
+          border: none;
+          font-weight: bold;
+          font-size: 16px; }
       .main-test .comments .comment-box .cmt-content {
         display: flex; }
         .main-test .comments .comment-box .cmt-content .good-img {
@@ -237,5 +272,26 @@
       margin: 0 auto;
       width: 55px;
       height: 50px; }
+
+.rep-container {
+  color: white;
+  margin-left: 50px;
+  border-top: 1px solid white;
+  padding-top: 5px; }
+  .rep-container .rep-title-container {
+    display: flex; }
+    .rep-container .rep-title-container .rep-name {
+      font-weight: bold;
+      font-size: 20px;
+      margin-left: 10px;
+      margin-top: 5px; }
+    .rep-container .rep-title-container .rep-image img {
+      border-radius: 50%; }
+  .rep-container .rep-content-container {
+    display: flex; }
+    .rep-container .rep-content-container .rep-good {
+      margin-left: 10px; }
+    .rep-container .rep-content-container .rep-text {
+      margin-left: 10px; }
 
 /*# sourceMappingURL=music.css.map */

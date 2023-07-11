@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star
+from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star, Reply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
 
@@ -427,5 +427,32 @@ def star( request, idn ):#非同期時に行う処理
         content = {
             'ave_star': ave_star,
             'user_star': user_star,
+        }
+    return JsonResponse( content )
+
+def view_reply( request, idn ):
+    if request.POST:
+        length = 0
+        contents = []
+        if Reply.objects.filter( reply_comment_id = idn ).exists():
+            reply = Reply.objects.filter( reply_comment_id = idn )
+            for i in reply:
+                print( i.reply_id )
+                user = CustomUser.objects.get( email = i.reply_user_mail )
+                data = {
+                    'user_name': user.username,
+                    'user_image': user.image.url,
+                    'reply_id': i.reply_id,
+                    'reply_text': i.reply_text,
+                    #'reply_good': i.reply_good,
+                }
+                contents.append( data )
+            #contents = Reply.objects.filter( reply_comment_id = idn )
+            #contents = serializers.serialize("json", )
+            length = Reply.objects.filter( reply_comment_id = idn ).count()
+        content = {
+            'id': idn,
+            'len': length,
+            'contents': contents,
         }
     return JsonResponse( content )

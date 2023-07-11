@@ -39,16 +39,27 @@ class Comment( models.Model ):
     comment_posted = models.DateTimeField( auto_now_add = True )
 
     def __str__( self ):
-        return self.comment_user_mail
+        return str( self.comment_id )
 
-class Result( models.Model ):
+""" class Result( models.Model ):
     result_comment_id = models.IntegerField()
     result_user_mail = models.EmailField()
     result_text = models.TextField()
     result_posted = models.DateTimeField( auto_now_add = True )
 
     def __str__( self ):
-        return self.result_text
+        return self.result_text """
+
+class Reply( models.Model ):
+    reply_id = models.AutoField( primary_key = True )
+    reply_comment_id = models.IntegerField()
+    reply_user_mail = models.EmailField()
+    reply_text = models.TextField()
+    #reply_good = models.IntegerField()#返信のいいね
+    reply_posted = models.DateTimeField( auto_now_add = True )
+
+    def __str__( self ):
+        return self.reply_user_mail
 
 class LikeList( models.Model ):
     like_user_mail = models.EmailField()

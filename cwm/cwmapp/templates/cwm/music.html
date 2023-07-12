@@ -84,17 +84,17 @@
                     </div>
                     {% if request.user.email == item.user_mail and request.user.is_authenticated %}
                     <div class="forms">
+                        <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
+                            {% csrf_token %}
+                            <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
+                            <input type="submit" name="submit" value="変更">
+                        </form>
                         <!-- <absolute> -->
                         <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
                             {% csrf_token %}
                             <input type="submit" name="submit" value="削除" class="del-btn">
                         </form>
                         <!-- </absolute> -->
-                        <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
-                            {% csrf_token %}
-                            <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
-                            <input type="submit" name="submit" value="変更">
-                        </form>
                         <!-- <absolute> -->
                         <div class="edit-action">
                             <input type="button" class="edit-btn" value="編集">
@@ -102,6 +102,15 @@
                         <!-- </absolute> -->
                     </div>
                     {% endif %}
+                    <!-- <replyform> -->
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'create_reply' track_result.id item.comment_id %}" method="post" class="reply-form">
+                            {% csrf_token %}
+                            <textarea name="reply-text" class="reply-text"></textarea>
+                            <input type="submit" value="返信" class="reply-submit">
+                        </form>
+                    {% endif %}
+                    <!-- </replyform> -->
                     <div class="reply">
                         <a href="" data-comment_id="{{ item.comment_id }}" class="a-reply">返信を見る</a>
                     </div>
@@ -192,7 +201,14 @@
             const rep_name = `<div class="rep-name">${ res.contents[ i ].user_name }</div>`;
             const rep_image = `<div class="rep-image"><img src="${ res.contents[ i ].user_image }" alt="アイコン" width="50" height="50"></div>`;
             const rep_good = `<div class="rep-good"><img src="{% static 'img/tmp/good_black.png' %}" alt="good" width="30" height="30"></div>`;
-            const rep_text = `<div class="rep-text">${ res.contents[ i ].reply_text }</div>`;
+            let restext = res.contents[ i ].reply_text;
+            restext = restext.split( /\n/ );
+            let str = '';
+            for( let j = 0;j < restext.length;j ++ ){
+                str += (restext[ j ] + '<br>');
+            }
+            //const rep_text = `<div class="rep-text">${ res.contents[ i ].reply_text + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
+            const rep_text = `<div class="rep-text">${ str + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
             title_container.innerHTML += rep_image + rep_name;
             content_container.innerHTML += rep_good + rep_text;
             container.innerHTML += title_container.outerHTML + content_container.outerHTML;
@@ -244,7 +260,7 @@
         }
         IFrameAPI.createController( elem, options, callback );
     }
-    for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){
+    for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){//ログインしてないとedit-actionがなくてバグる
         document.getElementsByClassName( 'menu' )[ i ].addEventListener( 'click', ( e )=>{
             if( document.getElementsByClassName( 'edit-action' )[ i ].style.display == 'none' ){//edit-action
                 document.getElementsByClassName( 'edit-action' )[ i ].style.display = 'block';

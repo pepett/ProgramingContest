@@ -60,3 +60,22 @@ const play = ( obj, url ) => {
         obj.innerHTML = StopBTimg;
     }
 }
+//textareaの高さ自動設定
+window.addEventListener( 'DOMContentLoaded', () => {
+    const rts = document.querySelectorAll( '.reply-text' );
+    rts.forEach( (rt) => {
+        rt.setAttribute( 'style', `height: ${ rt.scrollHeight / 2 }px;` );
+        rt.addEventListener( 'input', setTextareaHeight );
+    });
+    function setTextareaHeight(){
+        const tmp = this.value
+        if( tmp.split( /\r*\n/ ).length == 1 ){
+            this.style.height = 'auto';
+            this.style.height = `${ this.scrollHeight / 2 }px`;
+            return ;
+        }
+        this.style.height = 'auto';
+        this.style.height = `${ this.scrollHeight }px`;
+    }
+    
+} );

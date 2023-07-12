@@ -403,32 +403,38 @@ def album( request, id ):
 
 def star( request, idn ):#非同期時に行う処理
     if request.POST:
-        data = json.loads( request.POST[ 'star_n' ] )
-        ave_star = 0
-        user_star = 0
+        data = json.loads( request.POST[ 'star_n' ] )#jsonをロード
+        ave_star = 0#平均
+        user_star = 0#ユーザの評価
 
-        if request.user.is_authenticated:
+        if request.user.is_authenticated:#ログイン判定
             #g_s = None
-            if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():
-                g_s = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn )
-                st = data[ 'number' ] + 1
-                g_s.star_num = st
-                g_s.save()
-            else:
-                st = data[ 'number' ] + 1
+            if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():#データの存在確認
+                g_s = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn )#個人の評価
+                st = data[ 'number' ] + 1#jsから送られてきた数値
+                g_s.star_num = st#評価をデータベースに入れる
+                g_s.save()#データベースをセーブ
+            else:#まだ評価していないデータの場合
+                st = data[ 'number' ] + 1#
                 g_s = Star( star_user_mail = request.user.email, star_music_id = idn, star_num = st )
                 g_s.save()
-            user_star = g_s.star_num
-        if Star.objects.filter( star_music_id = idn ).exists():
-            for i in range( Star.objects.filter( star_music_id = idn ).count() ):
-                ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
-            ave_star /= Star.objects.filter( star_music_id = idn ).count()
-            ave_star = Utils.round( ave_star )
+            user_star = g_s.star_num#個人の評価
+        if Star.objects.filter( star_music_id = idn ).exists():#データの存在確認
+            for i in range( Star.objects.filter( star_music_id = idn ).count() ):#音楽に対する評価の件数回まわす
+                ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num#全部加算
+            ave_star /= Star.objects.filter( star_music_id = idn ).count()#平均
+            ave_star = Utils.round( ave_star )#四捨五入
         content = {
             'ave_star': ave_star,
             'user_star': user_star,
         }
-    return JsonResponse( content )
+    return JsonResponse( content )#json形式で返す
+
+def create_reply( request, idn, cid ):
+    if request.POST:
+        r = Reply( reply_comment_id = cid, reply_user_mail = request.user.email, reply_text = request.POST[ 'reply-text' ] )
+        r.save()
+        return redirect( 'mus', idn )
 
 def view_reply( request, idn ):
     if request.POST:
@@ -437,13 +443,13 @@ def view_reply( request, idn ):
         if Reply.objects.filter( reply_comment_id = idn ).exists():
             reply = Reply.objects.filter( reply_comment_id = idn )
             for i in reply:
-                print( i.reply_id )
                 user = CustomUser.objects.get( email = i.reply_user_mail )
                 data = {
                     'user_name': user.username,
                     'user_image': user.image.url,
                     'reply_id': i.reply_id,
                     'reply_text': i.reply_text,
+                    'reply_posted': i.reply_posted,
                     #'reply_good': i.reply_good,
                 }
                 contents.append( data )

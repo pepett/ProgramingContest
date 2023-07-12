@@ -36,12 +36,12 @@ header {
   left: 0; }
 
 footer {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0px;
   left: 0;
   background-color: rgba(0, 222, 100, 0.527);
   width: 100%;
-  z-index: 6; }
+  /* z-index: 6;   */ }
 
 .titletext, .greentext, .registerBT {
   color: #00de64; }

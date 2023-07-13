@@ -88,3 +88,21 @@ function omittedContent(string) {
     //　文字数がオーバーしていなければそのまま返す
     return string;
   }
+
+  const modal = document.querySelector('.js-modal'); // layer要素に付与したjs-modalクラスを取得し変数に格納
+  const modalButton = document.querySelector('#firstdeleteBT'); // button要素に付与した1st_deleteBTクラスを取得し、変数に格納
+  
+  // モーダルボタンをクリックしたときのイベントを登録
+  modalButton.addEventListener('click', () => {
+    modal.classList.add('is-open');
+  });
+
+  const modalClose = document.querySelector('#NotdeleteBT');　// xボタンのjs-close-buttonを取得し変数に格納
+
+  modalButton.addEventListener('click', () => {
+    modal.classList.add('is-open');
+  });
+  
+  modalClose.addEventListener('click', () => { // xボタンをクリックしたときのイベントを登録
+    modal.classList.remove('is-open'); 
+  });

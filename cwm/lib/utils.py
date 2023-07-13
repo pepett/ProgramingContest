@@ -1,7 +1,7 @@
 import re
 import math
 from PIL import Image, ImageDraw, ImageFont
-import random
+import random,string
 
 class Utils:
     @staticmethod
@@ -46,7 +46,7 @@ class Utils:
             return int( n )
     
     @staticmethod
-    def CreateUserImage(text):
+    def CreateUserImage(text,uuid):
 
         img_size = (500,500)
         img_color = (int(random.uniform(100,255)),int(random.uniform(100,255)),int(random.uniform(100,255)))
@@ -68,7 +68,12 @@ class Utils:
         print((x,y))
         draw.text((x,y), text[0], fill=text_color, font=font)
 
-        filename="images/{}.jpg".format(text)
+        filename="images/{}.jpg".format(uuid)
         img.save("media_local/"+filename)
 
         return filename
+    
+    @staticmethod
+    def randomname(n):
+        randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
+        return ''.join(randlst)

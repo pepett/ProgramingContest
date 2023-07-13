@@ -6,8 +6,9 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import PermissionsMixin, BaseUserManager
 
+from lib.utils import Utils
 import datetime
-
+import uuid
 
 class User( models.Model ):
     user_name = models.CharField( max_length = 50 )
@@ -140,10 +141,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         },
     )
     email = models.EmailField(_("email address"), blank=True, primary_key=True)
-    '''userid = models.CharField(
+    userid = models.CharField(
         _( "userid" ),
         max_length=100,
         unique=True,
+        default=uuid.uuid4(),
         help_text=_(
             "この名前は公開されません。"
         ),
@@ -151,7 +153,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         error_messages={
             "msg": _( "fuck!" )
         }
-    )'''
+    )
     image = models.ImageField( upload_to = 'images/' )
     is_staff = models.BooleanField(
         _("staff status"),

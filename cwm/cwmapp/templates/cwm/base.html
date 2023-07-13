@@ -45,7 +45,7 @@
                         <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
                     </form>
                 </div>
-                <a class="Minilink" href="{% url 'index'%}" class="greentext">indexに移動</a>
+                <a class="Minilink" href="{% url 'Logout' %}">ログアウト</a>
             </div>
         </div>
           <!-- ここまで -->
@@ -66,12 +66,12 @@
             </form>
         </div>
         {% if request.user.is_authenticated %}
+        <a class="logoutlink" href="{% url 'Logout' %}">ログアウト</a>
         <div class="Login_userbox">
             <a href="{% url 'setting' %}">
                 <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
             </a>
             <p class="usernameText">{{ data.0.username }}</p><!-- data.0.user_name -->
-            <a href="{% url 'Logout' %}">ログアウト</a>
         </div>
         {% else %}
         <div class="userbox">

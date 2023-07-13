@@ -46,7 +46,7 @@
                             <img src="{% static 'img/users/baseuser.jpg'%}" class="RArtistImage" alt="関連アーティスト画像">
                         {% endif %}
                     </a>
-                        <h3 class="SongNameText"><a href="{% url 'artist' x.id %}">{{ x.name }}</a></h3>
+                        <h3 class="ArtistNameText"><a href="{% url 'artist' x.id %}">{{ x.name }}</a></h3>
                 </div>
                 {% endfor %}
                 {% endif %}

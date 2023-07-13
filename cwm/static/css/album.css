@@ -1,98 +1,168 @@
-.box{
-    /* background-color: aliceblue; */
-    position: sticky;
-    top:0;
-    /*横半分50%　縦を100vhにする*/
-    width: 35%;
-    height: 95vh;
-    /*装飾のためのCSS*/
-    justify-content: center;
-    align-items: center;
-    border: 4px black solid;
-    border-radius: 10px;
-}
-.desc-name{
-    color: white;
-}
-.box2{
-    /* background-color: aqua; */
+main {
+  margin-top: 70px;
+  padding-bottom: 70px;
+  width: 99%;
+  display: flex; }
+
+#box1, #box2 {
+  margin: 0 5px; }
+
+#box1 {
+  width: 30%;
+  height: 450px;
+  display: flex;
+  flex-direction: column; }
+  #box1 p {
+    margin-top: 32px; }
+  #box1 .artist {
     display: flex;
     flex-direction: column;
-    width: 60%;
-    height: 100%;
-    overflow-y: scroll;
-    margin: 0px;
-    white-space: nowrap;
-    border: 4px black solid;
-    border-radius: 10px;
-}
-button{
-    background:none;
-    border: 0px;
-}
-.play-btn img{
-    width: 65px;
-    background: none;
-}
-.track{
-    /* width: 100%;   
+    align-items: center; }
+    #box1 .artist img {
+      margin-top: 10px;
+      width: 60%;
+      height: 60%;
+      border-radius: 5px;
+      border: 2px solid #696969; }
+    #box1 .artist p {
+      margin: 0 10px; }
+  #box1 .RelatedArtist {
+    height: 300px;
     display: flex;
-    border: 2px black solid; */
-    margin: 2px 6px;
-    padding: 10px;
-    background: #2f2d2d;
-    background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
-    border-radius: 10px;
-    border: solid 2px #323232;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    transition: 0.3s;
-}
-.box4{
-    display: flex;
-}
-.main_box{
-    margin-top: 0px;
-    height: 800px;
-    position: relative;/*position stickyの基点にするため relativeをかける*/
-    display: flex;/*左エリア、右エリア横並び指定*/
-    flex-wrap: wrap;/*ボックスの折り返し可*/
-}
-.album-name{
-    font-size: 30px;
-    padding-top: 15px;
-}
+    flex-direction: column;
+    overflow-y: scroll; }
+    #box1 .RelatedArtist .RArtistBox {
+      display: flex;
+      height: 60px;
+      width: 98%;
+      margin: 3px 0;
+      background: #2f2d2d;
+      background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+      border-radius: 10px;
+      border: solid 2px #323232;
+      align-items: center;
+      transition: 0.3s; }
+      #box1 .RelatedArtist .RArtistBox .RArtist {
+        height: 45px;
+        width: 45px; }
+        #box1 .RelatedArtist .RArtistBox .RArtist img {
+          margin: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 2px solid #00DE64; }
+      #box1 .RelatedArtist .RArtistBox .ArtistNameText {
+        margin-left: 10px;
+        font-size: 18px; }
+    #box1 .RelatedArtist .RArtistBox:hover {
+      transform: scale(1.01, 1.01); }
+  #box1 .RelatedArtist::-webkit-scrollbar {
+    display: none; }
 
-main{
-    font-size: 30px;
-    margin-top: 3px;
-}
-@media screen and (max-width: 481px) {
-    .track{
-        width: 100px;
-        margin:30px;
-    }
-    .box{
-        position: initial;
-        width: 100%;
-    }
-    .box2{
-        width: 100%;
-    }
-    main{
-        font-size: 20px;
-    }
-    .album-name{
-        position: relative;
-    }
-    .track{
-        margin: 1px;
-    }
-   .main_box{
-        display: block;
-    }
-    .album-name{
-        position: initial;
-    }
-}
+#box2 {
+  width: 70%; }
+
+.album {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll; }
+
+.albumbox {
+  margin: 2px 6px;
+  padding: 10px;
+  background: #2f2d2d;
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  border-radius: 10px;
+  border: solid 2px #323232;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  transition: 0.3s; }
+  .albumbox .PlaySongBT, .albumbox .StopSongBT {
+    position: initial; }
+  .albumbox .alertbox {
+    position: absolute;
+    padding: 0 5px;
+    right: 0;
+    bottom: 0;
+    background-color: #986868;
+    display: flex;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+    white-space: inherit;
+    opacity: 0;
+    transition: 0.4s; }
+
+.albumbox:hover .alertbox {
+  opacity: 0.9;
+  transform: translateY(-10px); }
+
+.album::-webkit-scrollbar {
+  height: 10px; }
+
+.album::-webkit-scrollbar-track {
+  background-color: none; }
+
+.album::-webkit-scrollbar-thumb {
+  background-color: #696969;
+  border-radius: 10px; }
+
+.artist-flex {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column; }
+
+.album_img {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #696969;
+  border-radius: 5px; }
+
+.AlbumNameBox {
+  width: 100%; }
+  .AlbumNameBox hr {
+    background-color: #696969;
+    width: 100%;
+    height: 2px;
+    border: none; }
+
+.AlbumNameText {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 2px 5px; }
+  .AlbumNameText a {
+    transition: 0.2s;
+    color: #ffffff; }
+  .AlbumNameText a:hover {
+    color: #00DE64; }
+
+.AlbumNameTextMini {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 2px 5px; }
+
+@media screen and (max-width: 1000px) {
+  main {
+    flex-direction: column;
+    padding-bottom: 150px; }
+
+  #box1, #box2 {
+    width: 95%;
+    margin-bottom: 20px; }
+
+  #box1 {
+    height: 80%; }
+    #box1 .RelatedArtist {
+      height: 150px; }
+
+  #box2 {
+    height: 300px;
+    margin-bottom: 30px; } }
+
+/*# sourceMappingURL=album.css.map */

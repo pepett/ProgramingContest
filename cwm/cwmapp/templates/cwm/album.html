@@ -1,35 +1,67 @@
 {% extends "cwm/base.html" %}
 {% load static %}
-{% block title %}artist{% endblock %}
+{% block title %}album{% endblock %}
 {% block content %}
-<br><br>
+<link rel="stylesheet" href="{% static 'css/artist.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
 <link rel="stylesheet" href="{% static 'css/album.css' %}">
 <main>
-    <div class="main_box"> 
-    <div class="box">
-        <img src="{{ album_desc.images.1.url }}" alt="">
-        <h2 class="desc-name">{{ album_desc.name }}</h2>
-        <div class="main_test">
-            <h3><a href="{% url 'artist' album_desc.artists.0.id %}">{{ album_desc.artists.0.name }}</a></h3>
+    <!--ローディング画面ここから-->
+    <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+    <div id="loading">
+        <div class="logo">
+            <img alt="CWM" src="{% static 'img/tmp/logo.png'%}">
+            <span>Connect With Music</span>
+        </div>
+        <div class="fingerprint-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
         </div>
     </div>
-    <div class="box2">
-        {% for i in album_tracks %}
-        <div class="track">
-            <div class="play-btn">
-                <a data-preview="{{ i.preview_url }}" class="preview">
-                    <button type="button">
-                        <img src="{% static 'img/tmp/play_green.png' %}" alt="button">
+    <!--ここまで-->
+    <div id="box1">
+        <div class="artist">
+            {% if artist_album.images.1 %}
+                <img src="{{ artist_album.images.1.url }}" alt="">
+            {% else %}
+                <img src="{% static 'img/users/baseuser.jpg'%}" alt="">
+            {% endif %}
+            <p class="bigtext">{{ artist_album.name }}</p>
+            <p class="bigtext"><a href="{% url 'artist' artist_album.artists.0.id%}">{{artist_album.artists.0.name}}</a></p>
+        </div>
+    </div>
+    <div id="box2">
+        <div class="artist-flex">
+            <p class="bigtext">タイトル</p>
+            <div class="album">
+                {% for i in album_items %}
+                <div class="albumbox">
+                    <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
+                        <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
-                </a>
+                    <div class="AlbumNameBox">
+                        <p class="AlbumNameText"><a href="{% url 'mus' i.id %}">{{ i.name }}</a></p>
+                        <hr>
+                        <p class="AlbumNameTextMini"><a href="{% url 'artist' i.artists.0.id %}">{{ i.artists.0.name }}</a></p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-        <div class="album-name">
-            <a href="{% url 'mus' i.id %}">{{ i.name }}</a>
-        </div>
-    </div>
-        {% endfor %}
         </div>
     </div>
 </main>
-<script src="{% static 'js/album.js' %}" type="module"></script>
+<script type="text/javascript">
+    var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+    var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+</script>
+<script src="{% static 'js/loading.js' %}"></script>
+<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'js/album.js' %}"></script>
 {% endblock %}

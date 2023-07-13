@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import uuid
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -48,7 +49,7 @@ def Logout( request ):
 
 def register( request ):
     if request.POST:
-        img = Utils.CreateUserImage(request.POST['username'])
+        img = Utils.CreateUserImage(request.POST['username'],str(uuid.uuid4()))
         register_form = RegisterForm( request.POST)
         if register_form.is_valid():
             reg = register_form.save()
@@ -87,30 +88,44 @@ def setting( request ):
         "username_form":UsernameForm(),
         "id":None
     }
-    if (request.method == 'POST'):
-        NewUsername = request.POST['NewUsername']
-        print('NewUsername1'+NewUsername)
-        if (request.FILES):
-            if NewUsername:
-                User.update(username = NewUsername)
-                UpdateFileName = NewUsername+os.path.splitext(request.FILES['image'].name)[1]
-                print('UpdateFileName1'+UpdateFileName)
-            else:
-                UpdateFileName = request.user.username+os.path.splitext(request.FILES['image'].name)[1]
-                print('UpdateFileName2'+UpdateFileName)
-            request.FILES['image'].name = UpdateFileName
-            User[0].image.delete()
-            image = UploadImageForm(request.POST,request.FILES)
-            image.save()
-            User.update(image = 'images/'+UpdateFileName)
-
-        elif (request.POST['NewUsername']):
-            UpdateFileName = NewUsername+os.path.splitext(User[0].image.name)[1]
-            print('UpdateFileName3'+UpdateFileName)
-            User.update(username = NewUsername)
 
     MusHistory = HistoryList.objects.filter(history_user_mail = request.user.email)
     MusLiked = LikeList.objects.filter(like_user_mail = request.user.email)
+    CommentData = Comment.objects.filter( comment_user_mail=request.user.email)
+    StarData = Star.objects.filter( star_user_mail = request.user.email)
+    ReplyData = Reply.objects.filter( reply_user_mail = request.user.email)
+
+    if (request.method == 'POST'):
+
+        if 'UserDlt' in request.POST:#ユーザー削除ボタンを押した場合
+            CommentData.delete()#コメントの削除
+            StarData.delete()#つけた★の削除
+            ReplyData.delete()#リプライの削除
+            MusHistory.delete()#履歴の削除
+            MusLiked.delete()#いいねの削除
+            User[0].image.delete()#ユーザーアイコンの削除
+            User.delete()#ユーザーデータの削除
+            return redirect( 'top' )
+
+        elif 'UserSubmit' in request.POST:
+            if (request.FILES):
+                UpdateFileName = User[0].userid+os.path.splitext(request.FILES['image'].name)[1]
+                if (request.POST['NewUsername']):
+                    NewUsername = request.POST['NewUsername']
+                    User.update(username = NewUsername)
+                    #print('UpdateFileName1'+UpdateFileName)
+                else:
+                    print('UpdateFileName2'+UpdateFileName)
+                request.FILES['image'].name = UpdateFileName
+                User[0].image.delete()
+                image = UploadImageForm(request.POST,request.FILES)
+                image.save()
+                User.update(image = 'images/'+UpdateFileName)
+
+            elif(request.POST['NewUsername']):
+                NewUsername = request.POST['NewUsername']
+                User.update(username = NewUsername)
+
 
     max_length = 13
 
@@ -386,19 +401,30 @@ def artist( request, id ):
 
 def album( request, id ):
 
+    artist_album = []
+    album_items = []
     User = False
-
         
+    content = {
+        'artist_album': artist_album,
+        'album_items': album_items,
+        'data':User
+    }
+
     if request.user.is_authenticated:
         User = CustomUser.objects.filter( email = request.user.email )
 
     albums = SPOTIFY.albums( [ id ], market=None )
+    artist_album = albums['albums'][0]
+    album_items = albums['albums'][0]['tracks']['items']
 
-    content = {
-        'album_desc': albums[ 'albums' ][ 0 ],
-        'album_tracks': albums[ 'albums' ][ 0 ][ 'tracks' ][ 'items' ],
-        'data':User
-    }
+    print(artist_album)
+
+
+    content[ 'artist_album' ] = artist_album
+    content[ 'album_items' ] = album_items
+    content[ 'data' ] = User
+
     return render( request, 'cwm/album.html', content )
 
 def star( request, idn ):#非同期時に行う処理

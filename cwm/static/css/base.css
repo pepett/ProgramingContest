@@ -36,12 +36,13 @@ header {
   left: 0; }
 
 footer {
-  /* position: fixed; */
+  display: flex;
+  position: fixed;
   bottom: 0px;
   left: 0;
   background-color: rgba(0, 222, 100, 0.527);
   width: 100%;
-  /* z-index: 6;   */ }
+  z-index: 6; }
 
 .titletext, .greentext, .registerBT {
   color: #00de64; }
@@ -185,6 +186,9 @@ a, .Hideblock {
 .Hideblock {
   display: none; }
 
+.logoutlink {
+  font-weight: bold; }
+
 .humberger {
   height: 100px;
   margin-left: 20px;
@@ -311,6 +315,9 @@ a, .Hideblock {
   header .searchBox {
     display: none; }
   header .usernameText {
+    display: none; }
+
+  .logoutlink {
     display: none; } }
 
 /*# sourceMappingURL=base.css.map */

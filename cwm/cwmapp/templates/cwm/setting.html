@@ -26,6 +26,23 @@
             </div>
         </div>
         <!--ここまで-->
+        <div class="layer js-modal">
+            <div class="modal">
+                <div class="modal__inner">
+                    <div class="modal__contents">
+                        <div class="modal__content">
+                            <p class="warningbigtext">本当にアカウントを削除しますか？</p>
+                            <span class="warningtext">※一度削除したアカウントのデータは復旧する事が出来ません。</span>
+                            <form class="deleteBox" action="{% url 'setting' %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" name="UserDlt" class="deleteBT" id="submit" value="アカウントを削除する">
+                                <button type="button" class="loginBT" id="NotdeleteBT" value="delete">アカウントを削除しない</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="box1">
             <div class="BackDiv">
             <img src="{% static 'img/tmp/back.png' %}" alt="backimage">
@@ -92,7 +109,19 @@
                         {{ username_form.as_div}}
                     </div>
                 </div>
-                <input type="submit" class="loginBT" id="submit" value="変更を確定する">
+                <div id="userpassword">
+                    <p class="bigtext">パスワード変更</p>
+                    <div id="userpasswordBox">
+                        <h3 class="SongNameText"><a href="{% url 'register'%}">パスワードを変更する場合はこちら</a></h3>
+                    </div>
+                </div>
+                <div id="userdelete">
+                    <p class="bigtext">アカウント削除</p>
+                    <div id="userdeleteBox">
+                        <button type="button" class="registerBT" id="firstdeleteBT" value="delete">アカウントを削除する</button>
+                    </div>
+                </div>
+                <input type="submit" name="UserSubmit" class="loginBT" id="submit" value="変更を確定する">
             </form>
         </div>
         <div id="UserHistory">

@@ -92,11 +92,16 @@ main {
 
 .linkbox {
   display: flex;
+  flex-direction: column;
   font-weight: bold;
   font-size: 15px; }
   .linkbox .descText {
+    display: flex;
+    flex-direction: row;
     color: #ffffff;
-    margin: 0 20px 0; }
+    margin: 0 20px 3px; }
+    .linkbox .descText a {
+      margin: 0 10px; }
 
 .SubBTBox {
   margin-top: 30px;

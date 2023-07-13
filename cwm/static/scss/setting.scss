@@ -1,6 +1,7 @@
 @charset "UTF-8";
 $gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
 $greenCL: #00DE64;
+$redCL: #a50000;
 
 main{
 height: 70vh;
@@ -73,6 +74,13 @@ li > label:hover{
   color: $greenCL;
 }
 #UserProFile,#UserHistory{
+  display: none;
+}
+#UserProFile{
+  height: 450px;
+  overflow-y: scroll;
+}
+#UserProFile::-webkit-scrollbar{
   display: none;
 }
 #IconBox{
@@ -155,6 +163,130 @@ li > label:hover{
     background-color: #4e4e4e;
   }
 }
+.warningtext{
+  font-weight: bold;
+  color: #a50000;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}
+.warningbigtext{
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 20px;
+  margin: 0;
+}
+
+#userdelete{
+  margin: 10px 0 50px 0;
+  #userdeleteBox{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.deleteBT{
+  padding: 10px 35px;
+  font-weight: bold;
+  font-size: 15px;
+  color: $redCL;
+  background-color: #000000;
+  border: 2px solid $redCL;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: 0.5s;
+}
+.deleteBT:hover{
+    color: #ffffff;
+    background-color: $redCL;
+    border-radius: 50px;
+    text-decoration: none;
+}
+
+.NotdeleteBT{
+  padding: 10px 35px;
+  font-weight: bold;
+  font-size: 1px;
+  color: $redCL;
+  background-color: #000000;
+  border: 2px solid $redCL;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: 0.5s;
+}
+.NotdeleteBT:hover{
+    color: #ffffff;
+    background-color: $redCL;
+    border-radius: 50px;
+    text-decoration: none;
+}
+
+.layer {
+  background: rgba(0, 0, 0, .2); /* 背景を薄くする */
+  width: 100%;
+  height: 100%;
+  position: fixed; /* 画面に固定するために指定 */
+  top: 0;
+  left: 0;
+  z-index: -1; 
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s;
+}
+
+/* モーダルコンテンツ */
+.modal {
+  position: relative;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50%;
+  min-width: 340px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s;
+}
+
+.modal__inner {
+  .deleteBox{
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    button,input{
+      margin: 0 10px;
+    }
+  }
+  p{
+    display: flex;
+    justify-content: center;
+  }
+  margin-top: 250px;
+  margin-bottom: 125px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  background: #000000;
+  border: solid 1px #5a5a5a;
+  box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.25);/* モーダルにシャドウをかける */
+  border-radius: 13px; /* モーダルの角を丸める */
+  display: flex;
+  padding: 21px 8px 21px;
+  height: auto;
+  justify-content: center;
+}
+.layer.is-open {
+  z-index: 999;
+  opacity: 1;
+  visibility: visible;
+}
+
+.layer.is-open .modal{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-10px);
+}
+
 @media screen and (max-width: 1000px) {
   main{
     flex-direction: column;
@@ -198,5 +330,13 @@ li > label:hover{
   }
   li > label{
     font-size: 20px;
+  }
+  .modal__inner {
+    .deleteBox{
+      flex-direction: column;
+      button{
+        margin: 10px 0;
+      }
+    }
   }
 }

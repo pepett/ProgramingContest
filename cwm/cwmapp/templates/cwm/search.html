@@ -1,6 +1,6 @@
 {% extends "cwm/base.html" %}
 
-{% block title %}トップページ{% endblock %}
+{% block title %}曲を検索{% endblock %}
 {% block content %}
 
 <main>
@@ -18,4 +18,9 @@
         </div>
     </form>
 </main>
+<script>
+    document.querySelector( '.search-input' ).addEventListener( 'keyup', ( e ) => {
+        console.log( e.target.value )
+    } );
+</script>
 {% endblock %}

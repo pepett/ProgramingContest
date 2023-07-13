@@ -106,7 +106,7 @@
                     {% if request.user.is_authenticated %}
                         <form action="{% url 'create_reply' track_result.id item.comment_id %}" method="post" class="reply-form">
                             {% csrf_token %}
-                            <textarea name="reply-text" class="reply-text"></textarea>
+                            <textarea name="reply-text" class="reply-text" placeholder="返信を入力..."></textarea>
                             <input type="submit" value="返信" class="reply-submit">
                         </form>
                     {% endif %}

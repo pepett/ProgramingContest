@@ -229,9 +229,44 @@ def index( request ):
     results = SPOTIFY.playlist_tracks(Playlist_uri)['items']
     final_result = results[:10]
 
-    lz_uri2 = 'spotify:artist:1snhtMLeb2DYoMOcVbb8iB'
-    results2 = SPOTIFY.artist_top_tracks(lz_uri2)
-    final_result2=results2['tracks']
+    eval_tracks = Star.objects.order_by( 'star_num' ).reverse()#評価がついてる曲を取得
+    eval_track = []#評価がついてる曲(かぶりなし)
+    stars = []#評価を格納
+    #stars_id = []
+    for i in eval_tracks:
+        eval_track.append( i.star_music_id )
+    eval_track = list( set( eval_track ) )
+    for i in eval_track:
+        if Star.objects.filter( star_music_id = i ).exists():
+            st = Star.objects.filter( star_music_id = i )
+            ave = 0
+            for j in st:
+                ave += j.star_num
+            ave /= st.count()
+            ave = Utils.round( ave )
+            #stars_id.append( i )
+            
+            stars.append( {
+                'star': ave,
+                'track': SPOTIFY.track( i, market=None ),
+            } )
+    #print( sorted( stars, key = lambda x: x[ 'star' ], reverse = True ) )
+    '''for i in range( len( stars ) ):
+        print( SPOTIFY.track( stars_id[ i ], market=None )[ 'name' ] + str(stars[ i ]) )
+        tmp = {
+            'star': stars[ i ],
+            'track': SPOTIFY.track( stars_id[ i ], market=None ),
+        }
+        stars[ i ] = tmp
+
+    print( stars[ 0 ][ 'track' ][ 'name' ] )
+    
+    '''
+    
+    #lz_uri2 = 'spotify:artist:1snhtMLeb2DYoMOcVbb8iB'
+    #results2 = SPOTIFY.artist_top_tracks(lz_uri2)
+    #final_result2=results2['tracks']
+    final_result2 = sorted( stars, key = lambda x: x[ 'star' ], reverse = True )
 
     lz_uri3 = 'spotify:artist:5Vo1hnCRmCM6M4thZCInCj'
     results3 = SPOTIFY.artist_top_tracks(lz_uri3)

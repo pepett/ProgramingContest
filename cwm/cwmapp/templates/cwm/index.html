@@ -41,19 +41,19 @@
             {% endfor %}
             {% endif %}
         </div>
-        <p class="bigtext">一覧ページ2</p>
+        <p class="bigtext">評価が高い曲</p>
         <div id="trackbox" class="toprank">
             {% if results2 %}
             {% for y in results2 %}
             <div class="songbox">
-            <button class="PlaySongBT" type="button" value="{{ y.preview_url }}" onclick="PlayMusic('{{ y.preview_url }}',this);">
+            <button class="PlaySongBT" type="button" value="{{ y.track.preview_url }}" onclick="PlayMusic('{{ y.track.preview_url }}',this);">
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
-            <a href="{% url 'mus' y.id %}">
-                <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
+            <a href="{% url 'mus' y.track.id %}">
+                <img class="music_img" src="{{y.track.album.images.0.url}}" width="150" height="150" class="" alt="">
             </a>
-                <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
-                <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
+                <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' y.track.id %}">{{y.track.name}}</a></h3>
+                <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' y.track.artists.0.id %}">{{y.track.artists.0.name}}</a></h3>
         </div>
         {% endfor %}
         {% endif %}

@@ -127,23 +127,8 @@ def setting( request ):
                 NewUsername = request.POST['NewUsername']
                 User.update(username = NewUsername)
 
-
-    max_length = 13
-
     Historyresult = ResetMus.setHistory(request)
     Likeresult = ResetMus.setLiked(request)
-
-    j = 0
-    for i in Likeresult:
-        Likeresult[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        Likeresult[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
-        j = j + 1
-
-    j = 0
-    for i in Historyresult:
-        Historyresult[j]['name'] = Utils.truncate_string(i['name'],max_length)
-        Historyresult[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
-        j = j + 1
 
     content['results'] = Likeresult[:30]
     content['results2'] = Historyresult[:30]

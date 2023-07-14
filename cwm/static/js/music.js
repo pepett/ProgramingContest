@@ -31,7 +31,8 @@ const correct = () => {
 
 for( let i = 0;i < document.getElementsByClassName( 'edit-btn' ).length;i ++ ){
     document.getElementsByClassName( 'edit-btn' )[ i ].addEventListener( 'click', ( e ) => {
-        const obj = document.getElementsByClassName( 'edit-form' )[ i ];
+        const obj = document.getElementsByClassName( 'edit-form' )[i];
+        console.log(i);
         if( obj.style.display == 'none' ){
             obj.style.display = 'block';
             e.target.value = 'キャンセル';

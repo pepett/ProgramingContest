@@ -3,19 +3,27 @@ $gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%,
 $gradationBG2: linear-gradient(180deg, rgb(30, 30, 30) 0%, rgb(21, 21, 21) 48%, rgb(12, 12, 12) 100%);
 $greenCL: #00DE64;
 body{
+  position: relative;
   background: $gradationBG;
   height: 100%;
+  z-index: -2;
 }
 main{
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
+  z-index: -2;
 }
 .box1{
+  position: relative;
   margin: 70px auto 130px auto;
   width: 45%;
+  z-index: -2;
 }
 #RegForm{
+  position: relative;
+  z-index: -2;
   background: $gradationBG2;
   width: 100%;
   align-items: center;
@@ -34,7 +42,7 @@ main{
       color: #ffffff;
       font-weight: bold;
       font-size: 30px;
-      margin: 20px 0 5px;
+      margin: 20px 0;
     }
     .UploadBox{
       display: flex;

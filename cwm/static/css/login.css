@@ -1,18 +1,26 @@
 @charset "UTF-8";
 body {
+  position: relative;
   background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
-  height: 100%; }
+  height: 100%;
+  z-index: -2; }
 
 main {
+  position: relative;
   display: flex;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  z-index: -2; }
 
 .box1 {
+  position: relative;
   margin: 70px auto 130px auto;
-  width: 45%; }
+  width: 45%;
+  z-index: -2; }
 
 #RegForm {
+  position: relative;
+  z-index: -2;
   background: linear-gradient(180deg, #1e1e1e 0%, #151515 48%, #0c0c0c 100%);
   width: 100%;
   align-items: center;
@@ -30,7 +38,7 @@ main {
       color: #ffffff;
       font-weight: bold;
       font-size: 30px;
-      margin: 20px 0 5px; }
+      margin: 20px 0; }
     #RegForm .FormBox .UploadBox {
       display: flex;
       justify-content: center; }

@@ -74,28 +74,20 @@
   opacity: 0;
   visibility: hidden; }
 
-* {
-  margin: 0; }
+.cmt-user {
+  display: flex; }
 
 /*
-    ケバブメニュー
+ケバブメニュー
 */
-.menu {
-  margin-left: 340px; }
-
-.edit-action {
-  display: none; }
-
-.delete-form {
-  display: none; }
-
 .kebab {
   display: inline-block;
   background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
   position: relative;
   width: 35px;
   height: 30px;
-  margin-top: 5px; }
+  margin-top: 5px;
+  margin-right: 10px; }
 
 .kebab-ball {
   display: block;
@@ -131,13 +123,26 @@
   color: white;
   background-color: transparent;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bold; }
+  font-weight: bold;
+  transition: 0.4s;
+  border-bottom: 2px solid #646464; }
 .reply-form .reply-text:focus {
   outline: none;
   border-bottom: 2px solid #00DE64; }
 .reply-form .reply-text::placeholder {
   color: white;
   font-family: 'Courier New', Courier, monospace; }
+.reply-form .reply-box2 {
+  display: flex;
+  justify-content: flex-end; }
+  .reply-form .reply-box2 .reply-submit {
+    margin: 5px 0 10px 0;
+    padding: 5px 30px;
+    background: #343434;
+    font-weight: bold;
+    border: 2px solid #00DE64;
+    border-radius: 10px;
+    color: #00DE64; }
 
 .eval {
   color: white;
@@ -183,79 +188,63 @@
     width: 100%;
     text-align: center;
     /*.comment-list{
-        background: white;
-        .user-name{
-            font-weight: bold;
-            font-size: 50px;
-        }
+      background: white;
+      .user-name{
+        font-weight: bold;
+        font-size: 50px;
+      }
     }*/ }
-    .main-test .comments #id_comment_text {
-      width: 90%;
-      resize: none;
-      font-size: 20px;
-      height: 70px;
-      border-radius: 20px;
-      text-align: center;
-      padding: 50px 0 0 0; }
-    .main-test .comments #id_comment_text:focus {
-      outline: none; }
-    .main-test .comments .create-submit {
-      margin: 1px 35px 0 0;
-      padding: 5px 30px;
-      background-color: #00DE64;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px; }
-    .main-test .comments .create-cmnt {
-      text-align: right; }
+    .main-test .comments #create {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      .main-test .comments #create .create-cmnt-box {
+        width: 90%; }
+        .main-test .comments #create .create-cmnt-box #id_comment_text {
+          width: 100%;
+          resize: none;
+          font-size: 20px;
+          height: 70px;
+          border-radius: 20px;
+          text-align: center;
+          padding: 50px 0 0 0; }
+        .main-test .comments #create .create-cmnt-box #id_comment_text:focus {
+          outline: none; }
+        .main-test .comments #create .create-cmnt-box .create-cmnt {
+          text-align: right; }
     .main-test .comments #c-title {
       color: white; }
     .main-test .comments .comment-box {
+      width: 90%;
       margin: 5px auto;
       border-radius: 5px;
-      position: relative;
-            /* .edit-action{
-                position: absolute;
-                z-index: 1;
-
-            }
-            .delete-form{
-                position: absolute;
-                z-index: 1;
-            }
-            .edit-form{
-              position: absolute;
-            } */ }
+      position: relative; }
       .main-test .comments .comment-box .cmt-top {
-        display: flex; }
+        display: flex;
+        justify-content: space-between; }
         .main-test .comments .comment-box .cmt-top .user-name {
           color: white;
           font-weight: bold;
           font-size: 30px;
           margin-top: 5px;
           margin-left: 10px; }
-      .main-test .comments .comment-box .edit-action {
+      .main-test .comments .comment-box .cmt-edit {
         position: absolute;
-        z-index: 1;
-        left: 590px;
-        top: 0px; }
-        .main-test .comments .comment-box .edit-action .edit-btn {
-          color: black;
-          background-color: #00DE64;
-          border: none;
-          font-weight: bold;
-          font-size: 16px; }
-      .main-test .comments .comment-box .delete-form {
-        position: absolute;
-        z-index: 1;
-        left: 590px;
-        top: 30px; }
-        .main-test .comments .comment-box .delete-form .del-btn {
-          color: black;
-          background-color: #00DE64;
-          border: none;
-          font-weight: bold;
-          font-size: 16px; }
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+        background: #393939;
+        transition: 0.4s;
+        top: 0;
+        right: 40px;
+        padding: 10px 2px;
+        border-radius: 10px;
+        visibility: hidden;
+        opacity: 0; }
+      .main-test .comments .comment-box .cmt-edit-on {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-10px); }
       .main-test .comments .comment-box .cmt-content {
         display: flex; }
         .main-test .comments .comment-box .cmt-content .good-img {
@@ -263,7 +252,6 @@
           margin-top: 10px; }
         .main-test .comments .comment-box .cmt-content .comment-text {
           margin-left: 10px;
-          margin-top: 10px;
           text-align: left;
           color: white;
           border-radius: 5px; }
@@ -294,6 +282,41 @@
       width: 55px;
       height: 50px; }
 
+.del-btn, .edit-btn {
+  font-weight: bold;
+  background: none;
+  border-radius: 1px;
+  margin: 5px 0;
+  color: #e0e0e0;
+  border: none;
+  width: 100%; }
+
+.del-btn:hover, .edit-btn:hover {
+  color: #ffffff;
+  transform: scale(2px); }
+
+.change-btn {
+  font-weight: bold;
+  background: #393939;
+  border-radius: 1px;
+  margin: 5px 0;
+  color: #00DE64;
+  border: none;
+  padding: 3px 10px;
+  transition: 0.4s; }
+
+.change-btn:hover {
+  color: #ffffff;
+  transform: scale(2px); }
+
+.edit_textarea {
+  max-width: 90%;
+  min-width: 30%;
+  color: #ffffff;
+  font-size: 15px;
+  background-color: #343434;
+  border: none; }
+
 .rep-container {
   color: white;
   margin-left: 50px;
@@ -315,5 +338,10 @@
     .rep-container .rep-content-container .rep-text {
       text-align: left;
       margin-left: 10px; }
+
+@media screen and (max-width: 1000px) {
+  .music-main {
+    display: flex;
+    flex-direction: column; } }
 
 /*# sourceMappingURL=music.css.map */

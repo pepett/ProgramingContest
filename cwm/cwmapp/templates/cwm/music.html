@@ -55,9 +55,11 @@
         {% if request.user.is_authenticated %}
             <form action="{% url 'create' track_result.id %}" method="post" id="create">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <div class="create-cmnt">
-                    <input type="submit" name="submit" value="投稿" class="create-submit">
+                <div class="create-cmnt-box">
+                    <textarea name="comment_text" cols="40" rows="10" required="" id="id_comment_text" placeholder="コメント"></textarea>
+                    <div class="create-cmnt">
+                        <input type="submit" name="submit" value="投稿" class="loginBT">
+                    </div>
                 </div>
             </form>
         {% endif %}
@@ -66,8 +68,10 @@
             {% for item in model %}
                 <div class="comment-box">
                     <div class="cmt-top">
-                        <img src="{{ item.user_image.url }}" alt="ユーザの画像" width="50" height="50" style="border-radius: 50%;">
-                        <div class="user-name">{{ item.user_name }}</div>
+                        <div class="cmt-user">
+                            <img src="{{ item.user_image.url }}" alt="ユーザの画像" width="50" height="50" style="border-radius: 50%;">
+                            <div class="user-name">{{ item.user_name }}</div>
+                        </div>
                         <div class="menu">
                             <span class="kebab">
                                 <span class="kebab-ball"></span>
@@ -86,18 +90,17 @@
                     <div class="forms">
                         <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
                             {% csrf_token %}
-                            <textarea name="edit_content" cols="30" rows="10">{{ item.comment_text }}</textarea>
-                            <input type="submit" name="submit" value="変更">
+                            <textarea name="edit_content" cols="30" rows="10" class="edit_textarea">{{ item.comment_text }}</textarea>
+                            <input type="submit" name="submit" value="変更" class="change-btn">
                         </form>
-                        <!-- <absolute> -->
-                        <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
-                            {% csrf_token %}
-                            <input type="submit" name="submit" value="削除" class="del-btn">
-                        </form>
-                        <!-- </absolute> -->
-                        <!-- <absolute> -->
-                        <div class="edit-action">
-                            <input type="button" class="edit-btn" value="編集">
+                        <div class="cmt-edit">
+                            <form action="{% url 'delete' track_result.id item.comment_id %}" method="post" class="delete-form">
+                                {% csrf_token %}
+                                <input type="submit" name="submit" value="削除" class="del-btn">
+                            </form>
+                            <div class="edit-action">
+                                <input type="button" class="edit-btn" value="編集">
+                            </div>
                         </div>
                         <!-- </absolute> -->
                     </div>
@@ -106,8 +109,12 @@
                     {% if request.user.is_authenticated %}
                         <form action="{% url 'create_reply' track_result.id item.comment_id %}" method="post" class="reply-form">
                             {% csrf_token %}
-                            <textarea name="reply-text" class="reply-text" placeholder="返信を入力..."></textarea>
-                            <input type="submit" value="返信" class="reply-submit">
+                            <div class="reply-box">
+                                <textarea name="reply-text" class="reply-text" placeholder="返信を入力..."></textarea>
+                            </div>
+                            <div class="reply-box2">
+                                <input type="submit" value="返信" class="reply-submit">
+                            </div>
                         </form>
                     {% endif %}
                     <!-- </replyform> -->
@@ -262,16 +269,12 @@
     }
     for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){//ログインしてないとedit-actionがなくてバグる
         document.getElementsByClassName( 'menu' )[ i ].addEventListener( 'click', ( e )=>{
-            if( document.getElementsByClassName( 'edit-action' )[ i ].style.display == 'none' ){//edit-action
-                document.getElementsByClassName( 'edit-action' )[ i ].style.display = 'block';
-                document.getElementsByClassName( 'delete-form' )[ i ].style.display = 'block';
-                //document.getElementsByClassName( 'forms' )[ i ].style.display = 'block';
+            if (document.getElementsByClassName('cmt-edit')[i].className == 'cmt-edit cmt-edit-on'){
+                document.getElementsByClassName('cmt-edit')[i].className = 'cmt-edit';
             }else{
-                //document.getElementsByClassName( 'forms' )[ i ].style.display = 'none';
-                document.getElementsByClassName( 'edit-action' )[ i ].style.display = 'none';
-                document.getElementsByClassName( 'delete-form' )[ i ].style.display = 'none';
+                document.getElementsByClassName('cmt-edit')[i].classList.add('cmt-edit-on');
             }
-        } );
+        });
     }
 </script>
 <script src="{% static 'js/music.js' %}"></script>

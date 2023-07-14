@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
+from lib.model_conect import ResetMus
 from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star, Reply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
@@ -129,33 +130,8 @@ def setting( request ):
 
     max_length = 13
 
-    for i in range(MusHistory.count()):
-        for j in range(MusHistory.count())[i + 1:]:
-            if MusHistory[i].history_music_id == MusHistory[j].history_music_id:
-                print('MusHistory:'+str(i)+':'+str(j))
-                print('history_music_id:'+MusHistory[i].history_music_id+':'+MusHistory[j].history_music_id)
-                MusHistory[i].delete()
-                break
-
-    for i in range(MusLiked.count()):
-        for j in range(MusLiked.count())[i + 1:]:
-            if MusLiked[i].like_music_id == MusLiked[j].like_music_id:
-                print('MusLiked:'+str(i)+':'+str(j))
-                print('like_music_id:'+MusLiked[i].like_music_id+':'+MusLiked[j].like_music_id)
-                MusLiked[i].delete()
-
-    for i in MusHistory:
-        x = SPOTIFY.track(i.history_music_id)
-        Historyresult.append(x)
-
-    Historyresult.reverse()
-
-    for i in MusLiked:
-        x = SPOTIFY.track(i.like_music_id)
-        Likeresult.append(x)
-
-    Likeresult.reverse()
-
+    Historyresult = ResetMus.setHistory(request)
+    Likeresult = ResetMus.setLiked(request)
 
     j = 0
     for i in Likeresult:
@@ -353,6 +329,7 @@ def music( request, idn ):
         content[ 'data' ] = User
         MusHistory = HistoryList(history_user_mail = request.user.email,history_music_id = idn)
         MusHistory.save()
+        ResetMus.setHistory(request)
 
     if Comment.objects.filter( comment_music_id=idn ).exists():
         content[ 'is_comment' ] = True
@@ -523,3 +500,17 @@ def view_reply( request, idn ):
             'contents': contents,
         }
     return JsonResponse( content )
+
+def changepassword( request):
+    User = False
+
+    if not request.user.is_authenticated:
+        return redirect(Login)
+    else:
+        User = CustomUser.objects.filter( email = request.user.email )
+    
+    content = {
+        'data':User
+    }
+
+    return render( request, 'cwm/changepassword.html', content )

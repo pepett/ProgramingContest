@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from lib.model_conect import ResetMus
@@ -494,13 +495,27 @@ def view_reply( request, idn ):
     return JsonResponse( content )
 
 def changepassword( request):
+    
     User = False
 
-    if not request.user.is_authenticated:
-        return redirect(Login)
-    else:
+    if request.user.is_authenticated:
         User = CustomUser.objects.filter( email = request.user.email )
-    
+    else:
+        return redirect( 'Login' )
+
+    if request.method == 'POST':
+            if 'oldpassword' in request.POST and 'newpassword' in request.POST:
+                OldPassword = request.POST['oldpassword']
+                NewPassword = request.POST['newpassword']
+                useremail = request.user.email
+                if check_password(OldPassword,User[0].password):
+                    User.update(password = make_password(NewPassword))
+                    User = authenticate( request, email=useremail, password=NewPassword)
+                    if User is not None:
+                        login( request, User )
+                        return redirect( 'setting' )
+                    else:
+                        return redirect( 'top' )
     content = {
         'data':User
     }

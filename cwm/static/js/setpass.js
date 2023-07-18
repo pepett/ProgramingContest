@@ -12,7 +12,7 @@ SetNewPass();
 
 let flg = 0;
 
-minval = 8;
+minval = 6;
 mintext = '文字数が'+minval+'文字以下です。';
 notsametext = 'パスワードが一致していません。';
 sametext2 = '現在のパスワードと新しいパスワードが同じです。'

@@ -170,6 +170,13 @@ $greenCL: #00DE64;
         border: 2px solid $greenCL;
         border-radius: 10px;
         color: $greenCL;
+        transition: 0.4s;
+      }
+      .replyBT_off{
+        background-color: #e0e0e0;
+        border: 2px solid #e0e0e0;
+        color: #343434;
+        opacity: 0.8;
       }
     }
   }

@@ -80,3 +80,15 @@ window.addEventListener( 'DOMContentLoaded', () => {
     }
     
 } );
+
+for(let i = 0;i < document.getElementsByClassName('reply-text').length;i++){
+    document.getElementsByClassName('reply-text')[i].addEventListener("keyup", (e) =>{
+        if (document.getElementsByClassName('reply-text')[i].value == ""){
+            document.getElementsByClassName('reply-submit')[i].classList.add('replyBT_off');
+            document.getElementsByClassName('reply-submit')[i].disabled = true;
+        }else{
+            document.getElementsByClassName('reply-submit')[i].classList.remove('replyBT_off');
+            document.getElementsByClassName('reply-submit')[i].disabled = false;
+        }
+    });
+}

@@ -47,7 +47,7 @@
         </div>
         <div class="tags">
             {% for t in tags %}
-                <span class="t">#{{ t }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="t"><a href="{% url 'result' %}?search-music={{ t.tag_name }}">#{{ t.tag_name }}</a>({{ t.tag_num }})&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {% endfor %}
         </div>
     </div>

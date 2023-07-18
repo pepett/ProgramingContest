@@ -2,6 +2,7 @@ import os
 import re
 import json
 import uuid
+import pprint
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -141,13 +142,16 @@ def result( request ):
         return redirect( 'search' )
     res = Comment.objects.filter( comment_text__regex = request.GET[ 'search-music' ] )
     ctracks = []
-    for i in res:
+    nres = list( { nr.comment_music_id: nr for nr in res }.values() )#検索に引っかかる時に同じ曲が出ないようにする
+    #print( nres )
+    #print( res[ 0 ].comment_music_id )
+    #重複をなくしたい
+    for i in nres:
         t = {
             'c_music': SPOTIFY.track( i.comment_music_id, market=None ),
             'c_text': i.comment_text
         }
         ctracks.append( t )
-
     li = 10
     results_track = SPOTIFY.search( request.GET['search-music'], limit=li, offset=0, type='track,album,artist', market=None )
     for i in range( li ):
@@ -334,8 +338,11 @@ def music( request, idn ):
             }
             mdl.append( tmp )
         
-        tags = Utils.del_duplicate( tags, False )
-        content[ 'tags' ] = tags
+        #tags = Utils.del_duplicate( tags, False )
+        data = Utils.n_dup( tags )
+        print( data[ 0 ][ 'tag_name' ] )
+        
+        content[ 'tags' ] = data
         content[ 'comments' ] = comments
         content[ 'users' ] = users
     return render( request, 'cwm/music.html', content )
@@ -375,7 +382,7 @@ def artist( request, id ):
     related_artist = SPOTIFY.artist_related_artists(id)
     related_result = related_artist['artists']
     artist_track = SPOTIFY.artist_top_tracks( id, country='JP' )
-    result=artist_track['tracks']
+    result = artist_track['tracks']
     artist_album = SPOTIFY.artist_albums(id, album_type=None, country='JP', limit=50, offset=0)
 
     #j = 0

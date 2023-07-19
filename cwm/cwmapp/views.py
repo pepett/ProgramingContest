@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from lib.model_conect import ResetMus
-from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star, Reply
+from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star, Good ,Reply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
 
@@ -285,6 +285,8 @@ def edit( request, idn, cid ):
 def music( request, idn ):
     ave_star = 0
     user_star = 0
+    user_good = False
+    sum_good = 0
     if Star.objects.filter( star_music_id = idn ).exists():
         for i in range( Star.objects.filter( star_music_id = idn ).count() ):
             ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
@@ -293,7 +295,11 @@ def music( request, idn ):
     if request.user.is_authenticated:
         if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():
             user_star = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn ).star_num
-    
+        if Good.objects.filter( good_music_id = idn, good_user_mail = request.user.email ).exists():
+            user_good = Good.objects.get(good_music_id = idn, good_user_mail = request.user.email).good_num
+            for i in Good.objects.filter(good_music_id = idn):
+                sum_good = Good(good_user_mail = request.user.email, good_music_id = idn )
+
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
@@ -312,6 +318,8 @@ def music( request, idn ):
         'is_comment': False,
         'ave_star': ave_star,
         'user_star': user_star,
+        'user_good': user_good,
+        'sum_good': sum_good,
     }
 
     if request.user.is_authenticated:
@@ -461,6 +469,41 @@ def star( request, idn ):#非同期時に行う処理
         }
     return JsonResponse( content )#json形式で返す
 
+def good( request, idn ):#非同期時に行う処理
+    if request.POST:
+        # data = json.loads( request.POST[ 'good-n' ] )
+        sums_good = 0
+        user_good = 0
+
+    if request.user.is_authenticated:
+        if Good.objects.filter( good_user_mail = request.user.email, good_music_id = idn ).exists():#データがある場合の処理
+            good = Good.objects.get( good_user_mail = request.user.email, good_music_id = idn )#取得
+            good.good_num = not good.good_num
+            good.sum_good -= 1
+            good.save()
+            sums_good = good.sum_good
+        else:#データが未登録の場合
+            good = Good(good_user_mail = request.user.email, good_music_id = idn , good_num = True)#作成
+            good.sum_good += 2 
+            user_good += 1
+            good.save()
+            sums_good = good.sum_good
+        
+
+        for i in Good.objects.filter(good_music_id = idn):
+            if i.good_num:
+                good.sum_good += 2
+                user_good += 1
+                good.save()
+        sums_good = good.sum_good
+    
+        content = {
+            'sums_good': sums_good,
+            'user_good':user_good,
+        }
+        print(sums_good)
+        return JsonResponse( content ) 
+    
 def create_reply( request, idn, cid ):
     if request.POST:
         r = Reply( reply_comment_id = cid, reply_user_mail = request.user.email, reply_text = request.POST[ 'reply-text' ] )

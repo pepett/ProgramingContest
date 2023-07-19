@@ -85,6 +85,16 @@ class Star( models.Model ):
             models.UniqueConstraint( fields=[ 'star_user_mail', 'star_music_id' ], name='unique_star' )
         ]
 
+class Good( models.Model ):
+    good_user_mail = models.EmailField()
+    good_music_id = models.TextField()
+    good_num = models.BooleanField(default=False)
+    sum_good = models.IntegerField()
+    class Meta:
+        constraints = [
+            models.UniqueConstraint( fields=[ 'good_user_mail', 'good_music_id' ], name='unique_good' )
+        ]
+
 class UserManager( BaseUserManager ):
     use_in_migrations = True
   

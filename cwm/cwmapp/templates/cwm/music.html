@@ -30,8 +30,7 @@
         <div class="likes">
             <div class="stars">
             </div>
-            <div class="like">
-                <span class="eval">いいね：</span><img src="{% static 'img/tmp/heart_black.png' %}" style="margin-left: 5px;" width="30" height="30">
+            <div class="good">
             </div>
         </div>
         <div class="album-name">
@@ -190,6 +189,48 @@
         document.querySelector( '.stars' ).innerHTML += `<br><span class="eval-num">みんなの評価:${ a }/5</span>`;
         setTimeout( async_star, 1000 );
     }
+    const good_eval = () => {
+    document.getElementById('good-btn').addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent page navigation
+      const url = '{% url "good" track_result.id %}';
+      const data = {
+        number: ""
+      };
+      fetch(url, {
+          method: 'POST',
+          body: `good_n=${JSON.stringify(data)}`,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'X-CSRFToken': '{{ csrf_token }}',
+          },
+        }).then(response => {
+          return response.json();
+        }).then(response => {
+          init_good(response.sums_good,response.user_good);
+        }).catch(error => {
+          console.log(error);
+        });
+    });
+  }
+
+const init_good = ( u = '{{sums_good}}', b = '{{user_good}}') => {
+  const good_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>";
+  const good_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>";
+  let ver = new Array( 2 );
+  let button = document.createElement('span');
+    button.setAttribute('id', 'good-btn',);
+        if ( b == 1){
+            button.innerHTML = good_img_green;
+            ver[1] = button.outerHTML;
+        }else{
+            button.innerHTML = good_img_black;
+            ver[1] = button.outerHTML;
+        }
+        document.querySelector( '.good' ).innerHTML = ver[ 1 ];
+        document.querySelector( '.good' ).innerHTML +=`<br>みんなの評価:${ u }`;
+        setTimeout( good_eval, 1000 );
+        console.log(b)
+}
     const view_reply = ( n, res ) => {
         if( res.len == 0 ){
             alert( '返信はありません' );
@@ -249,6 +290,7 @@
     }
     window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
         init_star();
+        init_good();
         setTimeout( async_view_reply, 1000 );
         const flg = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
         if( flg ){

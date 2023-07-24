@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
-from lib.model_conect import ResetMus
+from lib.model_conect import ModelMus
 from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star, Good ,Reply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
@@ -129,8 +129,8 @@ def setting( request ):
                 NewUsername = request.POST['NewUsername']
                 User.update(username = NewUsername)
 
-    Historyresult = ResetMus.setHistory(request)
-    Likeresult = ResetMus.setLiked(request)
+    Historyresult = ModelMus.setHistory(request)
+    Likeresult = ModelMus.setLiked(request)
 
     content['results'] = Likeresult[:30]
     content['results2'] = Historyresult[:30]
@@ -327,7 +327,7 @@ def music( request, idn ):
         content[ 'data' ] = User
         MusHistory = HistoryList(history_user_mail = request.user.email,history_music_id = idn)
         MusHistory.save()
-        ResetMus.setHistory(request)
+        ModelMus.setHistory(request)
 
     if Comment.objects.filter( comment_music_id=idn ).exists():
         content[ 'is_comment' ] = True
@@ -470,29 +470,43 @@ def star( request, idn ):#非同期時に行う処理
     return JsonResponse( content )#json形式で返す
 
 def good( request, idn ):#非同期時に行う処理
+
+    Is_Good = False
+    
+    if Good.objects.filter( good_user_mail = request.user.email, good_music_id = idn ).exists():
+        good = Good.objects.get( good_user_mail = request.user.email, good_music_id = idn )#取得
+        Is_Good = good.good_num
+
     if request.POST:
-        # data = json.loads( request.POST[ 'good-n' ] )
+        #data = json.loads( request.POST[ 'good-n' ] )
         sums_good = 0
         user_good = 0
 
     if request.user.is_authenticated:
+        MusLiked = LikeList.objects.filter(like_user_mail = request.user.email)
+
         if Good.objects.filter( good_user_mail = request.user.email, good_music_id = idn ).exists():#データがある場合の処理
             good = Good.objects.get( good_user_mail = request.user.email, good_music_id = idn )#取得
             good.good_num = not good.good_num
+            Is_Good = good.good_num
             good.sum_good -= 1
             good.save()
             sums_good = good.sum_good
         else:#データが未登録の場合
-            good = Good(good_user_mail = request.user.email, good_music_id = idn , good_num = True)#作成
-            good.sum_good += 2 
+            good = Good(good_user_mail = request.user.email, good_music_id = idn , good_num = True , sum_good = 0)#作成
+            print(good)
+            Is_Good = True
+            good.sum_good += 1
             user_good += 1
             good.save()
+            MusLiked = LikeList(like_user_mail = request.user.email,like_music_id = idn)
+            MusLiked.save()
             sums_good = good.sum_good
         
 
         for i in Good.objects.filter(good_music_id = idn):
             if i.good_num:
-                good.sum_good += 2
+                good.sum_good += 1
                 user_good += 1
                 good.save()
         sums_good = good.sum_good
@@ -500,7 +514,9 @@ def good( request, idn ):#非同期時に行う処理
         content = {
             'sums_good': sums_good,
             'user_good':user_good,
+            'Is_Good':Is_Good,
         }
+        print('Views:'+str(Is_Good))
         print(sums_good)
         return JsonResponse( content ) 
     

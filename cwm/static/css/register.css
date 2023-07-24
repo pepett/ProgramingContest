@@ -1,0 +1,30 @@
+.FormBox {
+  position: relative; }
+
+.PassAlert {
+  position: absolute;
+  color: #f74747;
+  font-weight: bold;
+  left: 0;
+  bottom: 50px;
+  z-index: -1;
+  transition: 0.2s;
+  opacity: 0; }
+
+#PassLook {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  z-index: 1; }
+  #PassLook img {
+    width: 30px;
+    height: 30px; }
+
+.PassOn {
+  opacity: 1;
+  transform: translateY(-2px); }
+
+.linkbox {
+  flex-direction: row; }
+
+/*# sourceMappingURL=register.css.map */

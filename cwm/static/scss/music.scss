@@ -158,6 +158,11 @@ $greenCL: #00DE64;
     .reply-text::placeholder{
       color: white;
       font-family: 'Courier New', Courier, monospace;
+      transition: 0.4s;
+    }
+    .reply-text:focus::placeholder{
+      color: rgb(88, 88, 88);
+      transform: scale(0.98);
     }
     .reply-box2{
       display: flex;
@@ -205,6 +210,24 @@ $greenCL: #00DE64;
     iframe{
       height: 250px;
       width: 500px;
+    }
+    .good{
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      #good-btn{
+        width: 50px;
+        height: 50px;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .good_sum{
+        color: #ffffff;
+        font-weight: bold;
+      }
     }
     .stars{
       display: block;
@@ -416,9 +439,37 @@ $greenCL: #00DE64;
     }
   }
 }
+.comments::-webkit-scrollbar{
+  height: 10px;
+  width: 8px;
+}
+.comments::-webkit-scrollbar-track{
+  background-color: none;
+}
+.comments::-webkit-scrollbar-thumb{
+  background-color: #696969;
+  border-radius: 10px;
+}
 @media screen and (max-width: 1000px) {
-  .music-main{
+  .main-test{
     display: flex;
     flex-direction: column;
+    height: 100%;
+    .music-main{
+      height: 400px;
+      iframe{
+        height: 160px;
+        width: 100%;
+      }
+    }
+    .comments{
+      height: 300px;
+      width: 95%;
+    }
+  }
+  .reply-form{
+    .reply-text{
+      margin-left: 10px;
+    }
   }
 }

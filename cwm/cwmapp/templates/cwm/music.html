@@ -213,13 +213,14 @@
     });
   }
 
-const init_good = ( u = '{{sums_good}}', b = '{{user_good}}') => {
+const init_good = ( u = '{{sums_good}}', b = '{{Is_Good}}') => {
   const good_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>";
   const good_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>";
   let ver = new Array( 2 );
   let button = document.createElement('span');
     button.setAttribute('id', 'good-btn',);
-        if ( b == 1){
+    console.log(b)
+        if ( b == true){
             button.innerHTML = good_img_green;
             ver[1] = button.outerHTML;
         }else{
@@ -227,9 +228,8 @@ const init_good = ( u = '{{sums_good}}', b = '{{user_good}}') => {
             ver[1] = button.outerHTML;
         }
         document.querySelector( '.good' ).innerHTML = ver[ 1 ];
-        document.querySelector( '.good' ).innerHTML +=`<br>みんなの評価:${ u }`;
+        document.querySelector( '.good' ).innerHTML +=`<span class="good_sum">みんなの評価:${ u }</span>`;
         setTimeout( good_eval, 1000 );
-        console.log(b)
 }
     const view_reply = ( n, res ) => {
         if( res.len == 0 ){

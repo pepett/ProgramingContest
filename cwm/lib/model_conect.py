@@ -1,7 +1,7 @@
 from cwmapp.models import HistoryList, LikeList
 from lib.spotify_conect import SPOTIFY
 
-class ResetMus:
+class ModelMus:
     @staticmethod
     def setHistory(request):
 

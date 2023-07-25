@@ -200,7 +200,8 @@ def index( request ):
         "results":final_result,
         "results2":final_result2,
         "results3":final_result3,
-        "tags": '',
+        "like": [],
+        "tags": [],
         "history": [],
         "comment_mus": [],
         "data":User,
@@ -272,8 +273,8 @@ def index( request ):
         content[ 'comment_mus' ] = cmt_mus_track
 
             
-    #履歴
     if request.user.is_authenticated:
+        #履歴
         if HistoryList.objects.filter( history_user_mail = request.user.email ).exists():
             his = HistoryList.objects.filter( history_user_mail = request.user.email )
             nhis = []
@@ -282,6 +283,13 @@ def index( request ):
             
             nhis.reverse()
             content[ 'history' ] = nhis
+        #いいねした曲
+        if Good.objects.filter( good_user_mail = request.user.email ).exists():
+            goods = Good.objects.filter( good_user_mail = request.user.email )
+            ngd = []
+            for i in goods:
+                ngd.append( SPOTIFY.track( i.good_music_id, market=None ) )
+            content[ 'like' ] = ngd
 
     #タグを表示
     if Comment.objects.all().exists():

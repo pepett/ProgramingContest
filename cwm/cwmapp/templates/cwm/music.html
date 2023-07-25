@@ -226,9 +226,9 @@
             button.innerHTML = good_img_black;
             ver[1] = button.outerHTML;
         }
-        document.querySelector( '.good' ).innerHTML ='<span class="eval">いいね：</span>'
+        document.querySelector( '.good' ).innerHTML ='<span class = eval>いいね：</good>';
         document.querySelector( '.good' ).innerHTML += ver[ 1 ];
-        document.querySelector( '.good' ).innerHTML +=`<br>みんなの評価:${ u }`;
+        document.querySelector( '.good' ).innerHTML += `<span class = eval>${ u }</span>`;
         setTimeout( good_eval, 1000 );
 }
 

@@ -88,8 +88,7 @@ class Star( models.Model ):
 class Good( models.Model ):
     good_user_mail = models.EmailField()
     good_music_id = models.TextField()
-    good_num = models.BooleanField(default=False)
-    sum_good = models.IntegerField()
+    good_bool = models.BooleanField(default=False)
     class Meta:
         constraints = [
             models.UniqueConstraint( fields=[ 'good_user_mail', 'good_music_id' ], name='unique_good' )

@@ -199,7 +199,10 @@ def index( request ):
         "results":final_result,
         "results2":final_result2,
         "results3":final_result3,
-        "data":User
+        "tags": '',
+        "history": [],
+        "comment_mus": [],
+        "data":User,
     }
     
     if request.user.is_authenticated:
@@ -273,12 +276,48 @@ def index( request ):
     #    final_result3[j]['name'] = Utils.truncate_string(i['name'],max_length)
     #    final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
     #    j = j + 1
+    #コメントの件数
+    if Comment.objects.all().exists():
+        cmt_all = Comment.objects.all()
+        cmt_mus_id = []
+        cmt_mus_track = []
+        for i in cmt_all:
+            cmt_mus_id.append( i.comment_music_id )
+        cmt_mus_data = Utils.n_dup( cmt_mus_id )
+        content[ 'comment_mus' ] = cmt_mus_data
+        #for i in cmt_mus_data:
+            
+    #履歴
+    if request.user.is_authenticated:
+        if HistoryList.objects.filter( history_user_mail = request.user.email ).exists():
+            his = HistoryList.objects.filter( history_user_mail = request.user.email )
+            nhis = []
+            for i in his:
+                nhis.append( SPOTIFY.track( i.history_music_id, market=None ) )
+            
+            nhis.reverse()
+            content[ 'history' ] = nhis
+
+    #タグを表示
+    if Comment.objects.all().exists():
+        cmts = Comment.objects.all()
+        tags = []
+        for i in cmts:
+            tags.extend( Utils.sharp( i.comment_text ) )
+        data = Utils.n_dup( tags )
+        content[ 'tags' ] = data
 
     content['results'] = final_result
     content['results2'] = final_result2
     content['results3'] = final_result3
 
     return render(request,'cwm/index.html',content)
+
+def create( request, idn ):
+    if request.method == 'POST':
+        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
+        c.save()
+    return redirect( 'mus', idn )
 
 def create( request, idn ):
     if request.method == 'POST':
@@ -366,7 +405,6 @@ def music( request, idn ):
         
         #tags = Utils.del_duplicate( tags, False )
         data = Utils.n_dup( tags )
-        print( data[ 0 ][ 'tag_name' ] )
         
         content[ 'tags' ] = data
         content[ 'comments' ] = comments
@@ -382,7 +420,17 @@ def user( request ):
 
 def search( request ):
     #if len( request.GET[ 'search-music' ] ) != 0:
-    return render( request, 'cwm/search.html')
+    content = {
+        'tags': ''
+    }
+    if Comment.objects.all().exists():#タグを表示
+        cmts = Comment.objects.all()
+        tags = []
+        for i in cmts:
+            tags.extend( Utils.sharp( i.comment_text ) )
+        data = Utils.n_dup( tags )
+        content[ 'tags' ] = data
+    return render( request, 'cwm/search.html', content )
 
 def artist( request, id ):
 

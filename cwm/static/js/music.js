@@ -61,6 +61,7 @@ const play = ( obj, url ) => {
         obj.innerHTML = StopBTimg;
     }
 }
+
 //textareaの高さ自動設定
 window.addEventListener( 'DOMContentLoaded', () => {
     const rts = document.querySelectorAll( '.reply-text' );
@@ -81,12 +82,16 @@ window.addEventListener( 'DOMContentLoaded', () => {
     
 } );
 
+
+
 for(let i = 0;i < document.getElementsByClassName('reply-text').length;i++){
     document.getElementsByClassName('reply-text')[i].addEventListener("keyup", (e) =>{
-        if (document.getElementsByClassName('reply-text')[i].value == ""){
+        if (document.getElementsByClassName('reply-text')[i].value == ""){//編集不可
+            document.getElementsByClassName( 'reply-submit' )[ i ].classList.remove( 'hover-reply-submit' );
             document.getElementsByClassName('reply-submit')[i].classList.add('replyBT_off');
             document.getElementsByClassName('reply-submit')[i].disabled = true;
-        }else{
+        }else{//編集可
+            document.getElementsByClassName( 'reply-submit' )[ i ].classList.add( 'hover-reply-submit' );
             document.getElementsByClassName('reply-submit')[i].classList.remove('replyBT_off');
             document.getElementsByClassName('reply-submit')[i].disabled = false;
         }

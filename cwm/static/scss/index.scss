@@ -37,6 +37,23 @@ main{
     }
 }
 
+.tags{
+    display: flex;
+    .tag{
+        background-color: $gradationBG;
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 5px 10px;
+        .tag-num{
+            color: white;
+        }
+    }
+    .tag:hover{
+        opacity: 0.5;
+    }
+}
+
 .bigtext{
     margin: 0 2px 0 16px;
     font-size: 30px;

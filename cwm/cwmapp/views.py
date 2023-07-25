@@ -29,8 +29,19 @@ def top( request ):
     #    print( tmp[ counter ] )
     #例ここまで
     if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
         print( request.user.last_login )
-    return render( request, 'cwm/top.html' )
+
+        content = {
+            'data':User,
+        }
+    else:
+        content = {
+            'data':None,
+        }
+    
+    return render( request, 'cwm/top.html' ,content)
+
 def Login( request ):
     if request.POST:
         email = request.POST[ 'email' ]
@@ -143,10 +154,15 @@ def result( request ):
         return redirect( 'search' )
     res = Comment.objects.filter( comment_text__regex = request.GET[ 'search-music' ] )
     ctracks = []
+    User = []
     nres = list( { nr.comment_music_id: nr for nr in res }.values() )#検索に引っかかる時に同じ曲が出ないようにする
     #print( nres )
     #print( res[ 0 ].comment_music_id )
     #重複をなくしたい
+
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
+
     for i in nres:
         t = {
             'c_music': SPOTIFY.track( i.comment_music_id, market=None ),
@@ -168,6 +184,7 @@ def result( request ):
         'word': request.GET[ 'search-music' ],
         'hitcmt': res,
         'c_tracks': ctracks,
+        'data':User,
     }
     return render( request, 'cwm/result.html', ret  )
 

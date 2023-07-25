@@ -4,6 +4,26 @@
     color: #00de64;
     font-size: 64px; }
 
+.tags {
+  margin-top: 100px;
+  margin-left: 200px;
+  display: flex; }
+  .tags .tag {
+    background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 5px 10px; }
+    .tags .tag .tag-num {
+      color: white; }
+  .tags .tag:hover {
+    opacity: 0.5; }
+
+form .music-tags {
+  margin: 100px; }
+  form .music-tags .tag {
+    margin: 0 0 0 50px;
+    font-size: 32px; }
 form .search-form {
   justify-content: center;
   padding: 0;

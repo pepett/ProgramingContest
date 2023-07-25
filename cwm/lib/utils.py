@@ -18,7 +18,7 @@ class Utils:
     @staticmethod
     def n_dup(arr):
         if len( arr ) == 0:
-            return [ { 'tag_name': '', 'tag_num': 0 } ]
+            return [  ]
         v_arr = arr
         results = []
         while True:#v_arrがなくなるまでループ

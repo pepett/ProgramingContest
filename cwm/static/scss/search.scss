@@ -1,5 +1,6 @@
 $greenCL:#00de64;
 $white: white;
+$gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
 
 .title{
     text-align: center;
@@ -8,7 +9,32 @@ $white: white;
         font-size: 64px;
     }
 }
+.tags{
+    margin-top: 100px;
+    margin-left: 200px;
+    display: flex;
+    .tag{
+        background-color: $gradationBG;
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 5px 10px;
+        .tag-num{
+            color: white;
+        }
+    }
+    .tag:hover{
+        opacity: 0.5;
+    }
+}
 form{
+    .music-tags{
+        margin: 100px;
+        .tag{
+            margin: 0 0 0 50px;
+            font-size: 32px;
+        }
+    }
     .search-form{
 
         justify-content: center;

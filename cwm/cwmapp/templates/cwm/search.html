@@ -13,6 +13,16 @@
             <input type="text" placeholder="キーワードを入力" class="search-input" name="search-music">
             <input type="submit" value="検索" class="search-button">
         </div>
+        <div class="tags">
+            {% for i in tags %}
+            <a href="{% url 'result' %}?search-music={{ i.tag_name }}">
+                <div class="tag">
+                    <span class="tag-name">#{{ i.tag_name }}</span>
+                    <span class="tag-num">({{ i.tag_num }})</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
         <div class="music-kinds">
             
         </div>

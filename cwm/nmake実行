@@ -1,0 +1,2 @@
+nmake re app=cwmapp
+nmake cr

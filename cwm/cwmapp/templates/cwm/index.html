@@ -58,7 +58,7 @@
         {% endfor %}
         {% endif %}
     </div>
-    <p class="bigtext">一覧ページ3</p>
+    <p class="bigtext">いいねが多い曲</p>
     <div id="trackbox" class="toprank">
         {% if results3 %}
         {% for z in results3 %}
@@ -67,18 +67,53 @@
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
             <a href="{% url 'mus' z.id %}">
-                <img class="music_img" src="{{z.album.images.0.url}}" width="150" height="150" class="" alt="">
+                <img class="music_img" src="{{z.album.images.0.url}}" width="150" height="150" alt="">
             </a>
-                <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' z.id %}">{{z.name}}</a></h3>
-                <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' z.artists.0.id %}">{{z.artists.0.name}}</a></h3>
+            <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' z.id %}">{{z.name}}</a></h3>
+            <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' z.artists.0.id %}">{{z.artists.0.name}}</a></h3>
         </div>
         {% endfor %}
         {% endif %}
     </div>
-    <div class="MiniPlayer" onclick="PlayMusic()"></div>
+    <p class="bigtext">コメント数が多い曲</p>
+    <div class="toprank" id="trackbox">
+        
+    </div>
+    {% if request.user.is_authenticated %}
+        <p class="bigtext">最近見た曲</p>
+        <div id="trackbox" class="toprank">
+            {% for i in history %}
+                <div class="songbox">
+                    <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
+                        <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
+                    </button>
+                    <a href="{% url 'mus' i.id %}">
+                        <img class="music_img" src="{{ i.album.images.0.url }}" width="150" height="150" alt="">
+                    </a>
+                    <h3 class="SongNameText"><a href="{% url 'mus' i.id %}" id="ScrollText">{{ i.name }}</a></h3>
+                    <h3 class="SongNameText"><a href="{% url 'artist' i.artists.0.id %}" id="ScrollText">{{ i.artists.0.name }}</a></h3>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <p class="bigtext">人気のタグ</p>
+    <div class="tags">
+        {% for i in tags %}
+        <a href="{% url 'result' %}?search-music={{ i.tag_name }}">
+            <div class="tag">
+                <span class="tag-name">#{{ i.tag_name }}</span>
+                <span class="tag-num">({{ i.tag_num }})</span>
+            </div>
+        </a>
+        {% endfor %}
+        {% if not tags %}
+            <span style="color: white; font-size: 32px; margin-left: 15px; margin-top: 10px;">まだタグがありません</span>
+        {% endif %}
+    </div>
+    <!-- <div class="MiniPlayer" onclick="PlayMusic()"></div> -->
     <script type="text/javascript">
-        var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
-        var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+        let PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+        let StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
     </script>
     <script src="{% static 'js/index.js' %}"></script>
     <script src="{% static 'js/loading.js' %}"></script>

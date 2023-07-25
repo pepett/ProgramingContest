@@ -540,6 +540,15 @@ def good( request, idn ):#非同期時に行う処理
             if Good.objects.filter( good_user_mail = request.user.email, good_music_id = idn ).exists():
                 good = Good.objects.get( good_user_mail = request.user.email, good_music_id = idn )#取得
                 good.good_bool = not good.good_bool
+                
+                if good.good_bool == True:
+                    MusLike = LikeList(like_user_mail = request.user.email,like_music_id = idn)
+                    MusLike.save()
+                    ModelMus.setHistory(request)
+                else:
+                    MusLiked = LikeList.objects.filter(like_user_mail = request.user.email,like_music_id = idn)
+                    MusLiked[0].delete()
+
                 good.save()
 
             else:

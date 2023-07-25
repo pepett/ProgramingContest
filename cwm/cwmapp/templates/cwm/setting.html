@@ -56,7 +56,7 @@
         </div>
         <ul>
             <li> 
-                <label id="FavLabel"><input type="radio" class="UserRadioBox" name="link" checked></input>お気に入り</label>
+                <label id="FavLabel"><input type="radio" class="UserRadioBox" name="link" checked></input>いいねした曲</label>
                 <label id="HisLabel"><input type="radio" class="UserRadioBox" name="link"></input>履歴</label>
                 <label id="SetLabel"><input type="radio" class="UserRadioBox" name="link"></input>設定</label>
             </li>
@@ -64,7 +64,7 @@
     </div>
     <div id="box2">
         <div id="UserFavorite">
-            <p class="bigtext">お気に入り</p>
+            <p class="bigtext">いいねした曲</p>
             <div id="trackbox" class="toprank">
                 {% if results %}
                 {% for x in results %}
@@ -80,7 +80,7 @@
                 </div>
                 {% endfor %}
                 {% else %}
-                <p class="bigtext">お気に入り登録している曲がありません</p>
+                <p class="bigtext">いいねしている曲がありません</p>
                 {% endif %}
             </div>
         </div>

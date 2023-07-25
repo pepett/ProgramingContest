@@ -164,6 +164,20 @@
   font-weight: bold;
   font-size: 20px; }
 
+.tags {
+  display: flex; }
+  .tags .tag {
+    font-size: 16px;
+    background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 5px 10px; }
+    .tags .tag .tag-num {
+      color: white; }
+  .tags .tag:hover {
+    opacity: 0.5; }
+
 .likes {
   display: flex; }
 

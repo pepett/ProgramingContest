@@ -77,7 +77,20 @@
     </div>
     <p class="bigtext">コメント数が多い曲</p>
     <div class="toprank" id="trackbox">
-        
+        {% if comment_mus %}
+            {% for i in comment_mus %}
+                <div class="songbox">
+                    <button class="PlaySongBT" type="button" value="{{ i.track.preview_url }}" onclick="PlayMusic( '{{ i.track.preview_url }}', this );">
+                        <img src="{% static 'img/tmp/play_green.png' %}">
+                    </button>
+                    <a href="{% url 'mus' i.track.id %}">
+                        <img class="music_img" src="{{ i.track.album.images.0.url }}" width="150" height="150" alt="">
+                    </a>
+                    <h3 class="SongNameText"><a href="{% url 'mus' i.track.id %}" id="ScrollText">{{ i.track.name }}</a></h3>
+                    <h3 class="SongNameText"><a href="{% url 'artist' i.track.artists.0.id %}" id="ScrollText">{{ i.track.artists.0.name }}</a></h3>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
     {% if request.user.is_authenticated %}
         <p class="bigtext">最近見た曲</p>

@@ -46,7 +46,12 @@
         </div>
         <div class="tags">
             {% for t in tags %}
-                <span class="t"><a href="{% url 'result' %}?search-music={{ t.tag_name }}">#{{ t.tag_name }}</a>({{ t.tag_num }})&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <a href="{% url 'result' %}?search-music={{ i.tag_name }}">
+                <div class="tag">
+                    <span class="tag-name">#{{ t.tag_name }}</span>
+                    <span class="tag-num">({{ t.tag_num }})</span>
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>
@@ -206,32 +211,31 @@
         }).then(response => {
           return response.json();
         }).then(response => {
-          init_good(response.good_count,response.good_bool);
+          init_good(response.sums_good,response.user_good);
         }).catch(error => {
           console.log(error);
         });
     });
   }
 
-  const init_good = ( u = '{{good_count}}', b = '{{good_bool}}' ) => {
-  const good_img_black = "<img src='{% static 'img/tmp/heart_black.png'%}'>";
-  const good_img_green = "<img src='{% static 'img/tmp/heart_green.png' width: 30px; padding-top: 8px;%}'>";
+const init_good = ( u = '{{sums_good}}', b = '{{Is_Good}}') => {
+  const good_img_black = "<img src='{% static 'img/tmp/heart_black.png' %}'>";
+  const good_img_green = "<img src='{% static 'img/tmp/heart_green.png' %}'>";
   let ver = new Array( 2 );
   let button = document.createElement('span');
     button.setAttribute('id', 'good-btn',);
-        if ( b == "True" || b == 'true'){
+    console.log(b)
+        if ( b == true){
             button.innerHTML = good_img_green;
             ver[1] = button.outerHTML;
         }else{
             button.innerHTML = good_img_black;
             ver[1] = button.outerHTML;
         }
-        document.querySelector( '.good' ).innerHTML ='<span class = eval>いいね：</good>';
-        document.querySelector( '.good' ).innerHTML += ver[ 1 ];
-        document.querySelector( '.good' ).innerHTML += `<span class = eval>${ u }</span>`;
+        document.querySelector( '.good' ).innerHTML = ver[ 1 ];
+        document.querySelector( '.good' ).innerHTML +=`<span class="good_sum">みんなの評価:${ u }</span>`;
         setTimeout( good_eval, 1000 );
 }
-
     const view_reply = ( n, res ) => {
         if( res.len == 0 ){
             alert( '返信はありません' );

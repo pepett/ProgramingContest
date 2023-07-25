@@ -11,10 +11,11 @@ $gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%,
 }
 .tags{
     margin-top: 100px;
-    margin-left: 200px;
+    margin-left: 100px;
     display: flex;
     .tag{
         background-color: $gradationBG;
+        font-size: 32px;
         border: 1px solid gray;
         border-radius: 10px;
         padding: 20px;

@@ -15,7 +15,8 @@ body::-webkit-scrollbar-thumb{
 body{
     height: 100%;
     font-family:'メイリオ', 'Meiryo', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
-    background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+    background: $gradationBG;
+    
 }
 #box1,#box2{
     margin: 2px;

@@ -259,6 +259,24 @@ def index( request ):
     results3 = SPOTIFY.artist_top_tracks(lz_uri3)
     final_result3=results3['tracks']
 
+    #j = 0
+    #for i in final_result:
+    #    final_result[j]['track']['name'] = Utils.truncate_string(i['track']['name'],max_length)
+    #    final_result[j]['track']['artists'][0]['name'] = Utils.truncate_string(i['track']['artists'][0]['name'],max_length)
+    #    j = j + 1
+
+    #j = 0
+    #for i in final_result2:
+    #    final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
+    #    final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+#            print( i[ 'id' ] )//これをデータベースに入れる
+    #    j = j + 1
+
+    #j = 0
+    #for i in final_result3:
+    #    final_result3[j]['name'] = Utils.truncate_string(i['name'],max_length)
+    #    final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
+    #    j = j + 1
     #コメントの件数
     if Comment.objects.all().exists():
         cmt_all = Comment.objects.all()
@@ -267,8 +285,10 @@ def index( request ):
         for i in cmt_all:
             cmt_mus_id.append( i.comment_music_id )
         cmt_mus_data = Utils.n_dup( cmt_mus_id )
-        content[ 'comment_mus' ] = cmt_mus_data
-        #for i in cmt_mus_data:
+        for i in cmt_mus_data:
+            cmt_mus_track.append( { 'track': SPOTIFY.track( i['tag_name'], market=None ),'num': i['tag_num'] } )
+        content[ 'comment_mus' ] = cmt_mus_track
+
             
     #履歴
     if request.user.is_authenticated:
@@ -324,8 +344,8 @@ def edit( request, idn, cid ):
 def music( request, idn ):
     ave_star = 0
     user_star = 0
-    good_bool = False
-    good_count = 0
+    user_good = False
+    sum_good = 0
     if Star.objects.filter( star_music_id = idn ).exists():
         for i in range( Star.objects.filter( star_music_id = idn ).count() ):
             ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
@@ -335,13 +355,9 @@ def music( request, idn ):
         if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():
             user_star = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn ).star_num
         if Good.objects.filter( good_music_id = idn, good_user_mail = request.user.email ).exists():
-            good_count = Good.objects.get(good_music_id = idn, good_user_mail = request.user.email ).good_bool
+            user_good = Good.objects.get(good_music_id = idn, good_user_mail = request.user.email).good_num
             for i in Good.objects.filter(good_music_id = idn):
-                good_count = Good(good_user_mail = request.user.email, good_music_id = idn )
-        if Good.objects.filter(good_user_mail = request.user.email , good_music_id = idn ).exists():
-            good_bool = Good.objects.get(good_user_mail = request.user.email , good_music_id = idn ).good_bool
-    if Good.objects.filter( good_music_id = idn ).exists():
-        good_count = Good.objects.filter( good_music_id = idn, good_bool = True).count()
+                sum_good = Good(good_user_mail = request.user.email, good_music_id = idn )
 
     track_result = SPOTIFY.track( idn, market=None )
     comments = []
@@ -361,8 +377,8 @@ def music( request, idn ):
         'is_comment': False,
         'ave_star': ave_star,
         'user_star': user_star,
-        'good_count': good_count,
-        'good_bool':good_bool,
+        'user_good': user_good,
+        'sum_good': sum_good,
     }
 
     if request.user.is_authenticated:

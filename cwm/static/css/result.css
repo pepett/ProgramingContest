@@ -6,7 +6,6 @@ main h2 {
   margin: 5px;
   width: 98%;
   display: flex;
-  white-space: nowrap;
   overflow-x: scroll;
   padding: 5px 0; }
 

@@ -259,24 +259,6 @@ def index( request ):
     results3 = SPOTIFY.artist_top_tracks(lz_uri3)
     final_result3=results3['tracks']
 
-    #j = 0
-    #for i in final_result:
-    #    final_result[j]['track']['name'] = Utils.truncate_string(i['track']['name'],max_length)
-    #    final_result[j]['track']['artists'][0]['name'] = Utils.truncate_string(i['track']['artists'][0]['name'],max_length)
-    #    j = j + 1
-
-    #j = 0
-    #for i in final_result2:
-    #    final_result2[j]['name'] = Utils.truncate_string(i['name'],max_length)
-    #    final_result2[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
-#            print( i[ 'id' ] )//これをデータベースに入れる
-    #    j = j + 1
-
-    #j = 0
-    #for i in final_result3:
-    #    final_result3[j]['name'] = Utils.truncate_string(i['name'],max_length)
-    #    final_result3[j]['artists'][0]['name'] = Utils.truncate_string(i['artists'][0]['name'],max_length)
-    #    j = j + 1
     #コメントの件数
     if Comment.objects.all().exists():
         cmt_all = Comment.objects.all()
@@ -425,9 +407,18 @@ def user( request ):
 
 def search( request ):
     #if len( request.GET[ 'search-music' ] ) != 0:
-    content = {
-        'tags': ''
-    }
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( email = request.user.email )
+        content = {
+            'tags': '',
+            'data':User,
+        }
+    else:
+        content = {
+            'tags': '',
+            'data':None,
+        }
+        
     if Comment.objects.all().exists():#タグを表示
         cmts = Comment.objects.all()
         tags = []

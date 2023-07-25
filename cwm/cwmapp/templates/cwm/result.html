@@ -4,6 +4,7 @@
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <br><br>
     <h2>検索結果</h2>
     <h3 class="bigtext">曲</h3>
@@ -11,10 +12,10 @@
         {% for v in results_track.tracks.items %}
             <div class="track songbox">
                 <a href="{% url 'mus' v.id %}">
-                    <img src="{{ v.album.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
-                    <div class="SongNameText"><a href="{% url 'mus' v.id %}">{{ v.name }}</a></div>
-                    <div class="SongNameText"><a href="{% url 'artist' v.artists.0.id %}">{{ v.artists.0.name }}</a></div>
+                    <img class="music_img" src="{{v.album.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
+                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' v.id %}">{{v.name}}</a></h3>
+                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
             </div>
         {% endfor %}
     </div>
@@ -23,10 +24,10 @@
         {% for v in results_track.albums.items %}
             <div class="album songbox">
                 <a href="{% url 'album' v.id %}">
-                    <img src="{{ v.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
-                    <div class="SongNameText"><a href="{% url 'album' v.id %}">{{ v.name }}</a></div>
-                    <div class="SongNameText"><a href="{% url 'artist' v.artists.0.id %}">{{ v.artists.0.name }}</a></div>
+                    <img class="music_img" src="{{v.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
+                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'album' v.id %}">{{v.name}}</a></h3>
+                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
             </div>
         {% endfor %}
     </div>
@@ -35,24 +36,24 @@
         {% for v in results_track.artists.items %}
             <div class="artist songbox">
                 <a href="{% url 'artist' v.id %}">
-                    <img src="{{ v.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
-                    <div class="SongNameText"><a href="{% url 'artist' v.id %}">{{ v.name }}</a></div>
+                    <img class="music_img" src="{{v.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
+                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' v.id %}">{{v.name}}</a></h3>
             </div>
         {% endfor %}
     </div>
     <h3 class="bigtext">"{{ word }}" が含まれているコメント</h3>
-    <div class="trackbox toprank">
+    <div class="trackbox tb_cmt toprank">
         {% for v in c_tracks %}
             <div class="cmt songbox">
                 <a href="{% url 'mus' v.c_music.id %}">
-                    <img src="{{ v.c_music.album.images.1.url }}" alt="画像" width="150" height="150" class="music_img">
-                    <div class="SongNameText"><a href="{% url 'mus' v.c_music.id %}">{{ v.c_music.name }}</a></div>
-                    <div class="SongNameText" style="color: yellow;">{{ v.c_text }}</div>
+                    <img class="music_img" src="{{v.c_music.album.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
+                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' v.c_music.id %}">{{v.c_music.name}}</a></h3>
+                    <h3 class="SongNameText" style="color: yellow;">{{v.c_text}}</h3>
             </div>
         {% endfor %}
     </div>
-    <br>
+    <script src="{% static 'js/index.js' %}"></script>
 </main>
 {% endblock %}

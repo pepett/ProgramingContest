@@ -12,15 +12,15 @@ from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from lib.model_conect import ModelMus
-from cwmapp.models import User, Comment, HistoryList, LikeList, Music, Star, Good ,Reply
+from cwmapp.models import Comment, HistoryList, LikeList, Music, Star, Good ,Reply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
 
 # Create your views here.
 
 #仮ログイン
-IsLogin = True
-UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
+#IsLogin = True
+#UserData = User.objects.filter( user_mail = 'k228021@kccollege.ac.jp' )
 
 def top( request ):
     #例ここから 
@@ -204,6 +204,9 @@ def index( request ):
         "tags": [],
         "history": [],
         "comment_mus": [],
+        "good_mus": [],
+        "ucomment_mus": [],
+        "star_mus": [],
         "data":User,
     }
     
@@ -260,7 +263,7 @@ def index( request ):
     results3 = SPOTIFY.artist_top_tracks(lz_uri3)
     final_result3=results3['tracks']
 
-    #コメントの件数
+    #コメントの件数が多い曲
     if Comment.objects.all().exists():
         cmt_all = Comment.objects.all()
         cmt_mus_id = []
@@ -269,18 +272,30 @@ def index( request ):
             cmt_mus_id.append( i.comment_music_id )
         cmt_mus_data = Utils.n_dup( cmt_mus_id )
         for i in cmt_mus_data:
-            cmt_mus_track.append( { 'track': SPOTIFY.track( i['tag_name'], market=None ),'num': i['tag_num'] } )
+            cmt_mus_track.append( { 'track': SPOTIFY.track( i[ 'tag_name' ], market=None ), 'num': i['tag_num'] } )
         content[ 'comment_mus' ] = cmt_mus_track
 
             
+    #いいね数が多い曲
+    if Good.objects.all().exists():
+        good_all = Good.objects.all()
+        good_mus_id = []
+        good_mus_track = []
+        for i in good_all:
+            if i.good_bool:
+                good_mus_id.append( i.good_music_id )
+        good_mus_id = Utils.n_dup( good_mus_id )
+        for i in good_mus_id:
+            good_mus_track.append( { 'track': SPOTIFY.track( i[ 'tag_name' ], market=None ), 'num': i[ 'tag_num' ] } )
+        content[ 'good_mus' ] = good_mus_track
+
     if request.user.is_authenticated:
-        #履歴
+        #最近見た曲
         if HistoryList.objects.filter( history_user_mail = request.user.email ).exists():
             his = HistoryList.objects.filter( history_user_mail = request.user.email )
             nhis = []
             for i in his:
                 nhis.append( SPOTIFY.track( i.history_music_id, market=None ) )
-            
             nhis.reverse()
             content[ 'history' ] = nhis
         #いいねした曲
@@ -290,6 +305,24 @@ def index( request ):
             for i in goods:
                 ngd.append( SPOTIFY.track( i.good_music_id, market=None ) )
             content[ 'like' ] = ngd
+        #コメントした曲
+        if Comment.objects.filter( comment_user_mail = request.user.email ).exists():
+            cmtmusic = Comment.objects.filter( comment_user_mail = request.user.email )
+            ncm = []
+            ncm_track = []
+            for i in cmtmusic:
+                ncm.append( i.comment_music_id )
+            ncm = Utils.n_dup( ncm )
+            for i in ncm:
+                ncm_track.append( SPOTIFY.track( i[ 'tag_name' ], market=None ) )
+            content[ 'ucomment_mus' ] = ncm_track
+        #評価した曲
+        if Star.objects.filter( star_user_mail = request.user.email ).exists():
+            sts = Star.objects.filter( star_user_mail = request.user.email )
+            nsts = []
+            for i in sts:
+                nsts.append( SPOTIFY.track( i.star_music_id , market=None ) )
+            content[ 'star_mus' ] = nsts
 
     #タグを表示
     if Comment.objects.all().exists():
@@ -308,13 +341,13 @@ def index( request ):
 
 def create( request, idn ):
     if request.method == 'POST':
-        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
+        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_text=request.POST[ 'comment_text' ] )
         c.save()
     return redirect( 'mus', idn )
 
 def create( request, idn ):
     if request.method == 'POST':
-        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_good=0, comment_text=request.POST[ 'comment_text' ] )
+        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_text=request.POST[ 'comment_text' ] )
         c.save()
     return redirect( 'mus', idn )
 
@@ -393,7 +426,7 @@ def music( request, idn ):
                 'user_mail': users[ i ].email,
                 'user_image': users[ i ].image,
                 'comment_id': comments[ i ].comment_id,
-                'comment_good': comments[ i ].comment_good,
+                'comment_good': 0,
                 'comment_text': comments[ i ].comment_text,
                 'comment_posted': comments[ i ].comment_posted,
                 'result': results

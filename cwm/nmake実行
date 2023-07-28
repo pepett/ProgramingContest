@@ -1,2 +1,6 @@
-nmake re app=cwmapp
-nmake cr
+データベースのリセット:
+    nmake re app=cwmapp
+データベースのマイグレーション:
+    nmake cr
+データベースのリセット&マイグレーション:
+    nmake re app=cwmapp cr

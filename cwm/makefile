@@ -9,3 +9,5 @@ re:
 cr:
 	python manage.py makemigrations
 	python manage.py migrate
+se:
+	python manage.py runserver

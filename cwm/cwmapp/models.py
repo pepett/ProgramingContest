@@ -10,7 +10,7 @@ from lib.utils import Utils
 import datetime
 import uuid
 
-class User( models.Model ):
+'''class User( models.Model ):
     user_name = models.CharField( max_length = 50 )
     user_mail = models.EmailField( primary_key = True )
     user_pass = models.CharField( max_length = 30 )
@@ -18,26 +18,25 @@ class User( models.Model ):
     user_birthday = models.DateField()
 
     def __str__( self ):
-        return self.user_mail
+        return self.user_mail'''
 
-class UploadImage( models.Model ):
-    image = models.ImageField( upload_to = 'images/' )
+class UploadImage( models.Model ):#画像テーブル
+    image = models.ImageField( upload_to = 'images/' )#一時的なイメージの建て替え
 
-class Music( models.Model ):
+'''class Music( models.Model ):
     music_id = models.TextField( primary_key = True )
     music_star = models.IntegerField()#いらない
     music_ad = models.BooleanField()
 
     def __str__( self ):
-        return self.music_id
+        return self.music_id'''
 
-class Comment( models.Model ):
-    comment_id = models.AutoField( primary_key = True )
-    comment_user_mail = models.EmailField()
-    comment_music_id = models.TextField()
-    comment_good = models.IntegerField()
-    comment_text = models.TextField()
-    comment_posted = models.DateTimeField( auto_now_add = True )
+class Comment( models.Model ):#コメントテーブル
+    comment_id = models.AutoField( primary_key = True )#コメントのID
+    comment_user_mail = models.EmailField()#コメント下ユーザのメールアドレス
+    comment_music_id = models.TextField()#コメントされた音楽のID
+    comment_text = models.TextField()#コメント本文
+    comment_posted = models.DateTimeField( auto_now_add = True )#コメントした日時
 
     def __str__( self ):
         return str( self.comment_id )
@@ -51,48 +50,61 @@ class Comment( models.Model ):
     def __str__( self ):
         return self.result_text """
 
-class Reply( models.Model ):
-    reply_id = models.AutoField( primary_key = True )
-    reply_comment_id = models.IntegerField()
-    reply_user_mail = models.EmailField()
-    reply_text = models.TextField()
-    #reply_good = models.IntegerField()#返信のいいね
-    reply_posted = models.DateTimeField( auto_now_add = True )
+class Reply( models.Model ):#返信テーブル
+    reply_id = models.AutoField( primary_key = True )#返信のID
+    reply_comment_id = models.IntegerField()#返信したコメントのID
+    reply_user_mail = models.EmailField()#返信したユーザのメールアドレス
+    reply_text = models.TextField()#返信本文
+    reply_posted = models.DateTimeField( auto_now_add = True )#返信した日時
 
     def __str__( self ):
         return self.reply_user_mail
 
-class LikeList( models.Model ):
-    like_user_mail = models.EmailField()
-    like_music_id = models.TextField()
+class LikeList( models.Model ):#いいねしたリストテーブル
+    like_user_mail = models.EmailField()#いいねしたユーザのメールアドレス
+    like_music_id = models.TextField()#いいねした音楽のID
 
     def __str__( self ):
         return self.like_user_mail
 
-class HistoryList( models.Model ):
-    history_user_mail = models.EmailField()
-    history_music_id = models.TextField()
+class HistoryList( models.Model ):#履歴テーブル
+    history_user_mail = models.EmailField()#履歴のメールアドレス
+    history_music_id = models.TextField()#履歴の音楽ID
 
     def __str__( self ):
         return self.history_user_mail
 
-class Star( models.Model ):
-    star_user_mail = models.EmailField()
-    star_music_id = models.TextField()
-    star_num = models.IntegerField()
-    class Meta:
+class Star( models.Model ):#評価テーブル
+    star_user_mail = models.EmailField()#評価したユーザのメールアドレス
+    star_music_id = models.TextField()#評価した音楽のID
+    star_num = models.IntegerField()#音楽に対する評価
+    class Meta:#複合キー指定
         constraints = [
             models.UniqueConstraint( fields=[ 'star_user_mail', 'star_music_id' ], name='unique_star' )
         ]
 
-class Good( models.Model ):
-    good_user_mail = models.EmailField()
-    good_music_id = models.TextField()
-    good_bool = models.BooleanField(default=False)
-    class Meta:
+class Good( models.Model ):#いいねテーブル
+    good_user_mail = models.EmailField()#いいねしたユーザのメールアドレス
+    good_music_id = models.TextField()#いいねした音楽のID
+    good_bool = models.BooleanField(default=False)#音楽に対するいいね
+    class Meta:#複合キー指定
         constraints = [
             models.UniqueConstraint( fields=[ 'good_user_mail', 'good_music_id' ], name='unique_good' )
         ]
+
+class Music( models.Model ):#ユーザが投稿した音楽テーブル
+    music_id = models.TextField()#曲のID
+    music_album_id = models.TextField()#所属するアルバムのID
+    music_name = models.CharField( max_length = 100 )
+    music_track_full = models.FileField( upload_to = 'albums/tracks/full/' )#フルの音楽
+    music_track_preview = models.FileField( upload_to = 'albums/tracks/preview/' )#プレビュー音楽
+    #music_userid = models.TextField()#投稿者のID
+    
+class Album( models.Model ):#ユーザが投稿したアルバムテーブル
+    album_id = models.TextField()#アルバムのID
+    album_userid = models.TextField()#投稿者のID
+    album_name = models.CharField( max_length = 100 )
+    album_image = models.FileField( upload_to = 'albums/' )
 
 class UserManager( BaseUserManager ):
     use_in_migrations = True

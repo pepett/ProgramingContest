@@ -3,6 +3,7 @@ import re
 import json
 import uuid
 import pprint
+import bleach
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -341,7 +342,8 @@ def index( request ):
 
 def create( request, idn ):
     if request.method == 'POST':
-        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_text=request.POST[ 'comment_text' ] )
+        clean_text = bleach.clean( request.POST[ 'comment_text' ] )
+        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_text=clean_text )
         c.save()
     return redirect( 'mus', idn )
 
@@ -605,7 +607,8 @@ def good( request, idn ):#非同期時に行う処理
 
 def create_reply( request, idn, cid ):
     if request.POST:
-        r = Reply( reply_comment_id = cid, reply_user_mail = request.user.email, reply_text = request.POST[ 'reply-text' ] )
+        clean_text = bleach.clean( request.POST[ 'reply-text' ] )
+        r = Reply( reply_comment_id = cid, reply_user_mail = request.user.email, reply_text = clean_text )
         r.save()
         return redirect( 'mus', idn )
 

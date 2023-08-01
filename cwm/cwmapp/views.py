@@ -30,7 +30,7 @@ def top( request ):
     #    print( tmp[ counter ] )
     #例ここまで
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( email = request.user.userid )
         print( request.user.last_login )
 
         content = {
@@ -92,7 +92,7 @@ def setting( request ):
     if not request.user.is_authenticated:
         return redirect(Login)
     
-    User = CustomUser.objects.filter( email = request.user.email )
+    User = CustomUser.objects.filter( email = request.user.userid )
     Likeresult = []
     Historyresult = []
     content = {
@@ -104,12 +104,12 @@ def setting( request ):
         "id":None
     }
 
-    MusHistory = HistoryList.objects.filter(history_user_mail = request.user.email)
-    MusLiked = LikeList.objects.filter(like_user_mail = request.user.email)
-    CommentData = Comment.objects.filter( comment_user_mail=request.user.email)
-    StarData = Star.objects.filter( star_user_mail = request.user.email)
-    GoodData = Good.objects.filter( good_user_mail = request.user.email)
-    ReplyData = Reply.objects.filter( reply_user_mail = request.user.email)
+    MusHistory = HistoryList.objects.filter(history_userid = request.user.userid)
+    MusLiked = LikeList.objects.filter(like_userid = request.user.userid)
+    CommentData = Comment.objects.filter( comment_userid=request.user.userid)
+    StarData = Star.objects.filter( star_userid = request.user.userid)
+    GoodData = Good.objects.filter( good_userid = request.user.userid)
+    ReplyData = Reply.objects.filter( reply_userid = request.user.userid)
 
     if (request.method == 'POST'):
 
@@ -163,7 +163,7 @@ def result( request ):
     #重複をなくしたい
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( email = request.user.userid )
 
     for i in nres:
         t = {
@@ -212,7 +212,7 @@ def index( request ):
     }
     
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( email = request.user.userid )
         content[ 'data' ] = User
 
     max_length = 13
@@ -292,23 +292,23 @@ def index( request ):
 
     if request.user.is_authenticated:
         #最近見た曲
-        if HistoryList.objects.filter( history_user_mail = request.user.email ).exists():
-            his = HistoryList.objects.filter( history_user_mail = request.user.email )
+        if HistoryList.objects.filter( history_userid = request.user.userid ).exists():
+            his = HistoryList.objects.filter( history_userid = request.user.userid )
             nhis = []
             for i in his:
                 nhis.append( SPOTIFY.track( i.history_music_id, market=None ) )
             nhis.reverse()
             content[ 'history' ] = nhis
         #いいねした曲
-        if Good.objects.filter( good_user_mail = request.user.email ).exists():
-            goods = Good.objects.filter( good_user_mail = request.user.email )
+        if Good.objects.filter( good_userid = request.user.userid ).exists():
+            goods = Good.objects.filter( good_userid = request.user.userid )
             ngd = []
             for i in goods:
                 ngd.append( SPOTIFY.track( i.good_music_id, market=None ) )
             content[ 'like' ] = ngd
         #コメントした曲
-        if Comment.objects.filter( comment_user_mail = request.user.email ).exists():
-            cmtmusic = Comment.objects.filter( comment_user_mail = request.user.email )
+        if Comment.objects.filter( comment_userid = request.user.userid ).exists():
+            cmtmusic = Comment.objects.filter( comment_userid = request.user.userid )
             ncm = []
             ncm_track = []
             for i in cmtmusic:
@@ -318,8 +318,8 @@ def index( request ):
                 ncm_track.append( SPOTIFY.track( i[ 'tag_name' ], market=None ) )
             content[ 'ucomment_mus' ] = ncm_track
         #評価した曲
-        if Star.objects.filter( star_user_mail = request.user.email ).exists():
-            sts = Star.objects.filter( star_user_mail = request.user.email )
+        if Star.objects.filter( star_userid = request.user.userid ).exists():
+            sts = Star.objects.filter( star_userid = request.user.userid )
             nsts = []
             for i in sts:
                 nsts.append( SPOTIFY.track( i.star_music_id , market=None ) )
@@ -343,13 +343,13 @@ def index( request ):
 def create( request, idn ):
     if request.method == 'POST':
         clean_text = bleach.clean( request.POST[ 'comment_text' ] )
-        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_text=clean_text )
+        c = Comment( comment_userid=request.user.userid, comment_music_id=idn, comment_text=clean_text )
         c.save()
     return redirect( 'mus', idn )
 
 def create( request, idn ):
     if request.method == 'POST':
-        c = Comment( comment_user_mail=request.user.email, comment_music_id=idn, comment_text=request.POST[ 'comment_text' ] )
+        c = Comment( comment_userid=request.user.userid, comment_music_id=idn, comment_text=request.POST[ 'comment_text' ] )
         c.save()
     return redirect( 'mus', idn )
 
@@ -377,14 +377,14 @@ def music( request, idn ):
         ave_star /= Star.objects.filter( star_music_id = idn ).count()
         ave_star = Utils.round( ave_star )
     if request.user.is_authenticated:
-        if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():
-            user_star = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn ).star_num
-        if Good.objects.filter( good_music_id = idn, good_user_mail = request.user.email ).exists():
-            good_count = Good.objects.get(good_music_id = idn, good_user_mail = request.user.email ).good_bool
+        if Star.objects.filter( star_userid = request.user.userid, star_music_id = idn ).exists():
+            user_star = Star.objects.get( star_userid = request.user.userid, star_music_id = idn ).star_num
+        if Good.objects.filter( good_music_id = idn, good_userid = request.user.userid ).exists():
+            good_count = Good.objects.get(good_music_id = idn, good_userid = request.user.userid ).good_bool
             for i in Good.objects.filter(good_music_id = idn):
-                good_count = Good(good_user_mail = request.user.email, good_music_id = idn )
-        if Good.objects.filter(good_user_mail = request.user.email , good_music_id = idn ).exists():
-            good_bool = Good.objects.get(good_user_mail = request.user.email , good_music_id = idn ).good_bool
+                good_count = Good(good_userid = request.user.userid, good_music_id = idn )
+        if Good.objects.filter(good_userid = request.user.userid , good_music_id = idn ).exists():
+            good_bool = Good.objects.get(good_userid = request.user.userid , good_music_id = idn ).good_bool
     if Good.objects.filter( good_music_id = idn ).exists():
         good_count = Good.objects.filter( good_music_id = idn, good_bool = True).count()
 
@@ -411,9 +411,9 @@ def music( request, idn ):
     }
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
-        MusHistory = HistoryList(history_user_mail = request.user.email,history_music_id = idn)
+        MusHistory = HistoryList(history_userid = request.user.userid,history_music_id = idn)
         MusHistory.save()
         ModelMus.setHistory(request)
 
@@ -421,7 +421,7 @@ def music( request, idn ):
         content[ 'is_comment' ] = True
         comments = Comment.objects.filter( comment_music_id=idn )
         for i in range( comments.count() ):
-            users.append( CustomUser.objects.get( email=comments[ i ].comment_user_mail ) )#一つしかとってきてない
+            users.append( CustomUser.objects.get( userid=comments[ i ].comment_userid ) )#一つしかとってきてない
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
             tmp = {
                 'user_name': users[ i ].username,
@@ -453,7 +453,7 @@ def user( request ):
 def search( request ):
     #if len( request.GET[ 'search-music' ] ) != 0:
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( userid = request.user.userid )
         content = {
             'tags': '',
             'data':User,
@@ -489,7 +489,7 @@ def artist( request, id ):
         'data': User
     }
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( email = request.user.userid )
         content[ 'data' ] = User
 
     max_length = [13,21]
@@ -531,7 +531,7 @@ def album( request, id ):
     }
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( email = request.user.userid )
 
     albums = SPOTIFY.albums( [ id ], market=None )
     artist_album = albums['albums'][0]
@@ -554,14 +554,14 @@ def star( request, idn ):#非同期時に行う処理
 
         if request.user.is_authenticated:#ログイン判定
             #g_s = None
-            if Star.objects.filter( star_user_mail = request.user.email, star_music_id = idn ).exists():#データの存在確認
-                g_s = Star.objects.get( star_user_mail = request.user.email, star_music_id = idn )#個人の評価
+            if Star.objects.filter( star_userid = request.user.userid, star_music_id = idn ).exists():#データの存在確認
+                g_s = Star.objects.get( star_userid = request.user.userid, star_music_id = idn )#個人の評価
                 st = data[ 'number' ] + 1#jsから送られてきた数値
                 g_s.star_num = st#評価をデータベースに入れる
                 g_s.save()#データベースをセーブ
             else:#まだ評価していないデータの場合
                 st = data[ 'number' ] + 1#
-                g_s = Star( star_user_mail = request.user.email, star_music_id = idn, star_num = st )
+                g_s = Star( star_userid = request.user.userid, star_music_id = idn, star_num = st )
                 g_s.save()
             user_star = g_s.star_num#個人の評価
         if Star.objects.filter( star_music_id = idn ).exists():#データの存在確認
@@ -580,27 +580,27 @@ def good( request, idn ):#非同期時に行う処理
 
         if request.user.is_authenticated:#ログイン判定
             #ｄｂの変更
-            if Good.objects.filter( good_user_mail = request.user.email, good_music_id = idn ).exists():
-                good = Good.objects.get( good_user_mail = request.user.email, good_music_id = idn )#取得
+            if Good.objects.filter( good_userid = request.user.userid, good_music_id = idn ).exists():
+                good = Good.objects.get( good_userid = request.user.userid, good_music_id = idn )#取得
                 good.good_bool = not good.good_bool
                 
                 if good.good_bool == True:
-                    MusLike = LikeList(like_user_mail = request.user.email,like_music_id = idn)
+                    MusLike = LikeList(like_userid = request.user.userid,like_music_id = idn)
                     MusLike.save()
                     ModelMus.setHistory(request)
                 else:
-                    MusLiked = LikeList.objects.filter(like_user_mail = request.user.email,like_music_id = idn)
+                    MusLiked = LikeList.objects.filter(like_userid = request.user.userid,like_music_id = idn)
                     MusLiked[0].delete()
 
                 good.save()
 
             else:
                 # データが未登録の場合
-                good = Good.objects.create(good_user_mail=request.user.email, good_music_id=idn)
-            #print(Good.objects.get( good_user_mail = request.user.email, good_music_id = idn ).good_bool)
+                good = Good.objects.create(good_userid=request.user.userid, good_music_id=idn)
+            #print(Good.objects.get( good_userid = request.user.userid, good_music_id = idn ).good_bool)
         content = {
             'good_count':Good.objects.filter(good_music_id = idn, good_bool = True).count(),
-            'good_bool':str(Good.objects.get( good_user_mail = request.user.email, good_music_id = idn ).good_bool).lower(),
+            'good_bool':str(Good.objects.get( good_userid = request.user.userid, good_music_id = idn ).good_bool).lower(),
         }
 
         return JsonResponse( content ) 
@@ -608,7 +608,7 @@ def good( request, idn ):#非同期時に行う処理
 def create_reply( request, idn, cid ):
     if request.POST:
         clean_text = bleach.clean( request.POST[ 'reply-text' ] )
-        r = Reply( reply_comment_id = cid, reply_user_mail = request.user.email, reply_text = clean_text )
+        r = Reply( reply_comment_id = cid, reply_userid = request.user.userid, reply_text = clean_text )
         r.save()
         return redirect( 'mus', idn )
 
@@ -619,7 +619,7 @@ def view_reply( request, idn ):
         if Reply.objects.filter( reply_comment_id = idn ).exists():
             reply = Reply.objects.filter( reply_comment_id = idn )
             for i in reply:
-                user = CustomUser.objects.get( email = i.reply_user_mail )
+                user = CustomUser.objects.get( email = i.reply_userid )
                 data = {
                     'user_name': user.username,
                     'user_image': user.image.url,
@@ -644,7 +644,7 @@ def changepassword( request):
     User = False
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.email )
+        User = CustomUser.objects.filter( email = request.user.userid )
     else:
         return redirect( 'Login' )
 
@@ -652,7 +652,7 @@ def changepassword( request):
             if 'oldpassword' in request.POST and 'newpassword' in request.POST:
                 OldPassword = request.POST['oldpassword']
                 NewPassword = request.POST['newpassword']
-                useremail = request.user.email
+                useremail = request.user.userid
                 if check_password(OldPassword,User[0].password):
                     User.update(password = make_password(NewPassword))
                     User = authenticate( request, email=useremail, password=NewPassword)

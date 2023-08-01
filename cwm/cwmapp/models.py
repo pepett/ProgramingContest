@@ -33,7 +33,8 @@ class UploadImage( models.Model ):#画像テーブル
 
 class Comment( models.Model ):#コメントテーブル
     comment_id = models.AutoField( primary_key = True )#コメントのID
-    comment_user_mail = models.EmailField()#コメント下ユーザのメールアドレス
+    #comment_user_mail = models.EmailField()#コメント下ユーザのメールアドレス
+    comment_userid = models.CharField( max_length=100 )
     comment_music_id = models.TextField()#コメントされた音楽のID
     comment_text = models.TextField()#コメント本文
     comment_posted = models.DateTimeField( auto_now_add = True )#コメントした日時
@@ -53,53 +54,56 @@ class Comment( models.Model ):#コメントテーブル
 class Reply( models.Model ):#返信テーブル
     reply_id = models.AutoField( primary_key = True )#返信のID
     reply_comment_id = models.IntegerField()#返信したコメントのID
-    reply_user_mail = models.EmailField()#返信したユーザのメールアドレス
+    #reply_user_mail = models.EmailField()#返信したユーザのメールアドレス
+    reply_userid = models.CharField( max_length=100 )
     reply_text = models.TextField()#返信本文
     reply_posted = models.DateTimeField( auto_now_add = True )#返信した日時
 
     def __str__( self ):
-        return self.reply_user_mail
+        return self.reply_userid
 
 class LikeList( models.Model ):#いいねしたリストテーブル
-    like_user_mail = models.EmailField()#いいねしたユーザのメールアドレス
+    #like_user_mail = models.EmailField()#いいねしたユーザのメールアドレス
+    like_userid = models.CharField( max_length=100 )
     like_music_id = models.TextField()#いいねした音楽のID
 
     def __str__( self ):
-        return self.like_user_mail
+        return self.like_userid
 
 class HistoryList( models.Model ):#履歴テーブル
-    history_user_mail = models.EmailField()#履歴のメールアドレス
+    #history_user_mail = models.EmailField()#履歴のメールアドレス
+    history_userid = models.CharField( max_length=100 )
     history_music_id = models.TextField()#履歴の音楽ID
 
     def __str__( self ):
-        return self.history_user_mail
+        return self.history_userid
 
 class Star( models.Model ):#評価テーブル
-    star_user_mail = models.EmailField()#評価したユーザのメールアドレス
+    #star_user_mail = models.EmailField()#評価したユーザのメールアドレス
+    star_userid = models.CharField( max_length=100 )
     star_music_id = models.TextField()#評価した音楽のID
     star_num = models.IntegerField()#音楽に対する評価
     class Meta:#複合キー指定
         constraints = [
-            models.UniqueConstraint( fields=[ 'star_user_mail', 'star_music_id' ], name='unique_star' )
+            models.UniqueConstraint( fields=[ 'star_userid', 'star_music_id' ], name='unique_star' )
         ]
 
 class Good( models.Model ):#いいねテーブル
-    good_user_mail = models.EmailField()#いいねしたユーザのメールアドレス
+    #good_user_mail = models.EmailField()#いいねしたユーザのメールアドレス
+    good_userid = models.CharField( max_length=100 )
     good_music_id = models.TextField()#いいねした音楽のID
     good_bool = models.BooleanField(default=False)#音楽に対するいいね
     class Meta:#複合キー指定
         constraints = [
-            models.UniqueConstraint( fields=[ 'good_user_mail', 'good_music_id' ], name='unique_good' )
+            models.UniqueConstraint( fields=[ 'good_userid', 'good_music_id' ], name='unique_good' )
         ]
 
 class Music( models.Model ):#ユーザが投稿した音楽テーブル
     def save_full_track( instance, filename ):#フルの楽曲を保存するパス
-        print( instance.music_id )
         ext = filename.split('.')[-1]
         return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/full/{ instance.music_id }.png'
     def save_preview_track( instance, filename ):#プレビューの楽曲を保存するパス
         ext = filename.split('.')[-1]
-        print( instance.music_id )
         return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/pre/{ instance.music_id }.png'
     music_id = models.TextField( primary_key = True )#曲のID
     music_album_id = models.TextField()#所属するアルバムのID

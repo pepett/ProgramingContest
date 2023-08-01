@@ -5,7 +5,7 @@ class ModelMus:
     @staticmethod
     def setHistory(request):
 
-        Mus = HistoryList.objects.filter(history_user_mail = request.user.email)
+        Mus = HistoryList.objects.filter(history_userid = request.user.userid)
         result = []
         
         for i in range(Mus.count()):

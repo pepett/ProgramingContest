@@ -93,18 +93,29 @@ class Good( models.Model ):#いいねテーブル
         ]
 
 class Music( models.Model ):#ユーザが投稿した音楽テーブル
-    music_id = models.TextField()#曲のID
+    def save_full_track( instance, filename ):#フルの楽曲を保存するパス
+        print( instance.music_id )
+        ext = filename.split('.')[-1]
+        return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/full/{ instance.music_id }.png'
+    def save_preview_track( instance, filename ):#プレビューの楽曲を保存するパス
+        ext = filename.split('.')[-1]
+        print( instance.music_id )
+        return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/pre/{ instance.music_id }.png'
+    music_id = models.TextField( primary_key = True )#曲のID
     music_album_id = models.TextField()#所属するアルバムのID
     music_name = models.CharField( max_length = 100 )
-    music_track_full = models.FileField( upload_to = 'albums/tracks/full/' )#フルの音楽
-    music_track_preview = models.FileField( upload_to = 'albums/tracks/preview/' )#プレビュー音楽
+    music_track_full = models.FileField( upload_to = save_full_track )#フルの音楽
+    music_track_preview = models.FileField( upload_to = save_preview_track )#プレビュー音楽
     #music_userid = models.TextField()#投稿者のID
     
 class Album( models.Model ):#ユーザが投稿したアルバムテーブル
-    album_id = models.TextField()#アルバムのID
+    def save_album_image( instance, filename ):
+        ext = filename.split( '.' )[ -1 ]
+        return f'{ instance.album_userid }/albums/{ instance.album_id }/image/{ instance.album_id }.{ ext }'
+    album_id = models.TextField( primary_key = True )#アルバムのID
     album_userid = models.TextField()#投稿者のID
     album_name = models.CharField( max_length = 100 )
-    album_image = models.FileField( upload_to = 'albums/' )
+    album_image = models.FileField( upload_to = save_album_image )
 
 class UserManager( BaseUserManager ):
     use_in_migrations = True
@@ -148,6 +159,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     Username and password are required. Other fields are optional.
     """
 
+    def save_user( instance, filename ):
+        return f'{ instance.userid }/image/{ filename }'#ユーザ画像
     username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(
@@ -175,7 +188,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             "msg": _( "fuck!" )
         }
     )
-    image = models.ImageField( upload_to = 'images/' )
+    image = models.ImageField( upload_to = save_user )
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

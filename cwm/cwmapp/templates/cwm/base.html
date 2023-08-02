@@ -38,14 +38,17 @@
                 </div>
                 {% endif %}
                 <div class="MinisearchBox">
-                    <button type="button" id="searchBtn">
-                        <img src="{% static 'img/tmp/search.png'%}" alt="searchBtn">
-                    </button>
                     <form action="{% url 'result' %}">
+                        <button type="button" id="searchBtn">
+                            <a href="{% url 'search' %}"><img src="{% static 'img/tmp/search.png'%}" alt="searchBtn"></a>
+                        </button>
                         <input type="search" placeholder="検索" name="search-music" value="{{ word }}"></input>
                     </form>
                 </div>
+                {% if request.user.is_authenticated %}
                 <a class="Minilink" href="{% url 'Logout' %}">ログアウト</a>
+                {% else %}
+                {% endif %}
             </div>
         </div>
           <!-- ここまで -->
@@ -66,7 +69,7 @@
             </form>
         </div>
         {% if request.user.is_authenticated %}
-        <a class="logoutlink" href="{% url 'Logout' %}">ログアウト</a>
+        <a class="loginBT" href="{% url 'upload' %}">音楽をアップロード</a>
         <div class="Login_userbox">
             <a href="{% url 'setting' %}">
                 <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">

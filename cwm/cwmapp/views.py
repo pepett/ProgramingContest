@@ -13,9 +13,9 @@ from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from lib.model_conect import ModelMus
-from cwmapp.models import Comment, HistoryList, LikeList, Music, Star, Good ,Reply
+from cwmapp.models import Comment, HistoryList, LikeList, Music, Album, Star, Good ,Reply
 
-from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser#, LoginForm
+from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser, MusicRegisterForm, AlbumRegisterForm#, LoginForm
 
 # Create your views here.
 
@@ -30,7 +30,7 @@ def top( request ):
     #    print( tmp[ counter ] )
     #例ここまで
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.userid )
+        User = CustomUser.objects.filter( userid = request.user.userid )
         print( request.user.last_login )
 
         content = {
@@ -64,7 +64,7 @@ def Logout( request ):
 
 def register( request ):
     if request.POST:
-        img = Utils.CreateUserImage(request.POST['username'],str(uuid.uuid4()))
+        img = Utils.CreateUserImage(request.POST['username'],str(Utils.randomid()))
         register_form = RegisterForm( request.POST)
         if register_form.is_valid():
             reg = register_form.save()
@@ -92,7 +92,7 @@ def setting( request ):
     if not request.user.is_authenticated:
         return redirect(Login)
     
-    User = CustomUser.objects.filter( email = request.user.userid )
+    User = CustomUser.objects.filter( userid = request.user.userid )
     Likeresult = []
     Historyresult = []
     content = {
@@ -163,7 +163,7 @@ def result( request ):
     #重複をなくしたい
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.userid )
+        User = CustomUser.objects.filter( userid = request.user.userid )
 
     for i in nres:
         t = {
@@ -212,7 +212,7 @@ def index( request ):
     }
     
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.userid )
+        User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
 
     max_length = 13
@@ -425,7 +425,7 @@ def music( request, idn ):
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
             tmp = {
                 'user_name': users[ i ].username,
-                'user_mail': users[ i ].email,
+                'user_id': users[ i ].userid,
                 'user_image': users[ i ].image,
                 'comment_id': comments[ i ].comment_id,
                 'comment_good': 0,
@@ -489,7 +489,7 @@ def artist( request, id ):
         'data': User
     }
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.userid )
+        User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
 
     max_length = [13,21]
@@ -531,7 +531,7 @@ def album( request, id ):
     }
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.userid )
+        User = CustomUser.objects.filter( userid = request.user.userid )
 
     albums = SPOTIFY.albums( [ id ], market=None )
     artist_album = albums['albums'][0]
@@ -619,7 +619,7 @@ def view_reply( request, idn ):
         if Reply.objects.filter( reply_comment_id = idn ).exists():
             reply = Reply.objects.filter( reply_comment_id = idn )
             for i in reply:
-                user = CustomUser.objects.get( email = i.reply_userid )
+                user = CustomUser.objects.get( userid = i.reply_userid )
                 data = {
                     'user_name': user.username,
                     'user_image': user.image.url,
@@ -644,7 +644,7 @@ def changepassword( request):
     User = False
 
     if request.user.is_authenticated:
-        User = CustomUser.objects.filter( email = request.user.userid )
+        User = CustomUser.objects.filter( userid = request.user.userid )
     else:
         return redirect( 'Login' )
 
@@ -652,10 +652,10 @@ def changepassword( request):
             if 'oldpassword' in request.POST and 'newpassword' in request.POST:
                 OldPassword = request.POST['oldpassword']
                 NewPassword = request.POST['newpassword']
-                useremail = request.user.userid
+                userID = request.user.userid
                 if check_password(OldPassword,User[0].password):
                     User.update(password = make_password(NewPassword))
-                    User = authenticate( request, email=useremail, password=NewPassword)
+                    User = authenticate( request, userid=userID, password=NewPassword)
                     if User is not None:
                         login( request, User )
                         return redirect( 'setting' )
@@ -666,3 +666,37 @@ def changepassword( request):
     }
 
     return render( request, 'cwm/changepassword.html', content )
+
+def upload( request):
+    
+    User = False
+    albums = []
+
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( userid = request.user.userid )
+        albums = Album.objects.filter( album_userid = request.user.userid)
+    else:
+        return redirect( 'Login' )
+    
+    if request.method == 'POST':
+
+        AlbumForm = AlbumRegisterForm(request.POST,request.FILES)
+        if AlbumForm.is_valid():
+            album = AlbumForm.save()
+            album.album_userid = request.user.userid
+            album.save()
+
+        MusicForm = MusicRegisterForm(request.POST,request.FILES)
+        if MusicForm.is_valid():
+            Music = MusicForm.save()
+            Music.music_album_id = album[0].album_id
+            Music.save()
+
+    content = {
+        'MusicRegisterForm':MusicRegisterForm(),
+        'AlbumRegisterForm':AlbumRegisterForm(),
+        'Albums':albums,
+        'data':User,
+    }
+
+    return render( request, 'cwm/upload.html', content )

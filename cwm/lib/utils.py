@@ -98,6 +98,6 @@ class Utils:
         return filename
     
     @staticmethod
-    def randomname(n):
-        randlst = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
+    def randomid():
+        randlst = [random.choice(string.ascii_letters + string.digits) for i in range(25)]
         return ''.join(randlst)

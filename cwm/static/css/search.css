@@ -1,48 +1,139 @@
+main {
+  margin-top: 80px; }
+
 .title {
   text-align: center; }
   .title h2 {
     color: #00de64;
-    font-size: 64px; }
+    font-size: 50px; }
 
 .tags {
-  margin-top: 100px;
-  margin-left: 100px;
-  display: flex; }
+  margin: 40px auto;
+  display: flex;
+  width: 90%;
+  max-height: 400px;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  padding: 40px; }
   .tags .tag {
+    font-weight: bold;
+    font-size: 16px;
     background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
-    font-size: 32px;
     border: 1px solid gray;
     border-radius: 10px;
-    padding: 20px;
+    padding: 12px;
     margin: 5px 10px; }
     .tags .tag .tag-num {
       color: white; }
   .tags .tag:hover {
     opacity: 0.5; }
 
+.tags::-webkit-scrollbar {
+  height: 10px;
+  width: 8px; }
+
+.tags::-webkit-scrollbar-track {
+  background-color: none; }
+
+.tags::-webkit-scrollbar-thumb {
+  background-color: #696969;
+  border-radius: 10px; }
+
 form .music-tags {
   margin: 100px; }
   form .music-tags .tag {
     margin: 0 0 0 50px;
-    font-size: 32px; }
+    font-size: 20px; }
 form .search-form {
   justify-content: center;
   padding: 0;
-  margin: 0;
   display: flex;
+  margin: 0 auto;
+  width: 60%;
   height: 50px; }
   form .search-form .search-input {
-    width: 900px;
+    width: 80%;
     height: 100%;
     border-radius: 10px;
-    font-size: 50px;
-    padding: 10px; }
+    font-size: 40px;
+    padding: 10px;
+    border: 2px solid gray; }
   form .search-form .search-button {
-    width: 100px;
+    width: 20%;
     height: 74px;
     font-size: 40px;
-    border-radius: 10px; }
+    border-radius: 10px;
+    border: 2px solid gray;
+    font-weight: bold; }
   form .search-form .search-input:focus {
     outline: none; }
+
+@media screen and (max-width: 1000px) {
+  main {
+    margin-top: 180px;
+    width: 100%;
+    height: 100%; }
+
+  .title h2 {
+    color: #00de64;
+    font-size: 30px; }
+
+  .tags {
+    margin: 40px auto;
+    display: flex;
+    width: 90%;
+    height: 70px;
+    overflow-x: scroll;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    padding: 5px; }
+    .tags .tag {
+      font-weight: bold;
+      font-size: 16px;
+      background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+      border: 1px solid gray;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 5px 10px; }
+      .tags .tag .tag-num {
+        color: white; }
+    .tags .tag:hover {
+      opacity: 0.5; }
+
+  .tags::-webkit-scrollbar {
+    height: 10px;
+    width: 8px; }
+
+  .tags::-webkit-scrollbar-track {
+    background-color: none; }
+
+  .tags::-webkit-scrollbar-thumb {
+    background-color: #696969;
+    border-radius: 10px; }
+
+  form {
+    width: 100%;
+    height: 100%; }
+    form .music-tags .tag {
+      margin: 0; }
+    form .search-form {
+      margin: 0 auto;
+      width: 100%;
+      height: 50px;
+      align-items: center; }
+      form .search-form .search-input {
+        width: 80%;
+        height: 50px;
+        border-radius: 10px;
+        font-size: 30px;
+        padding: 0px;
+        border: 2px solid gray; }
+      form .search-form .search-button {
+        width: 20%;
+        height: 54px;
+        font-size: 20px;
+        padding: 0px;
+        border: 2px solid gray; } }
 
 /*# sourceMappingURL=search.css.map */

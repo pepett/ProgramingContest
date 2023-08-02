@@ -155,9 +155,9 @@
     opacity: 0.8; }
 
 .eval {
-  color: white;
+  color: #d8d8d8;
   font-weight: bold;
-  font-size: 32px; }
+  font-size: 20px; }
 
 .eval-num {
   color: white;
@@ -165,8 +165,14 @@
   font-size: 20px; }
 
 .tags {
-  display: flex; }
+  display: flex;
+  width: 90%;
+  height: 70px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 5px; }
   .tags .tag {
+    font-weight: bold;
     font-size: 16px;
     background-color: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
     border: 1px solid gray;
@@ -178,45 +184,71 @@
   .tags .tag:hover {
     opacity: 0.5; }
 
+.tags::-webkit-scrollbar {
+  height: 10px;
+  width: 8px; }
+
+.tags::-webkit-scrollbar-track {
+  background-color: none; }
+
+.tags::-webkit-scrollbar-thumb {
+  background-color: #696969;
+  border-radius: 10px; }
+
 .likes {
   display: flex; }
+
+.sharedesc {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center; }
+  .sharedesc .artist {
+    font-weight: bold; }
+    .sharedesc .artist .album-name {
+      font-size: 15px;
+      color: white; }
+      .sharedesc .artist .album-name .album-title {
+        font-size: 25px; }
+    .sharedesc .artist .artist-name {
+      color: white; }
 
 .main-test {
   height: 450px;
   margin-top: 70px;
   display: flex; }
   .main-test .music-main {
+    width: 40%;
     padding: 10px; }
     .main-test .music-main iframe {
       height: 250px;
       width: 500px; }
     .main-test .music-main .good {
+      margin-left: 60px;
+      justify-content: space-between;
       display: flex;
-      justify-content: center; }
+      position: relative;
+      flex-direction: column; }
       .main-test .music-main .good #good-btn {
-        width: 50px;
-        height: 50px; }
+        margin-left: 20px;
+        margin-bottom: 20px; }
         .main-test .music-main .good #good-btn img {
-          width: 100%;
-          height: 100%; }
-      .main-test .music-main .good .good_sum {
+          width: 40px;
+          height: 40px; }
+      .main-test .music-main .good .good_nums {
+        position: absolute;
+        margin-left: 30px;
         color: #ffffff;
-        font-weight: bold; }
+        font-size: 20px;
+        font-weight: bold;
+        bottom: 0;
+        left: 3px; }
     .main-test .music-main .stars {
       display: block;
-      margin: 0;
-      padding-left: 10px; }
+      margin: 0; }
       .main-test .music-main .stars img {
         width: 30px;
         height: 30px; }
-    .main-test .music-main .album-name {
-      font-size: 20px;
-      font-weight: bold;
-      color: white; }
-      .main-test .music-main .album-name .album-title {
-        font-size: 25px; }
-    .main-test .music-main .artist-name {
-      color: white; }
     .main-test .music-main .tags .t {
       color: white; }
   .main-test .comments {
@@ -376,15 +408,11 @@
       margin-left: 10px; }
 
 .comments::-webkit-scrollbar {
-  height: 10px;
-  width: 8px; }
+  display: none; }
 
-.comments::-webkit-scrollbar-track {
-  background-color: none; }
-
-.comments::-webkit-scrollbar-thumb {
-  background-color: #696969;
-  border-radius: 10px; }
+.bigtext {
+  font-weight: bold;
+  color: #ffffff; }
 
 @media screen and (max-width: 1000px) {
   .main-test {
@@ -392,12 +420,12 @@
     flex-direction: column;
     height: 100%; }
     .main-test .music-main {
-      height: 400px; }
+      width: 98%; }
       .main-test .music-main iframe {
         height: 160px;
         width: 100%; }
     .main-test .comments {
-      height: 300px;
+      height: 600px;
       width: 95%; }
 
   .reply-form .reply-text {

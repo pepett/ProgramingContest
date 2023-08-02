@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, UploadImage, CustomUser, Reply
+from .models import Comment, UploadImage, CustomUser, Reply,Music,Album
 
 class Register(forms.Form):
     user_name = forms.CharField(label = "名前",widget=forms.TextInput(attrs={'placeholder':'スポティパイ太郎'}))
@@ -40,3 +40,18 @@ class RegisterForm( forms.ModelForm ):
         model = CustomUser
         fields = [ 'username', 'email', 'password' ]
         labels = {'username': 'ユーザー名', 'email': 'メールアドレス', 'password': 'パスワード'}
+
+class MusicRegisterForm( forms.ModelForm ):
+    class Meta:
+        required=False,
+        model = Music
+        fields = [ 'music_name', 'music_track_full', 'music_track_preview' ]
+        labels = {'music_name': '曲名','music_track_full': '曲(Full)','music_track_preview': '曲(Pre)'}
+
+
+class AlbumRegisterForm( forms.ModelForm ):
+    class Meta:
+        required=False,
+        model = Album
+        fields = [ 'album_name', 'album_image']
+        labels = {'album_name': 'アルバム名'}

@@ -1,0 +1,152 @@
+@charset "UTF-8";
+$gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+$greenCL: #00DE64;
+
+.inputfile{
+    height: 30px;
+    width: 180px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #000000;
+    border: 1px solid $greenCL;
+    transition: 0.7s;
+    input{
+    left: 0;
+    top: 0;
+    position: absolute;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    }
+}
+.inputfile::after{
+    content: 'アップロードする';
+    margin-bottom: 3px;
+    font-size: 15px;
+    font-weight: bold;
+    color: $greenCL;
+    margin-top: 5px;
+}
+.inputfile:hover{
+    background-color: #ffffff;
+}
+.inputfile::after:hover{
+    color: #000000;
+}
+.songbox{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.SongFileName{
+    font-weight: bold;
+    color: #ffffff;
+}
+.filebox{
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#albumselect{
+    width: 200px;
+    height: 50px;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 2px solid #000000;
+    background: #303030;
+    option{
+        height: 50px;
+        font-weight: bold;
+    }
+}
+.whitetext{
+    color: #ffffff;
+    font-weight: bold;
+}
+.UserAlbumIcon{
+    border: #000000 2px solid;
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+}
+#IconBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #747474;
+    border: #c7c7c7 2px solid;
+    border-radius: 10px;
+    .AlbumForm{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        div{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60%;
+        }
+    }
+    .whitetext{
+        width: 95%;
+        margin: 5px;
+    }
+    #AlbumIcon{
+        border: #000000 2px solid;
+        border-radius: 10px;
+        width: 120px;
+        height: 120px;
+    }
+    .AlbumInputText{
+        margin: 10px auto;
+        width: 95%;
+        height: 30px;
+        border-radius: 10px;
+        border: 1px solid #00DE64;
+        background-color: #f8f8f8;
+        font-weight: bold;
+        font-size: 20px;
+    }
+}
+#albumbox{
+    width: 35%;
+    height: 200px;
+    padding: 10px;
+    background: $gradationBG;
+    border-radius: 10px;
+    overflow-y: scroll;
+    .album_radio{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        border: #636363 2px solid;
+        margin: 5px 0;
+        font-size: 14px;
+        transition: 0.3s;
+        img{
+            margin: 2px;
+            border: none;
+        }
+        input{
+            display: none;
+        }
+    }
+    .album_radio:hover{
+        transform: scale(1.03);
+    }
+    .album_radio_select{
+        border: $greenCL 2px solid;
+    }
+}
+#albumbox::-webkit-scrollbar{
+    display: none;
+  }

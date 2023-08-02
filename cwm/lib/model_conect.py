@@ -27,7 +27,7 @@ class ModelMus:
     @staticmethod
     def setLiked(request):
 
-        Mus = LikeList.objects.filter(like_user_mail = request.user.email)
+        Mus = LikeList.objects.filter(like_userid = request.user.userid)
         result = []
         
         for i in range(Mus.count()):

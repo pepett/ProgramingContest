@@ -187,9 +187,9 @@ $greenCL: #00DE64;
   }
 
 .eval{
-  color: white;
+  color: rgb(216, 216, 216);
   font-weight: bold;
-  font-size: 32px;
+  font-size: 20px;
 }
 .eval-num{
   color: white;
@@ -199,7 +199,13 @@ $greenCL: #00DE64;
 
 .tags{
   display: flex;
+  width: 90%;
+  height: 70px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 5px;
   .tag{
+    font-weight: bold;
       font-size: 16px;
       background-color: $gradationBG;
       border: 1px solid gray;
@@ -214,49 +220,30 @@ $greenCL: #00DE64;
       opacity: 0.5;
   }
 }
+.tags::-webkit-scrollbar{
+  height: 10px;
+  width: 8px;
+}
+.tags::-webkit-scrollbar-track{
+  background-color: none;
+}
+.tags::-webkit-scrollbar-thumb{
+  background-color: #696969;
+  border-radius: 10px;
+}
 
 .likes{
     display: flex;
 }
-
-.main-test{
-  height: 450px;
-  margin-top: 70px;
+.sharedesc{
   display: flex;
-  .music-main{
-    padding: 10px;
-    iframe{
-      height: 250px;
-      width: 500px;
-    }
-    .good{
-      display: flex;
-      justify-content: center;
-      #good-btn{
-        width: 50px;
-        height: 50px;
-        img{
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .good_sum{
-        color: #ffffff;
-        font-weight: bold;
-      }
-    }
-    .stars{
-      display: block;
-      margin: 0;
-      padding-left: 10px;
-      img{
-        width: 30px;
-        height: 30px;
-      }
-    }
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  .artist{
+    font-weight: bold;
     .album-name{
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 15px;
       color: white;
       .album-title{
         font-size: 25px;
@@ -264,6 +251,55 @@ $greenCL: #00DE64;
     }
     .artist-name{ 
       color: white;
+    }
+  }
+  .share{
+    
+  }
+}
+
+.main-test{
+  height: 450px;
+  margin-top: 70px;
+  display: flex;
+  .music-main{
+    width: 40%;
+    padding: 10px;
+    iframe{
+      height: 250px;
+      width: 500px;
+    }
+    .good{
+      margin-left: 60px;
+      justify-content: space-between;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      #good-btn{
+        margin-left: 20px;
+        margin-bottom: 20px;
+        img{
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .good_nums{
+        position: absolute;
+        margin-left: 30px;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: bold;
+        bottom: 0;
+        left: 3px;
+      }
+    }
+    .stars{
+      display: block;
+      margin: 0;
+      img{
+        width: 30px;
+        height: 30px;
+      }
     }
     .tags{
       .t{
@@ -456,15 +492,11 @@ $greenCL: #00DE64;
   }
 }
 .comments::-webkit-scrollbar{
-  height: 10px;
-  width: 8px;
+  display: none;
 }
-.comments::-webkit-scrollbar-track{
-  background-color: none;
-}
-.comments::-webkit-scrollbar-thumb{
-  background-color: #696969;
-  border-radius: 10px;
+.bigtext{
+  font-weight: bold;
+  color: #ffffff;
 }
 @media screen and (max-width: 1000px) {
   .main-test{
@@ -472,14 +504,14 @@ $greenCL: #00DE64;
     flex-direction: column;
     height: 100%;
     .music-main{
-      height: 400px;
+      width: 98%;
       iframe{
         height: 160px;
         width: 100%;
       }
     }
     .comments{
-      height: 300px;
+      height: 600px;
       width: 95%;
     }
   }

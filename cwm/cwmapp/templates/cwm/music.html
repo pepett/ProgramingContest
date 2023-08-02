@@ -33,17 +33,22 @@
             <div class="good">
             </div>
         </div>
-        <div class="album-name">
-            アルバム: <span class="album-title"><a href="{% url 'album' track_result.album.id %}">{{ track_result.album.name }}</a></span>
+        <div class="sharedesc">
+            <div class="artist">
+                <div class="album-name">
+                    アルバム: <span class="album-title"><a href="{% url 'album' track_result.album.id %}">{{ track_result.album.name }}</a></span>
+                </div>
+                <div class="artist-name">
+                    アーティスト: <span class="artist-title"><a href="{% url 'artist' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a></span>
+                </div>
+            </div>
+            <div class="shere">
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="私は {{ track_result.name }} を聴いています" data-hashtags="cwm,{{ track_result.artists.0.name }}" data-size="large" data-lang="ja" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div class="line-it-button" data-lang="ja" data-type="share-a" data-env="REAL" data-url="http://localhost:8000/index" data-color="default" data-size="large" data-count="false" data-ver="3" style="display: none;"></div>
+                <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+            </div>
         </div>
-        <div class="artist-name">
-            アーティスト: <span class="artist-title"><a href="{% url 'artist' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a></span>
-        </div>
-        <div class="shere">
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="私は {{ track_result.name }} を聴いています" data-hashtags="cwm,{{ track_result.artists.0.name }}" data-size="large" data-lang="ja" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            <div class="line-it-button" data-lang="ja" data-type="share-a" data-env="REAL" data-url="http://localhost:8000/index" data-color="default" data-size="large" data-count="false" data-ver="3" style="display: none;"></div>
-            <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
-        </div>
+        {% if tags %}
         <div class="tags">
             {% for t in tags %}
             <a href="{% url 'result' %}?search-music={{ i.tag_name }}">
@@ -54,6 +59,7 @@
             </a>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
     <div class="comments">
         {% if request.user.is_authenticated %}
@@ -90,7 +96,7 @@
                         </div>
                         <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
                     </div>
-                    {% if request.user.email == item.user_mail and request.user.is_authenticated %}
+                    {% if request.user.userid == item.user_id and request.user.is_authenticated %}
                     <div class="forms">
                         <form action="{% url 'edit' track_result.id item.comment_id %}" method="post" class="edit-form" style="display: none;">
                             {% csrf_token %}
@@ -128,6 +134,10 @@
                 </div>
                 <hr>
             {% endfor %}
+        {% else %}
+        <div class="comment-box">
+            <h2 class="bigtext">コメントがありません</h2>
+        </div>
         {% endif %}
     </div>
 </main>
@@ -187,7 +197,7 @@
                 ver_arr[ i ] = sp.outerHTML;
             }
         }
-        document.querySelector( '.stars' ).innerHTML = '<span class="eval">評価：</span>';
+        document.querySelector( '.stars' ).innerHTML = '<span class="eval">評価</span><br>';
         for( let i = 0;i < 5;i ++ ){
             document.querySelector( '.stars' ).innerHTML += ver_arr[ i ];
         }
@@ -231,9 +241,9 @@
             button.innerHTML = good_img_black;
             ver[1] = button.outerHTML;
         }
-        document.querySelector( '.good' ).innerHTML ='<span class = eval>いいね：</good>';
+        document.querySelector( '.good' ).innerHTML ='<span class = eval>いいね</span>';
         document.querySelector( '.good' ).innerHTML += ver[ 1 ];
-        document.querySelector( '.good' ).innerHTML += `<span class = eval>${ u }</span>`;
+        document.querySelector( '.good' ).innerHTML += `<span class = good_nums>${ u }</span>`;
         setTimeout( good_eval, 1000 );
 }
     const view_reply = ( n, res ) => {

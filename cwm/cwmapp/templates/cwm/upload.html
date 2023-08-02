@@ -1,0 +1,99 @@
+{% extends "cwm/base.html" %}
+{% load static %}
+{% block title %}音楽をアップロード{% endblock %}
+{% block content %}
+<main>
+    <link rel="stylesheet" href="{% static 'css/Login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+    <div class="box1">
+        <form id="RegForm" action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1 class="titletext">音楽をアップロード</h1>
+            <hr>
+            <div class="FormBox">
+                <p class="formtext">曲名</p>
+                <input type="text" class="InputText" placeholder="曲名" name="music_name" required id="id_music_name">
+            </div>
+            <div class="FormBox">
+                <p class="formtext">音源ファイル（フル）</p>
+                <div class="songbox">
+                    <span id="full_prebox">
+                        <h3 class="greentext">アップロードしてください</h3>
+                    </span>
+                    <span class="filebox">
+                        <p class="SongFileName" id="full_filename"></p>
+                        <span class="inputfile">
+                            <input type="file" name="music_track_full" accept="audio/*" required id="id_music_track_full">
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="FormBox">
+                <p class="formtext">音源ファイル（プレビュー）</p>
+                <div class="songbox">
+                    <span id="pre_prebox">
+                        <h3 class="greentext">アップロードしてください</h3>
+                    </span>
+                    <span class="filebox">
+                        <p class="SongFileName" id="pre_filename"></p>
+                        <span class="inputfile">
+                            <input type="file" name="music_track_preview" accept="audio/*" required id="id_music_track_preview">
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="FormBox">
+                <p class="formtext">アルバム</p>
+                <div class="songbox">
+                    <div id="albumbox">
+                        <label for="Albums_1" class="album_radio">
+                            <img class="UserAlbumIcon" src="{% static 'img/tmp/plus.png' %}" alt="アルバム画像">
+                            <p class="whitetext">シングルとして追加</p>
+                            <input type="radio" id="Albums_1" name="SelectAlbum" value="Single">
+                        </label>
+                        <label for="Albums_3" class="album_radio">
+                            <img class="UserAlbumIcon" src="{% static 'img/tmp/add_album.png' %}" alt="アルバム画像">
+                            <p class="whitetext">アルバムを追加</p>
+                            <input type="radio" id="Albums_3" name="SelectAlbum" value="MakeAlbum">
+                        </label>
+                        <p class="whitetext">作成したアルバム</p>
+                        <!-- ↓ユーザーがアルバムを作っていたら表示↓ -->
+                        {% if Albums %}
+                        {% for i in Albums %}
+                        <label for="{{i.album_id}}" class="album_radio">
+                            <img class="UserAlbumIcon" src="{{i.album_image.url}}" alt="アルバム画像">
+                            <p class="whitetext"><!--アルバム名-->仮名</p>
+                            <input type="radio" id="{{i.album_id}}" name="SelectAlbum" value="{{i.album_id}}">
+                        </label>
+                        {% endfor %}
+                        {% endif %}
+                        <!-- ↑ユーザーがアルバムを作っていたら表示↑ -->
+                    </div>
+                    <div id="albumdesc">
+                        <div id="IconBox">
+                            <h3 class="whitetext">アルバム画像</h3>
+                            <div class="AlbumForm">
+                                <img id="AlbumIcon" class="AlbumIcon" src="{% static 'img/tmp/仮アルバム.jpg' %}" alt="アルバム画像">
+                                <div>
+                                    <span id="FilenameText" class="whitetext">画像を設定してください</span>
+                                    <span class="inputfile">
+                                        <input type="file" name="album_image" accept="image/*" id="id_album_image">
+                                    </span>
+                                </div>
+                            </div>
+                            <input type="text" class="AlbumInputText" placeholder="アルバム名" name="album_name" id="id_album_name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="FormBox">
+                <div class="SubBTBox">
+                    <input type="submit" class="loginBT" id="submit" value="音楽のアップロード">
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'js/setting.js' %}"></script>
+    <script src="{% static 'js/upload.js' %}"></script>
+</main>
+{% endblock %}

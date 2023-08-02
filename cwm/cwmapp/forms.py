@@ -45,13 +45,13 @@ class MusicRegisterForm( forms.ModelForm ):
     class Meta:
         required=False,
         model = Music
-        fields = [ 'music_name', 'music_track_full', 'music_track_preview' ]
-        labels = {'music_name': '曲名','music_track_full': '曲(Full)','music_track_preview': '曲(Pre)'}
+        fields = [ 'music_name', 'music_track_full', 'music_track_preview', 'music_album_id']
+        labels = {'music_name': '曲名'}
 
 
 class AlbumRegisterForm( forms.ModelForm ):
     class Meta:
         required=False,
         model = Album
-        fields = [ 'album_name', 'album_image']
+        fields = [ 'album_name', 'album_image', 'album_userid']
         labels = {'album_name': 'アルバム名'}

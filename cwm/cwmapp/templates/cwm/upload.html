@@ -49,7 +49,7 @@
                         <label for="Albums_1" class="album_radio">
                             <img class="UserAlbumIcon" src="{% static 'img/tmp/plus.png' %}" alt="アルバム画像">
                             <p class="whitetext">シングルとして追加</p>
-                            <input type="radio" id="Albums_1" name="SelectAlbum" value="Single">
+                            <input type="radio" id="Albums_1" name="SelectAlbum" value="Single" checked>
                         </label>
                         <label for="Albums_3" class="album_radio">
                             <img class="UserAlbumIcon" src="{% static 'img/tmp/add_album.png' %}" alt="アルバム画像">
@@ -62,7 +62,7 @@
                         {% for i in Albums %}
                         <label for="{{i.album_id}}" class="album_radio">
                             <img class="UserAlbumIcon" src="{{i.album_image.url}}" alt="アルバム画像">
-                            <p class="whitetext"><!--アルバム名-->仮名</p>
+                            <p class="whitetext">{{i.album_name}}</p>
                             <input type="radio" id="{{i.album_id}}" name="SelectAlbum" value="{{i.album_id}}">
                         </label>
                         {% endfor %}

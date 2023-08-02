@@ -9,6 +9,7 @@ from django.contrib.auth.models import PermissionsMixin, BaseUserManager
 from lib.utils import Utils
 import datetime
 import uuid
+import random,string
 
 '''class User( models.Model ):
     user_name = models.CharField( max_length = 50 )
@@ -101,11 +102,11 @@ class Good( models.Model ):#いいねテーブル
 class Music( models.Model ):#ユーザが投稿した音楽テーブル
     def save_full_track( instance, filename ):#フルの楽曲を保存するパス
         ext = filename.split('.')[-1]
-        return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/full/{ instance.music_id }.png'
+        return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/full/{ instance.music_id }.{ ext }'
     def save_preview_track( instance, filename ):#プレビューの楽曲を保存するパス
         ext = filename.split('.')[-1]
-        return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/pre/{ instance.music_id }.png'
-    music_id = models.TextField(default=Utils.randomid(), primary_key = True )#曲のID
+        return f'{ Album.objects.get( album_id = instance.music_album_id ).album_userid }/albums/{ instance.music_album_id }/tracks/pre/{ instance.music_id }.{ ext }'
+    music_id = models.TextField(default=Utils.randomid, primary_key = True )#曲のID
     music_album_id = models.TextField()#所属するアルバムのID
     music_name = models.CharField( max_length = 100 )
     music_track_full = models.FileField( upload_to = save_full_track )#フルの音楽
@@ -116,7 +117,7 @@ class Album( models.Model ):#ユーザが投稿したアルバムテーブル
     def save_album_image( instance, filename ):
         ext = filename.split( '.' )[ -1 ]
         return f'{ instance.album_userid }/albums/{ instance.album_id }/image/{ instance.album_id }.{ ext }'
-    album_id = models.TextField(default=Utils.randomid(), primary_key = True )#アルバムのID
+    album_id = models.TextField(default=Utils.randomid, primary_key = True )#アルバムのID
     album_userid = models.TextField()#投稿者のID
     album_name = models.CharField( max_length = 100 )
     album_image = models.FileField( upload_to = save_album_image )
@@ -183,7 +184,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         _( "userid" ),
         max_length=100,
         unique=True,
-        default=Utils.randomid(),
+        default=Utils.randomid,
         help_text=_(
             "この名前は公開されません。"
         ),

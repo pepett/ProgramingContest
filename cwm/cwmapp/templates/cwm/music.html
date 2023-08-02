@@ -51,7 +51,7 @@
         {% if tags %}
         <div class="tags">
             {% for t in tags %}
-            <a href="{% url 'result' %}?search-music={{ i.tag_name }}">
+            <a href="{% url 'result' %}?search-music={{ t.tag_name }}">
                 <div class="tag">
                     <span class="tag-name">#{{ t.tag_name }}</span>
                     <span class="tag-num">({{ t.tag_num }})</span>

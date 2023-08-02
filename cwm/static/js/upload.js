@@ -1,5 +1,22 @@
 window.onload = ()=>{
-
+  const Albums = document.getElementsByClassName("album_radio");
+  let SelectAlbum = document.getElementsByName("SelectAlbum");
+  for(let j = 0;j < Albums.length;j++){
+    if (SelectAlbum[j].checked == true){
+      console.log('add')
+      Albums[j].classList.add('album_radio_select');
+    }else{
+      console.log('remove')
+      Albums[j].classList.remove('album_radio_select');
+    }
+  }
+  let album_name = document.getElementsByName("album_name");
+  let album_image = document.getElementsByName("album_image");
+  album_image[0].required = true;
+  album_name[0].required = false;
+  album_name[0].disabled = true;
+  album_name[0].style.display = "none"
+  IconBox.style.display = "flex"
 }
 
 const full_input_file = document.getElementById("id_music_track_full");
@@ -93,6 +110,26 @@ for (let i = 0;i < Albums.length;i++){
         console.log('remove')
         Albums[j].classList.remove('album_radio_select');
       }
+    }
+    let album_name = document.getElementsByName("album_name");
+    let album_image = document.getElementsByName("album_image");
+    if (SelectAlbum[i].value == 'Single'){
+      album_image[0].required = true;
+      album_name[0].required = false;
+      album_name[0].disabled = true;
+      album_name[0].style.display = "none"
+      IconBox.style.display = "flex"
+    }else if (SelectAlbum[i].value == 'MakeAlbum'){
+      album_image[0].required = true;
+      album_name[0].required = true;
+      album_name[0].disabled = false;
+      album_name[0].style.display = "block"
+      IconBox.style.display = "flex"
+    }else{
+      album_image[0].required = false;
+      album_name[0].required = false;
+      album_name[0].disabled = false;
+      IconBox.style.display = "none"
     }
   });
 }

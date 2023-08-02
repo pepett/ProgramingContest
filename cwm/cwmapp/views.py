@@ -95,12 +95,17 @@ def setting( request ):
     User = CustomUser.objects.filter( userid = request.user.userid )
     Likeresult = []
     Historyresult = []
+    MyAlbum = Album.objects.filter(album_userid = request.user.userid)
+    MyMusic = Music.objects.filter(music_album_id = MyAlbum[0].album_id)
+    
     content = {
         "results":Likeresult,
         "results2":Historyresult,
         "upload_form":UploadImageForm(),
         "data":User,
         "username_form":UsernameForm(),
+        "MyAlbum":MyAlbum,
+        "MyMusic":MyMusic,
         "id":None
     }
 
@@ -675,22 +680,56 @@ def upload( request):
     if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
         albums = Album.objects.filter( album_userid = request.user.userid)
+
     else:
         return redirect( 'Login' )
     
     if request.method == 'POST':
+        radio = request.POST.get('SelectAlbum')
+        request.POST._mutable = True
+        request.POST['album_userid'] = request.user.userid
+        request.POST._mutable = False
+        print(request.POST)
 
-        AlbumForm = AlbumRegisterForm(request.POST,request.FILES)
-        if AlbumForm.is_valid():
-            album = AlbumForm.save()
-            album.album_userid = request.user.userid
-            album.save()
+        if radio == 'MakeAlbum':
+            AlbumForm = AlbumRegisterForm(request.POST,request.FILES)
+            if AlbumForm.is_valid():
+                AlbumForm.save()
+                print(AlbumForm.instance.album_id)
 
-        MusicForm = MusicRegisterForm(request.POST,request.FILES)
-        if MusicForm.is_valid():
-            Music = MusicForm.save()
-            Music.music_album_id = album[0].album_id
-            Music.save()
+            request.POST._mutable = True
+            request.POST['music_album_id'] = AlbumForm.instance.album_id
+            request.POST._mutable = False
+            print(request.POST)
+            MusicForm = MusicRegisterForm(request.POST,request.FILES)
+            if MusicForm.is_valid():
+                MusicForm.save()
+            print('MakeAlbum')
+        elif radio == 'Single':
+            request.POST._mutable = True
+            request.POST['album_name'] = request.POST['music_name']
+            request.POST._mutable = False
+            AlbumForm = AlbumRegisterForm(request.POST,request.FILES)
+            if AlbumForm.is_valid():
+                AlbumForm.save()
+                print(AlbumForm.instance.album_id)
+
+            request.POST._mutable = True
+            request.POST['music_album_id'] = AlbumForm.instance.album_id
+            request.POST._mutable = False
+            print(request.POST)
+            MusicForm = MusicRegisterForm(request.POST,request.FILES)
+            if MusicForm.is_valid():
+                MusicForm.save()
+            print('Single')
+        else:
+            request.POST._mutable = True
+            request.POST['music_album_id'] = radio
+            request.POST._mutable = False
+            MusicForm = MusicRegisterForm(request.POST,request.FILES)
+            if MusicForm.is_valid():
+                MusicForm.save()
+            print('Else')
 
     content = {
         'MusicRegisterForm':MusicRegisterForm(),

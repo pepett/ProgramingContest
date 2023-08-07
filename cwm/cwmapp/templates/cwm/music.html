@@ -26,7 +26,21 @@
         <script src="{% static 'js/loading.js' %}"></script>
         <!--ここまで-->
     <div class="music-main">
-        <div id="spotify-iframe"></div>
+        {% if is_original %}
+            <div id="original">
+                <div class="original-album-image">
+                    <img src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
+                </div>
+                <div class="original-track-name">
+                    {{ track_result.name }}
+                </div>
+                <div class="original-track-player">
+                    <audio src="/media_local/{{ track_result.full_url }}" controlslist="nodownload" controls type="audio/wav"></audio>
+                </div>
+            </div>
+        {% else %}
+            <div id="spotify-iframe"></div>
+        {% endif %}
         <div class="likes">
             <div class="stars">
             </div>
@@ -311,6 +325,7 @@
         if( flg ){
             document.getElementById( 'id_comment_text' ).placeholder = 'コメント';
         }
+        if( '{{ track_result.uri }}' == 'None' ) return;
         const elem = document.getElementById( 'spotify-iframe' );
         const options = {
             width: '95%',

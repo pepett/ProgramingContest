@@ -299,6 +299,7 @@ def index( request ):
         #最近見た曲
         if HistoryList.objects.filter( history_userid = request.user.userid ).exists():
             his = HistoryList.objects.filter( history_userid = request.user.userid )
+            print( his )
             nhis = []
             for i in his:
                 nhis.append( SPOTIFY.track( i.history_music_id, market=None ) )
@@ -393,7 +394,39 @@ def music( request, idn ):
     if Good.objects.filter( good_music_id = idn ).exists():
         good_count = Good.objects.filter( good_music_id = idn, good_bool = True).count()
 
-    track_result = SPOTIFY.track( idn, market=None )
+    #CWMオリジナル曲かの判定
+    track_result = {}
+    flg = False
+    if len( idn ) == 25:
+        music_tbl = Music.objects.get( music_id = idn )
+        album_tbl = Album.objects.get( album_id = music_tbl.music_album_id )
+        artist_tbl = CustomUser.objects.get( userid = album_tbl.album_userid )
+        #artists = []
+        
+        track_result = {
+            'album': {
+                'id': album_tbl.album_id,
+                'name': album_tbl.album_name,
+                'img':[
+                    {
+                        'url': album_tbl.album_image,
+                    },
+                ],
+            },
+            'artists':[
+                {
+                    'id': artist_tbl.userid,
+                },
+            ],
+            'id': idn,
+            'name':music_tbl.music_name,
+            'preview_url': music_tbl.music_track_preview,
+            'full_url': music_tbl.music_track_full,
+            'uri': 'None',
+        }
+        flg = True
+    else:
+        track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
     users = []
@@ -413,9 +446,10 @@ def music( request, idn ):
         'user_star': user_star,
         'good_count': good_count,
         'good_bool':good_bool,
+        'is_original': flg,
     }
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not len( idn ) == 25:
         User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
         MusHistory = HistoryList(history_userid = request.user.userid,history_music_id = idn)

@@ -67,6 +67,13 @@
   width: calc(60px / 9 + 8 * 60px / 9);
   animation-delay: calc(50ms * 9); }
 
+#good-btn {
+  margin-left: 20px;
+  margin-bottom: 20px; }
+  #good-btn img {
+    width: 40px;
+    height: 40px; }
+
 @keyframes fingerprint-spinner-animation {
   100% {
     transform: rotate(360deg); } }
@@ -413,6 +420,22 @@
 .bigtext {
   font-weight: bold;
   color: #ffffff; }
+
+.good-img img {
+  width: 30px;
+  height: 30px;
+  color: white; }
+
+.comment-eval {
+  color: white;
+  margin-top: 12px; }
+  .comment-eval img {
+    font-size: 15px;
+    margin-top: 15px; }
+
+.rep-good img {
+  width: 30px;
+  height: 30px; }
 
 @media screen and (max-width: 1000px) {
   .main-test {

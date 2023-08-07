@@ -99,6 +99,24 @@ class Good( models.Model ):#いいねテーブル
             models.UniqueConstraint( fields=[ 'good_userid', 'good_music_id' ], name='unique_good' )
         ]
 
+class CommentGood( models.Model ):
+    comment_good_user_mail = models.EmailField()
+    comment_good_music_id = models.TextField()
+    comment_good_bool = models.BooleanField(default=False)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint( fields=[ 'comment_good_user_mail', 'comment_good_music_id' ], name='unique_comment_good' )
+        ]
+        
+class RepGood( models.Model ):
+    rep_mail = models.EmailField()
+    rep_id = models.TextField()
+    rep_bool = models.BooleanField(default=False)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=[ 'rep_mail','rep_id'], name = 'unique_rep_good' )
+        ]
+        
 class Music( models.Model ):#ユーザが投稿した音楽テーブル
     def save_full_track( instance, filename ):#フルの楽曲を保存するパス
         ext = filename.split('.')[-1]

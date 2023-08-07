@@ -13,7 +13,7 @@ from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from lib.model_conect import ModelMus
-from cwmapp.models import Comment, HistoryList, LikeList, Music, Album, Star, Good ,Reply
+from cwmapp.models import Comment, HistoryList, LikeList, Music, Album, Star, Good , CommentGood, RepGood,Reply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser, MusicRegisterForm, AlbumRegisterForm#, LoginForm
 
@@ -377,6 +377,10 @@ def music( request, idn ):
     user_star = 0
     good_bool = False
     good_count = 0
+    cmt_good_count = 0
+    cmt_good_bool = False
+    rep_good_count = 0
+    rep_good_bool = False
     if Star.objects.filter( star_music_id = idn ).exists():
         for i in range( Star.objects.filter( star_music_id = idn ).count() ):
             ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
@@ -393,6 +397,23 @@ def music( request, idn ):
             good_bool = Good.objects.get(good_userid = request.user.userid , good_music_id = idn ).good_bool
     if Good.objects.filter( good_music_id = idn ).exists():
         good_count = Good.objects.filter( good_music_id = idn, good_bool = True).count()
+        if CommentGood.objects.filter( comment_good_user_mail = request.user.email, comment_good_music_id = idn).exists():
+            cmt_good_count = CommentGood.objects.get( comment_good_user_mail = request.user.email, comment_good_music_id = idn).comment_good_bool
+            for i in CommentGood.objects.filter(comment_good_music_id = idn):
+                cmt_good_count = CommentGood(comment_good_music_id = idn, comment_good_user_mail = request.user.email)
+        if CommentGood.objects.filter(comment_good_user_mail = request.user.email,comment_good_music_id = idn).exists():
+            cmt_good_bool = CommentGood.objects.get(comment_good_music_id = idn,comment_good_user_mail = request.user.email).comment_good_bool
+    if CommentGood.objects.filter(comment_good_music_id = idn).exists():
+        cmt_good_count = CommentGood.objects.filter(comment_good_music_id = idn, comment_good_bool = True).count()
+
+        if RepGood.objects.filter(rep_mail = request.user.email, rep_id = idn).exists():
+            rep_good_count = RepGood.objects.get( rep_mail = request.user.email, rep_id = idn).rep_bool
+            for i in RepGood.objects.filter(rep_id = idn):
+                rep_good_count = RepGood(rep_id = idn, rep_mail = request.user.email)
+        if RepGood.objects.filter(rep_mail = request.user.email,rep_id = idn).exists():
+            rep_good_bool = RepGood.objects.get(rep_id = idn,rep_mail = request.user.email).rep_bool
+    if RepGood.objects.filter(rep_id = idn).exists():
+        rep_good_count = RepGood.objects.filter(rep_id = idn, rep_bool = True).count()
 
     #CWMオリジナル曲かの判定
     track_result = {}
@@ -446,6 +467,10 @@ def music( request, idn ):
         'user_star': user_star,
         'good_count': good_count,
         'good_bool':good_bool,
+        'cmt_good_count':cmt_good_count,
+        'cmt_good_bool':cmt_good_bool,
+        'rep_good_count':rep_good_count,
+        'rep_good_bool':rep_good_bool,
         'is_original': flg,
     }
 
@@ -643,6 +668,44 @@ def good( request, idn ):#非同期時に行う処理
         }
 
         return JsonResponse( content ) 
+
+def commentgood(request,idn):
+    if request.POST:
+    
+        if request.user.is_authenticated:#ログイン判定
+            if CommentGood.objects.filter( comment_good_user_mail = request.user.email,comment_good_music_id = idn).exists():
+                cmt_good = CommentGood.objects.get(comment_good_user_mail = request.user.email,comment_good_music_id = idn)
+                cmt_good.comment_good_bool = not cmt_good.comment_good_bool
+                cmt_good.save()
+
+            else:
+                cmt_good = CommentGood.objects.create(comment_good_user_mail = request.user.email,comment_good_music_id = idn)
+
+        content = {
+            'cmt_good_count':CommentGood.objects.filter(comment_good_music_id = idn,comment_good_bool = True).count(),
+            'cmt_good_bool':str(CommentGood.objects.get(comment_good_user_mail = request.user.email,comment_good_music_id = idn).comment_good_bool).lower(),
+        }
+    
+        return JsonResponse( content ) 
+
+def repgood(request,idn):
+    if request.POST:
+    
+        if request.user.is_authenticated:#ログイン判定
+            if RepGood.objects.filter( rep_mail = request.user.email,rep_id = idn).exists():
+                rep_good = RepGood.objects.get(rep_mail = request.user.email,rep_id = idn)
+                rep_good.rep_bool = not rep_good.rep_bool
+                rep_good.save()
+
+            else:
+                rep_good = RepGood.objects.create(rep_mail = request.user.email,rep_id = idn)
+
+        content = {
+            'rep_good_count':RepGood.objects.filter(rep_id = idn,rep_bool = True).count(),
+            'rep_good_bool':str(RepGood.objects.get(rep_mail = request.user.email,rep_id = idn).rep_bool).lower(),
+        }
+        return JsonResponse( content ) 
+
 
 def create_reply( request, idn, cid ):
     if request.POST:

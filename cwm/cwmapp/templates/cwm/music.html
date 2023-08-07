@@ -242,6 +242,59 @@
     });
   }
 
+  const cmt_good_eval = () => {
+    for (i = 0;i < document.getElementsByClassName('good-img').length;i++){
+        document.getElementsByClassName('good-img')[i].addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent page navigation
+                const url = '{% url "commentgood" track_result.id %}';
+                const data = {
+                number: ""
+                };
+                fetch(url, {
+                    method: 'POST',
+                    body: `comment_good_n=${JSON.stringify(data)}`,
+                    headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                }).then(response => {
+                    return response.json();
+                }).then(response => {
+                    init_comment_good(response.cmt_good_count,response.cmt_good_bool);
+                }).catch(error => {
+                    console.log(error);
+                });
+            });
+        }
+    }
+
+    const rep_good_eval = () => {
+    for (i = 0;i < document.getElementsByClassName('rep-good').length;i++){
+        document.getElementsByClassName('rep-good')[i].addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent page navigation
+                const url = '{% url "repgood" track_result.id %}';
+                const data = {
+                number: ""
+                };
+                fetch(url, {
+                    method: 'POST',
+                    body: `rep_good_n=${JSON.stringify(data)}`,
+                    headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                }).then(response => {
+                    return response.json();
+                }).then(response => {
+                    init_comment_good(response.rep_good_count,response.rep_good_bool);
+                }).catch(error => {
+                    console.log(error);
+                });
+            });
+        }
+    }
+
+
   const init_good = ( u = '{{good_count}}', b = '{{good_bool}}' ) => {
   const good_img_black = "<img src='{% static 'img/tmp/heart_black.png'%}'>";
   const good_img_green = "<img src='{% static 'img/tmp/heart_green.png' width: 30px; padding-top: 8px;%}'>";
@@ -260,37 +313,80 @@
         document.querySelector( '.good' ).innerHTML += `<span class = good_nums>${ u }</span>`;
         setTimeout( good_eval, 1000 );
 }
-    const view_reply = ( n, res ) => {
+const init_comment_good = ( u = '{{cmt_good_count}}', b = '{{cmt_good_bool}}' ) => {
+    const good_img_black = "<img src='{% static 'img/tmp/good_black.png' width: 30px; padding-top: 8px;%}'>";
+    const good_img_white = "<img src='{% static 'img/tmp/good_white.png' width: 30px; padding-top: 8px;%}'>";
+    let ver = new Array( 2 );
+    let button = document.createElement('span');
+    button.setAttribute('class', 'good-img',);
+        if ( b == "True" || b == 'true'){
+            button.innerHTML = good_img_white;
+            ver[1] = button.outerHTML;
+        }else{
+            button.innerHTML = good_img_black;
+            ver[1] = button.outerHTML;
+            // console.log(b)
+        }
+        document.querySelector( '.cmt-content' ).innerHTML = ver[1];
+
+        document.querySelector( '.cmt-content' ).innerHTML += `<span class = comment-eval>${ u }</span>`;
+
+        setTimeout( cmt_good_eval, 1000 );
+
+    } 
+
+   const view_reply = ( n, res ) => {
         if( res.len == 0 ){
             alert( '返信はありません' );
-            return ;
+        return ;
         }
         const obj = document.getElementsByClassName( 'reply' )[ n ];
         document.querySelectorAll( '.a-reply' )[ n ].style.display = 'none';
-        //const nres = JSON.parse( res.contents );
-        for( let i = 0;i < res.len;i ++ ){
-            const container = document.createElement( 'div' );
-            container.setAttribute( 'class', 'rep-container' );
-            const title_container = document.createElement( 'div' );
-            title_container.setAttribute( 'class', 'rep-title-container' );
-            const content_container = document.createElement( 'div' );
-            content_container.setAttribute( 'class', 'rep-content-container' );
-            const rep_name = `<div class="rep-name">${ res.contents[ i ].user_name }</div>`;
-            const rep_image = `<div class="rep-image"><img src="${ res.contents[ i ].user_image }" alt="アイコン" width="50" height="50"></div>`;
-            const rep_good = `<div class="rep-good"><img src="{% static 'img/tmp/good_black.png' %}" alt="good" width="30" height="30"></div>`;
-            let restext = res.contents[ i ].reply_text;
-            restext = restext.split( /\n/ );
-            let str = '';
-            for( let j = 0;j < restext.length;j ++ ){
-                str += (restext[ j ] + '<br>');
+            //const nres = JSON.parse( res.contents );
+            for( let i = 0;i < res.len;i ++ ){
+                const container = document.createElement( 'div' );
+                container.setAttribute( 'class', 'rep-container' );
+                const title_container = document.createElement( 'div' );
+                title_container.setAttribute( 'class', 'rep-title-container' );
+                const content_container = document.createElement( 'div' );
+                content_container.setAttribute( 'class', 'rep-content-container' );
+                const rep_name = `<div class="rep-name">${ res.contents[ i ].user_name }</div>`;
+                const rep_image = `<div class="rep-image"><img src="${ res.contents[ i ].user_image }" alt="アイコン" width="50" height="50"></div>`;
+                let restext = res.contents[ i ].reply_text;
+                restext = restext.split( /\n/ );
+                let str = '';
+                for( let j = 0;j < restext.length;j ++ ){
+                    str += (restext[ j ] + '<br>');
+                }
+
+                const u = '{{rep_good_count}}';
+                const b = '{{rep_good_bool}}';
+                const good_img_black = "<img src='{% static 'img/tmp/good_black.png'%}'>";
+                const good_img_white = "<img src='{% static 'img/tmp/good_white.png'%}'>";
+                let verl = new Array( i );
+                console.log(b)
+                let button = document.createElement('span');
+                button.setAttribute('class', 'rep-good',);
+                    if ( b == "True" || b == 'true'){
+                        button.innerHTML = good_img_white;
+                        verl[i] = button.outerHTML; 
+                        console.log(1)
+                    }else{
+                        button.innerHTML = good_img_black;
+                        verl[i] = button.outerHTML;
+                        console.log(2)
+                    }
+                    console.log(verl[i])
+            // document.querySelector( '.rep-name' ).innerHTML += verl[1];
+            // document.querySelector( '.rep-name' ).innerHTML += `<span class = comment-eval>${ u }</span>`;
+            setTimeout( rep_good_eval, 1000 );
+                //const rep_text = `<div class="rep-text">${ res.contents[ i ].reply_text + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
+                const rep_text = `<div class="rep-text">${ str + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
+                title_container.innerHTML += rep_image + rep_name;
+                content_container.innerHTML += verl[i] + `<span class = comment-eval>${ u }</span>` + rep_text;
+                container.innerHTML += title_container.outerHTML + content_container.outerHTML;
+                obj.appendChild( container );
             }
-            //const rep_text = `<div class="rep-text">${ res.contents[ i ].reply_text + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
-            const rep_text = `<div class="rep-text">${ str + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
-            title_container.innerHTML += rep_image + rep_name;
-            content_container.innerHTML += rep_good + rep_text;
-            container.innerHTML += title_container.outerHTML + content_container.outerHTML;
-            obj.appendChild( container );
-        }
     }
     const async_view_reply = () => {//返信表示の非同期処理
         for( let i = 0;i < document.getElementsByClassName( 'reply' ).length;i ++ ){
@@ -320,6 +416,7 @@
     window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
         init_star();
         init_good();
+        init_comment_good();
         setTimeout( async_view_reply, 1000 );
         const flg = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
         if( flg ){

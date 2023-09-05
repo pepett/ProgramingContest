@@ -21,12 +21,20 @@ main {
     display: flex;
     flex-direction: column;
     margin: 10px 5px; }
-    #box1 #user .NowUserIcon {
-      margin: 3px auto;
-      height: 150px;
-      width: 150px;
-      border-radius: 50%;
-      border: 5px solid #00DE64; }
+    #box1 #user a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      transition: 0.3s; }
+      #box1 #user a .NowUserIcon {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: 5px solid #00DE64; }
+    #box1 #user a:hover {
+      filter: drop-shadow(0px 0px 5px); }
     #box1 #user p {
       font-size: 20px;
       font-weight: bold;
@@ -63,7 +71,7 @@ li > label:hover {
 #FavLabel {
   color: #00DE64; }
 
-#UserProFile, #UserHistory {
+#UserProFile, #UserHistory, #UserUpload {
   display: none; }
 
 #UserProFile {
@@ -154,9 +162,9 @@ li > label:hover {
   font-size: 20px;
   margin: 0; }
 
-#userdelete {
+#ProfileBox > div:not(#profile) {
   margin: 10px 0 50px 0; }
-  #userdelete #userdeleteBox {
+  #ProfileBox > div:not(#profile) div {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
@@ -289,13 +297,23 @@ li > label:hover {
     margin: 3px auto;
     color: #ffffff; }
 
-  li {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around; }
-
-  li > label {
-    font-size: 20px; }
+  ul {
+    width: 100%;
+    margin: 10px auto;
+    white-space: nowrap;
+    overflow-x: scroll;
+    background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%); }
+    ul li {
+      display: flex;
+      flex-direction: row;
+      width: 95%;
+      margin: 0 auto; }
+    ul li > label {
+      margin: 0 10px;
+      font-size: 30px;
+      text-decoration: none; }
+      ul li > label input {
+        display: none; }
 
   .modal__inner .deleteBox {
     flex-direction: column; }

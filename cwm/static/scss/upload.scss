@@ -151,4 +151,17 @@ $greenCL: #00DE64;
 }
 #albumbox::-webkit-scrollbar{
     display: none;
-  }
+}
+@media screen and (max-width: 1000px) {
+    .songbox{
+        display: flex;
+        flex-direction: column;
+    }
+    #albumbox{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .filebox{
+        width: 100%;
+    }
+}

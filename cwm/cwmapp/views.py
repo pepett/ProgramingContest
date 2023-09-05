@@ -95,13 +95,35 @@ def setting( request ):
     User = CustomUser.objects.filter( userid = request.user.userid )
     Likeresult = []
     Historyresult = []
-    MyAlbum = Album.objects.filter(album_userid = request.user.userid)
-    MyMusic = Music.objects.filter(music_album_id = MyAlbum[0].album_id)
-    
+    MyAlbum = []
+    MyMusic = []
+    Uploadresult = []
+
+    if Album.objects.filter(album_userid = request.user.userid):
+        MyAlbum = Album.objects.filter(album_userid = request.user.userid)
+        for j in MyAlbum:
+            MyMusic = Music.objects.filter(music_album_id = j.album_id)
+            for i in MyMusic:
+
+                Uploadresult.append({
+                    "music_track_preview_url":i.music_track_preview.url,
+                    "music_track_full_url":i.music_track_full.url,
+                    "music_id":i.music_id,
+                    "album_image_url":MyAlbum.get(album_id = i.music_album_id).album_image.url,
+                    "music_name":i.music_name,
+                    "album_userid":MyAlbum.get(album_id = i.music_album_id).album_userid,
+                    "name":User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).username
+                    })
+        
+        print(Uploadresult)
+        Uploadresult.reverse()
+
+
     content = {
         "results":Likeresult,
         "results2":Historyresult,
         "upload_form":UploadImageForm(),
+        "Uploadresult":Uploadresult,
         "data":User,
         "username_form":UsernameForm(),
         "MyAlbum":MyAlbum,
@@ -329,7 +351,6 @@ def index( request ):
         #最近見た曲
         if HistoryList.objects.filter( history_userid = request.user.userid ).exists():
             his = HistoryList.objects.filter( history_userid = request.user.userid )
-            print( his )
             nhis = []
             for i in his:
                 nhis.append( SPOTIFY.track( i.history_music_id, market=None ) )
@@ -424,39 +445,7 @@ def music( request, idn ):
     if Good.objects.filter( good_music_id = idn ).exists():
         good_count = Good.objects.filter( good_music_id = idn, good_bool = True).count()
 
-    #CWMオリジナル曲かの判定
-    track_result = {}
-    flg = False
-    if len( idn ) == 25:
-        music_tbl = Music.objects.get( music_id = idn )
-        album_tbl = Album.objects.get( album_id = music_tbl.music_album_id )
-        artist_tbl = CustomUser.objects.get( userid = album_tbl.album_userid )
-        #artists = []
-        
-        track_result = {
-            'album': {
-                'id': album_tbl.album_id,
-                'name': album_tbl.album_name,
-                'img':[
-                    {
-                        'url': album_tbl.album_image,
-                    },
-                ],
-            },
-            'artists':[
-                {
-                    'id': artist_tbl.userid,
-                },
-            ],
-            'id': idn,
-            'name':music_tbl.music_name,
-            'preview_url': music_tbl.music_track_preview,
-            'full_url': music_tbl.music_track_full,
-            'uri': 'None',
-        }
-        flg = True
-    else:
-        track_result = SPOTIFY.track( idn, market=None )
+    track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
     users = []
@@ -476,10 +465,9 @@ def music( request, idn ):
         'user_star': user_star,
         'good_count': good_count,
         'good_bool':good_bool,
-        'is_original': flg,
     }
 
-    if request.user.is_authenticated and not len( idn ) == 25:
+    if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
         MusHistory = HistoryList(history_userid = request.user.userid,history_music_id = idn)
@@ -511,13 +499,6 @@ def music( request, idn ):
         content[ 'comments' ] = comments
         content[ 'users' ] = users
     return render( request, 'cwm/music.html', content )
-
-def user( request ):
-    db = User.objects.all()
-    data = {
-        'db': db,
-    }
-    return render( request, 'cwm/user.html', data )
 
 def search( request ):
     #if len( request.GET[ 'search-music' ] ) != 0:
@@ -795,6 +776,8 @@ def upload( request):
                 MusicForm.save()
             print('Else')
 
+        return redirect( 'setting' )
+
     content = {
         'MusicRegisterForm':MusicRegisterForm(),
         'AlbumRegisterForm':AlbumRegisterForm(),
@@ -803,3 +786,48 @@ def upload( request):
     }
 
     return render( request, 'cwm/upload.html', content )
+
+def user(request,idn):
+    
+    User = False
+    Page_User = []
+    MyAlbum = []
+    MyMusic = []
+    Uploadresult = []
+
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( userid = request.user.userid )
+
+    if CustomUser.objects.filter( userid = idn ):
+        Page_User = CustomUser.objects.filter( userid = idn )
+
+        if Album.objects.filter(album_userid = idn):
+            MyAlbum = Album.objects.filter(album_userid = idn)
+            for j in MyAlbum:
+                MyMusic = Music.objects.filter(music_album_id = j.album_id)
+                for i in MyMusic:
+
+                    Uploadresult.append({
+                        "music_track_preview_url":i.music_track_preview.url,
+                        "music_track_full_url":i.music_track_full.url,
+                        "music_id":i.music_id,
+                        "album_image_url":MyAlbum.get(album_id = i.music_album_id).album_image.url,
+                        "music_name":i.music_name,
+                        "album_userid":MyAlbum.get(album_id = i.music_album_id).album_userid,
+                        "name":Page_User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).username
+                        })
+            
+            print(Uploadresult)
+            Uploadresult.reverse()
+
+    else:
+        print('No Data')
+
+    content = {
+        'artist':Page_User,
+        "Uploadresult":Uploadresult,
+        'Albums':MyAlbum,
+        'data':User,
+    }
+
+    return render( request, 'cwm/user.html', content )

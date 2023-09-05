@@ -62,7 +62,7 @@ main{
     font-weight: bold;
     color: #ffffff;
 }
-#trackbox{
+.trackbox{
     margin: 5px;
     width: 98%;
     display: flex;
@@ -99,7 +99,7 @@ h3{
 .SongNameText > a:hover{
     color: #ffffff;
 }
-.ScrollSongText:hover{
+.ScrollText:hover{
     animation: animate-banner 5s infinite linear;
 }
 @keyframes animate-banner {
@@ -184,4 +184,27 @@ h3{
     margin: 5px;
     border-radius: 10px;
     overflow:hidden;
+}
+
+@media screen and (max-width: 1000px) {
+    .tags{
+        display: flex;
+        white-space: nowrap;
+        overflow-x: scroll;
+        .tag{
+            background-color: $gradationBG;
+            border: 1px solid gray;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 5px 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            .tag-num{
+                color: white;
+            }
+        }
+        .tag:hover{
+            opacity: 0.5;
+        }
+    }
 }

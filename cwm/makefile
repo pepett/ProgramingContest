@@ -11,5 +11,3 @@ cr:
 	python manage.py migrate
 se:
 	python manage.py runserver
-len:
-	python ./tmp/test.py $(str)

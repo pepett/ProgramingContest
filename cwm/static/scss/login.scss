@@ -41,7 +41,7 @@ main{
     .formtext{
       color: #ffffff;
       font-weight: bold;
-      font-size: 30px;
+      font-size: 25px;
       margin: 20px 0;
     }
     .UploadBox{
@@ -120,11 +120,13 @@ main{
   font-size: 15px;
   .descText{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    text-align: center;
     color: #ffffff;
-    margin: 0 20px 3px;
+    margin: 10px 20px 3px;
     a{
-      margin: 0 10px;
+      margin: 0 auto;
+      font-size: 18px;
     }
   }
 }
@@ -145,6 +147,17 @@ main{
     align-items: center;
     .UploadImageBox{
       margin-top: 20px;
+    }
+  }
+  .linkbox{
+    .descText{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      a{
+        margin: 0 auto;
+        font-size: 18px;
+      }
     }
   }
 }

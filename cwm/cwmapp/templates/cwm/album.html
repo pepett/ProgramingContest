@@ -26,6 +26,9 @@
         </div>
     </div>
     <!--ここまで-->
+    {% if is_original %}
+        <h1>オリジナルです</h1>
+    {% else %}
     <div id="box1">
         <div class="artist">
             {% if artist_album.images.1 %}
@@ -56,6 +59,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </main>
 <script type="text/javascript">
     var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";

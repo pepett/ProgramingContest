@@ -611,17 +611,21 @@ def album( request, id ):
     content = {
         'artist_album': artist_album,
         'album_items': album_items,
-        'data':User
+        'data':User,
+        'is_original' : False,
     }
 
     if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
 
-    albums = SPOTIFY.albums( [ id ], market=None )
-    artist_album = albums['albums'][0]
-    album_items = albums['albums'][0]['tracks']['items']
+    if len( id ) == 25:
+        content[ 'is_original' ] = True
+        albm_tbl = Album.objects.get( album_id = id )
+    else:
+        albums = SPOTIFY.albums( [ id ], market=None )
+        artist_album = albums['albums'][0]
+        album_items = albums['albums'][0]['tracks']['items']
 
-    print(artist_album)
 
 
     content[ 'artist_album' ] = artist_album

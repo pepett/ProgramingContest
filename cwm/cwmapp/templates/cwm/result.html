@@ -14,8 +14,8 @@
                 <a href="{% url 'mus' v.id %}">
                     <img class="music_img" src="{{v.album.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
-                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' v.id %}">{{v.name}}</a></h3>
-                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
+                    <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'mus' v.id %}">{{v.name}}</a></h3>
+                    <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
             </div>
         {% endfor %}
     </div>
@@ -26,8 +26,8 @@
                 <a href="{% url 'album' v.id %}">
                     <img class="music_img" src="{{v.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
-                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'album' v.id %}">{{v.name}}</a></h3>
-                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
+                    <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'album' v.id %}">{{v.name}}</a></h3>
+                    <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
             </div>
         {% endfor %}
     </div>
@@ -38,22 +38,27 @@
                 <a href="{% url 'artist' v.id %}">
                     <img class="music_img" src="{{v.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
-                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' v.id %}">{{v.name}}</a></h3>
+                    <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' v.id %}">{{v.name}}</a></h3>
             </div>
         {% endfor %}
     </div>
     <h3 class="bigtext">"{{ word }}" が含まれているコメント</h3>
+    {% if c_tracks %}
     <div class="trackbox tb_cmt toprank">
         {% for v in c_tracks %}
             <div class="cmt songbox">
                 <a href="{% url 'mus' v.c_music.id %}">
                     <img class="music_img" src="{{v.c_music.album.images.0.url}}" width="150" height="150" class="" alt="">
                 </a>
-                    <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' v.c_music.id %}">{{v.c_music.name}}</a></h3>
+                    <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'mus' v.c_music.id %}">{{v.c_music.name}}</a></h3>
                     <h3 class="SongNameText" style="color: yellow;">{{v.c_text}}</h3>
             </div>
         {% endfor %}
     </div>
+    {% else %}
+        <br>
+        <h3 class="bigtext">"{{ word }}" が含まれているコメントはありません</h3>
+    {% endif %}
     <script src="{% static 'js/index.js' %}"></script>
 </main>
 {% endblock %}

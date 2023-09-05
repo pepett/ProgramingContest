@@ -95,13 +95,35 @@ def setting( request ):
     User = CustomUser.objects.filter( userid = request.user.userid )
     Likeresult = []
     Historyresult = []
-    MyAlbum = Album.objects.filter(album_userid = request.user.userid)
-    MyMusic = Music.objects.filter(music_album_id = MyAlbum[0].album_id)
-    
+    MyAlbum = []
+    MyMusic = []
+    Uploadresult = []
+
+    if Album.objects.filter(album_userid = request.user.userid):
+        MyAlbum = Album.objects.filter(album_userid = request.user.userid)
+        for j in MyAlbum:
+            MyMusic = Music.objects.filter(music_album_id = j.album_id)
+            for i in MyMusic:
+
+                Uploadresult.append({
+                    "music_track_preview_url":i.music_track_preview.url,
+                    "music_track_full_url":i.music_track_full.url,
+                    "music_id":i.music_id,
+                    "album_image_url":MyAlbum.get(album_id = i.music_album_id).album_image.url,
+                    "music_name":i.music_name,
+                    "album_userid":MyAlbum.get(album_id = i.music_album_id).album_userid,
+                    "name":User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).username
+                    })
+        
+        print(Uploadresult)
+        Uploadresult.reverse()
+
+
     content = {
         "results":Likeresult,
         "results2":Historyresult,
         "upload_form":UploadImageForm(),
+        "Uploadresult":Uploadresult,
         "data":User,
         "username_form":UsernameForm(),
         "MyAlbum":MyAlbum,
@@ -448,13 +470,6 @@ def music( request, idn ):
         content[ 'users' ] = users
     return render( request, 'cwm/music.html', content )
 
-def user( request ):
-    db = User.objects.all()
-    data = {
-        'db': db,
-    }
-    return render( request, 'cwm/user.html', data )
-
 def search( request ):
     #if len( request.GET[ 'search-music' ] ) != 0:
     if request.user.is_authenticated:
@@ -731,6 +746,8 @@ def upload( request):
                 MusicForm.save()
             print('Else')
 
+        return redirect( 'setting' )
+
     content = {
         'MusicRegisterForm':MusicRegisterForm(),
         'AlbumRegisterForm':AlbumRegisterForm(),
@@ -739,3 +756,48 @@ def upload( request):
     }
 
     return render( request, 'cwm/upload.html', content )
+
+def user(request,idn):
+    
+    User = False
+    Page_User = []
+    MyAlbum = []
+    MyMusic = []
+    Uploadresult = []
+
+    if request.user.is_authenticated:
+        User = CustomUser.objects.filter( userid = request.user.userid )
+
+    if CustomUser.objects.filter( userid = idn ):
+        Page_User = CustomUser.objects.filter( userid = idn )
+
+        if Album.objects.filter(album_userid = idn):
+            MyAlbum = Album.objects.filter(album_userid = idn)
+            for j in MyAlbum:
+                MyMusic = Music.objects.filter(music_album_id = j.album_id)
+                for i in MyMusic:
+
+                    Uploadresult.append({
+                        "music_track_preview_url":i.music_track_preview.url,
+                        "music_track_full_url":i.music_track_full.url,
+                        "music_id":i.music_id,
+                        "album_image_url":MyAlbum.get(album_id = i.music_album_id).album_image.url,
+                        "music_name":i.music_name,
+                        "album_userid":MyAlbum.get(album_id = i.music_album_id).album_userid,
+                        "name":Page_User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).username
+                        })
+            
+            print(Uploadresult)
+            Uploadresult.reverse()
+
+    else:
+        print('No Data')
+
+    content = {
+        'artist':Page_User,
+        "Uploadresult":Uploadresult,
+        'Albums':MyAlbum,
+        'data':User,
+    }
+
+    return render( request, 'cwm/user.html', content )

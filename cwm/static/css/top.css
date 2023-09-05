@@ -21,4 +21,12 @@ strong {
     .box .userbox a {
       margin: 0; }
 
+@media screen and (max-width: 1000px) {
+  .box .userbox {
+    display: flex;
+    flex-direction: column; }
+    .box .userbox a {
+      margin: 10px auto;
+      width: 50%; } }
+
 /*# sourceMappingURL=top.css.map */

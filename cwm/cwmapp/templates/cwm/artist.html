@@ -1,6 +1,6 @@
 {% extends "cwm/base.html" %}
 {% load static %}
-{% block title %}artist{% endblock %}
+{% block title %}{{ artist.name }}{% endblock %}
 {% block content %}
 <main>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
@@ -55,7 +55,7 @@
         <div id="box2">
         <div class="artist-flex">
             <p class="bigtext">{{ artist.name }} Top10</p>
-            <div id="trackbox" class="toprank">
+            <div class="toprank trackbox">
                 {% if results %}
                 {% for y in results %}
                 <div class="songbox">
@@ -65,8 +65,8 @@
                     <a href="{% url 'mus' y.id %}">
                         <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
                     </a>
-                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
-                        <h3 class="SongNameText" ><a id="ScrollText" href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
+                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
+                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
         
                 </div>
                 {% endfor %}

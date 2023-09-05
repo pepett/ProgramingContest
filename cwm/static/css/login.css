@@ -37,7 +37,7 @@ main {
     #RegForm .FormBox .formtext {
       color: #ffffff;
       font-weight: bold;
-      font-size: 30px;
+      font-size: 25px;
       margin: 20px 0; }
     #RegForm .FormBox .UploadBox {
       display: flex;
@@ -105,11 +105,13 @@ main {
   font-size: 15px; }
   .linkbox .descText {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    text-align: center;
     color: #ffffff;
-    margin: 0 20px 3px; }
+    margin: 10px 20px 3px; }
     .linkbox .descText a {
-      margin: 0 10px; }
+      margin: 0 auto;
+      font-size: 18px; }
 
 .SubBTBox {
   margin-top: 30px;
@@ -127,6 +129,14 @@ main {
     flex-direction: column;
     align-items: center; }
     .ImageForm .UploadImageBox {
-      margin-top: 20px; } }
+      margin-top: 20px; }
+
+  .linkbox .descText {
+    display: flex;
+    flex-direction: column;
+    text-align: center; }
+    .linkbox .descText a {
+      margin: 0 auto;
+      font-size: 18px; } }
 
 /*# sourceMappingURL=login.css.map */

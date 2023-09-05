@@ -40,7 +40,7 @@ urlpatterns = [
     path( "view_reply/<slug:idn>", view_reply, name="view_reply" ),
     path( "create_reply/<slug:idn>/<int:cid>", create_reply, name="create_reply" ),
     path( "music/<slug:idn>", music, name="mus" ),
-    path( "user/", user ),
+    path( "user/<slug:idn>", user, name="user" ),
     path( "search/", search, name="search" ),
     path( "artist/<slug:id>", artist, name="artist" ),
     path( "album/<slug:id>", album, name="album" ),

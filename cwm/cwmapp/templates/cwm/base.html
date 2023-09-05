@@ -46,6 +46,7 @@
                     </form>
                 </div>
                 {% if request.user.is_authenticated %}
+                <a class="loginBT" href="{% url 'upload' %}">音楽をアップロード</a>
                 <a class="Minilink" href="{% url 'Logout' %}">ログアウト</a>
                 {% else %}
                 {% endif %}
@@ -69,7 +70,7 @@
             </form>
         </div>
         {% if request.user.is_authenticated %}
-        <a class="loginBT" href="{% url 'upload' %}">音楽をアップロード</a>
+        <a class="loginBT uploadBT" href="{% url 'upload' %}">音楽をアップロード</a>
         <div class="Login_userbox">
             <a href="{% url 'setting' %}">
                 <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
@@ -84,6 +85,9 @@
         <div class="Hideblock">
         </div>
         {% endif %}
+        <button id="scrollBT">
+            <img src="{% static 'img/tmp/pagebt.png' %}">
+        </button>
     </header>
     {% block content %}{% endblock %}
     <!-- <footer>

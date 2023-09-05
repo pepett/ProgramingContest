@@ -3,9 +3,9 @@ from lib.spotify_conect import SPOTIFY
 
 class ModelMus:
     @staticmethod
-    def setHistory(request):
+    def setHistory(id):
 
-        Mus = HistoryList.objects.filter(history_userid = request.user.userid)
+        Mus = HistoryList.objects.filter(history_userid = id)
         result = []
         
         for i in range(Mus.count()):
@@ -25,9 +25,9 @@ class ModelMus:
         return result
 
     @staticmethod
-    def setLiked(request):
+    def setLiked(id):
 
-        Mus = LikeList.objects.filter(like_userid = request.user.userid)
+        Mus = LikeList.objects.filter(like_userid = id)
         result = []
         
         for i in range(Mus.count()):

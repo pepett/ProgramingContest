@@ -169,8 +169,8 @@ def setting( request ):
                 NewUsername = request.POST['NewUsername']
                 User.update(username = NewUsername)
 
-    Historyresult = ModelMus.setHistory(request)
-    Likeresult = ModelMus.setLiked(request)
+    Historyresult = ModelMus.setHistory(request.user.userid)
+    Likeresult = ModelMus.setLiked(request.user.userid)
 
     content['results'] = Likeresult[:30]
     content['results2'] = Historyresult[:30]
@@ -445,7 +445,40 @@ def music( request, idn ):
     if Good.objects.filter( good_music_id = idn ).exists():
         good_count = Good.objects.filter( good_music_id = idn, good_bool = True).count()
 
-    track_result = SPOTIFY.track( idn, market=None )
+
+    #CWMオリジナル曲かの判定
+    track_result = {}
+    flg = False
+    if len( idn ) == 25:
+        music_tbl = Music.objects.get( music_id = idn )
+        album_tbl = Album.objects.get( album_id = music_tbl.music_album_id )
+        artist_tbl = CustomUser.objects.get( userid = album_tbl.album_userid )
+        #artists = []
+        
+        track_result = {
+            'album': {
+                'id': album_tbl.album_id,
+                'name': album_tbl.album_name,
+                'img':[
+                    {
+                        'url': album_tbl.album_image,
+                    },
+                ],
+            },
+            'artists':[
+                {
+                    'id': artist_tbl.userid,
+                },
+            ],
+            'id': idn,
+            'name':music_tbl.music_name,
+            'preview_url': music_tbl.music_track_preview,
+            'full_url': music_tbl.music_track_full,
+            'uri': 'None',
+        }
+        flg = True
+    else:
+        track_result = SPOTIFY.track( idn, market=None )
     comments = []
     tags = []
     users = []
@@ -465,14 +498,15 @@ def music( request, idn ):
         'user_star': user_star,
         'good_count': good_count,
         'good_bool':good_bool,
+        'is_original': flg,
     }
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not len( idn ) == 25:
         User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
         MusHistory = HistoryList(history_userid = request.user.userid,history_music_id = idn)
         MusHistory.save()
-        ModelMus.setHistory(request)
+        ModelMus.setHistory(request.user.userid)
 
     if Comment.objects.filter( comment_music_id=idn ).exists():
         content[ 'is_comment' ] = True
@@ -794,12 +828,14 @@ def user(request,idn):
     MyAlbum = []
     MyMusic = []
     Uploadresult = []
+    Likeresult = []
 
     if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
 
     if CustomUser.objects.filter( userid = idn ):
         Page_User = CustomUser.objects.filter( userid = idn )
+        Likeresult = ModelMus.setLiked(idn)
 
         if Album.objects.filter(album_userid = idn):
             MyAlbum = Album.objects.filter(album_userid = idn)
@@ -826,6 +862,7 @@ def user(request,idn):
     content = {
         'artist':Page_User,
         "Uploadresult":Uploadresult,
+        'LikedMus':Likeresult,
         'Albums':MyAlbum,
         'data':User,
     }

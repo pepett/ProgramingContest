@@ -85,10 +85,21 @@ h3 {
     white-space: nowrap;
     transition: 0.2s; }
 
+.SongNameText_L {
+  display: block;
+  width: 300px;
+  margin: 2px 5px;
+  overflow: hidden; }
+  .SongNameText_L a {
+    display: inline-block;
+    font-size: 15px;
+    white-space: nowrap;
+    transition: 0.2s; }
+
 .SongNameText > a:hover {
   color: #ffffff; }
 
-.ScrollText:hover {
+.ScrollSongText:hover {
   animation: animate-banner 5s infinite linear; }
 
 @keyframes animate-banner {

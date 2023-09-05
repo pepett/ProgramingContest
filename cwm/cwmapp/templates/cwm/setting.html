@@ -58,9 +58,9 @@
         </div>
         <ul>
             <li>
-                <label id="FavLabel"><input type="radio" class="UserRadioBox" name="link" checked></input>いいねした曲</label>
+                <label id="FavLabel"><input type="radio" class="UserRadioBox" name="link"></input>いいねした曲</label>
                 <label id="HisLabel"><input type="radio" class="UserRadioBox" name="link"></input>履歴</label>
-                <label id="SetLabel"><input type="radio" class="UserRadioBox" name="link"></input>設定</label>
+                <label id="SetLabel"><input type="radio" class="UserRadioBox" name="link" checked></input>設定</label>
                 <label id="UplLabel"><input type="radio" class="UserRadioBox" name="link"></input>投稿した曲</label>
             </li>
         </ul>
@@ -159,21 +159,25 @@
         <div id="UserUpload">
             <p class="bigtext">投稿した曲</p>
             <div class="toprank trackbox">
+                <div class="uploadMusbox">
+                    <a href="{% url 'upload' %}">
+                        <img class="music_img" src="{% static 'img/tmp/plus_big.png' %}" width="150" height="150" class="" alt="">
+                    </a>
+                    <h3><a href="{% url 'upload' %}" class="uploadMus">音楽をアップロード</a></h3>
+                </div>
                 {% if Uploadresult %}
                 {% for y in Uploadresult %}
                 <div class="songbox">
                     <button class="PlaySongBT" type="button" value="{{ y.music_track_pre_url }}" onclick="PlayMusic('{{ y.music_track_full_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
-                    <a href="">
+                    <a href="{% url 'mus' y.music_id %}">
                         <img class="music_img" src="{{y.album_image_url}}" width="150" height="150" class="" alt="">
                     </a>
-                        <h3 class="SongNameText" ><a class="ScrollText" href="">{{y.music_name}}</a></h3>
+                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'mus' y.music_id %}">{{y.music_name}}</a></h3>
                         <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'user' y.album_userid %}">{{y.name}}</a></h3>
                 </div>
                 {% endfor %}
-                {% else %}
-                    <p class="bigtext">履歴がありません</p>
                 {% endif %}
             </div>
         </div>

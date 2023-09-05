@@ -96,11 +96,14 @@ for(let i = 0;i < scrollElement.length;i++){
     });
 }
 
-const scrollsongtext = document.querySelectorAll("#ScrollText");
+const scrollsongtext = document.querySelectorAll(".ScrollText");
+const songnametext = document.querySelectorAll(".SongNameText");
 
 for(let i = 0;i < scrollsongtext.length;i++){
-    console.log(i+" : "+scrollsongtext[i])
-    if (scrollsongtext[i].innerHTML.length >= 10){
+    console.log(i+" : "+scrollsongtext[i].innerHTML)
+    console.log(i+".clientWidth: "+scrollsongtext[i].clientWidth)
+    console.log(i+".clientWidth: "+songnametext[i].clientWidth)
+    if (scrollsongtext[i].clientWidth >= songnametext[0].clientWidth){
         scrollsongtext[i].classList.add("ScrollSongText")
     }
 };

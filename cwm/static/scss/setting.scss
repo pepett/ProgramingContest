@@ -232,6 +232,26 @@ li > label:hover{
     text-decoration: none;
 }
 
+.uploadMus{
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+}
+.uploadMusbox{
+  margin: 2px 6px;
+  background: rgb(47,45,45);
+  background: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+  border-radius: 10px;
+  border: solid 2px #323232;
+  position: relative;
+  transform: scale(0.8);
+  transition: 0.3s;
+}
+.uploadMusbox:hover{
+  transform: scale(0.9);
+}
+
 .layer {
   background: rgba(0, 0, 0, .2); /* 背景を薄くする */
   width: 100%;

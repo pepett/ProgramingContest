@@ -35,6 +35,23 @@
                 {% endif %}
                 <p class="bigtext">{{ artist.0.username }}</p>
             </div>
+            <p class="bigtext">いいねした曲</p>
+            <div class="RelatedArtist">
+                {% if LikedMus %}
+                {% for x in LikedMus %}
+                <div class="RArtistBox">
+                    <a href="" class="RArtist">
+                        {% if x.album.images %}
+                            <img src="{{ x.album.images.0.url }}" class="RArtistImage" alt="アルバム画像">
+                        {% else %}
+                            <img src="{% static 'img/tmp/仮アルバム.jpg'%}" class="RArtistImage" alt="仮アルバム画像">
+                        {% endif %}
+                    </a>
+                    <h3 class="SongNameText_L" width="300px"><a class="ScrollText" href="{% url 'mus' x.id %}">{{ x.name }}</a></h3>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
         </div>
         <div id="box2">
         <div class="artist-flex">

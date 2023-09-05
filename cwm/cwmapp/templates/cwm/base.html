@@ -26,7 +26,7 @@
                 {% if request.user.is_authenticated %}
                 <div class="MiniLogin_userbox">
                     <a href="{% url 'setting' %}">
-                        <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
+                        <img class="UserIcon" src="{{ request.user.image.url }}" alt="ユーザーアイコン">
                     </a>
                     <p class="MiniusernameText">{{ data.0.username }}</p>
                 </div>
@@ -72,7 +72,7 @@
         <a class="loginBT" href="{% url 'upload' %}">音楽をアップロード</a>
         <div class="Login_userbox">
             <a href="{% url 'setting' %}">
-                <img class="UserIcon" src="{{ data.0.image.url }}" alt="ユーザーアイコン">
+                <img class="UserIcon" src="{{ request.user.image.url }}" alt="ユーザーアイコン">
             </a>
             <p class="usernameText">{{ data.0.username }}</p><!-- data.0.user_name -->
         </div>

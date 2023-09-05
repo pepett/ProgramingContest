@@ -213,6 +213,7 @@ def index( request ):
         "good_mus": [],
         "ucomment_mus": [],
         "star_mus": [],
+        "oridinal": [],
         "data":User,
     }
     
@@ -220,6 +221,35 @@ def index( request ):
         User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
 
+    original_tracks = []
+    if Music.objects.all().count() != 0:
+        for i in Music.objects.all():
+            albm_tbl = Album.objects.get( album_id = i.music_album_id )
+            artt_tbl = CustomUser.objects.get( userid = albm_tbl.album_userid )
+            original_tracks.append( {
+                'album' : {
+                    'id' : albm_tbl.album_id,
+                    'name' : albm_tbl.album_name,
+                    'img' : [
+                        {
+                            'url' : albm_tbl.album_image,
+                        },
+                    ],
+                },
+                'artists' : [
+                    {
+                        'id' : artt_tbl.userid,
+                        'name' : artt_tbl.username,
+                    }
+                ],
+                'id' : i.music_id,
+                'name' : i.music_name,
+                'preview_url' : i.music_track_preview,
+                'full_url' : i.music_track_full,
+                'uri' : None,
+            } )
+
+    content[ "oridinal" ] = original_tracks
     max_length = 13
     Playlist_uri = 'spotify:playlist:37i9dQZEVXbKXQ4mDTEBXq'
     

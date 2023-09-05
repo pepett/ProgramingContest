@@ -22,5 +22,3 @@ class PreviewMusic{
         this.is_play = false;
     }
 }
-
-export default PreviewMusic;

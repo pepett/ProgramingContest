@@ -28,14 +28,17 @@
     <div class="music-main">
         {% if is_original %}
             <div id="original">
-                <div class="original-album-image">
-                    <img src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
-                </div>
+                <!-- <div class="original-album-image">
+                    
+                </div> -->
                 <div class="original-track-name">
                     {{ track_result.name }}
                 </div>
                 <div class="original-track-player">
-                    <audio src="/media_local/{{ track_result.full_url }}" controlslist="nodownload" controls type="audio/wav"></audio>
+                    <img src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
+                    <div class="play-btn">
+                        <img class="playbtn" src="{% static 'img/tmp/play_green.png' %}">
+                    </div>
                 </div>
             </div>
         {% else %}
@@ -156,7 +159,9 @@
     </div>
 </main>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
+<script src="{% static 'js/lib/utils.js' %}"></script>
 <script>
+    let original_flg = '{{ is_original }}'.toLocaleLowerCase();
     const async_star = ()=>{//評価の非同期処理
         const login = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
         if( !login ) return;
@@ -338,6 +343,17 @@
             }, false );
         }
         IFrameAPI.createController( elem, options, callback );
+    }
+    window.onload = (  ) => {
+        if( !original_flg ) return ;
+        let ms = new PreviewMusic( '/media_local/{{ track_result.full_url }}', '.playbtn', 0 );
+        document.querySelector( '.playbtn' ).onclick = ( e ) => {
+            if( ms.is_play ){
+                ms.stop();
+            }else{
+                ms.play();
+            }
+        }
     }
     for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){//ログインしてないとedit-actionがなくてバグる
         document.getElementsByClassName( 'menu' )[ i ].addEventListener( 'click', ( e )=>{

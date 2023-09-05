@@ -6,4 +6,5 @@ pip install spotipy
 pip install pillow
 pip install django[argon2]
 pip install django-cleanup
+pip install bleach
 pip install lyricsgenius

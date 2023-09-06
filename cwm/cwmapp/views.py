@@ -621,11 +621,33 @@ def album( request, id ):
     if len( id ) == 25:
         content[ 'is_original' ] = True
         albm_tbl = Album.objects.get( album_id = id )
+        artt_tbl = CustomUser.objects.get( userid = albm_tbl.album_userid )
+        artist_album = {
+            'image' : [
+                {
+                    'url' : albm_tbl.album_image,
+                },
+            ],
+            'name' : albm_tbl.album_name,
+            'artists' : {
+                'name' : artt_tbl.username,
+                'id' : artt_tbl.userid,
+            }
+        }
+        for i in Music.objects.filter( music_album_id = id ):
+            album_items.append( {
+                'name' : i.music_name,
+                'id' : i.music_id,
+                'preview_url' : i.music_track_preview,
+                'artists' : {
+                    'name' : artt_tbl.username,
+                    'id' : artt_tbl.userid,
+                },
+            } )
     else:
         albums = SPOTIFY.albums( [ id ], market=None )
         artist_album = albums['albums'][0]
         album_items = albums['albums'][0]['tracks']['items']
-
 
 
     content[ 'artist_album' ] = artist_album

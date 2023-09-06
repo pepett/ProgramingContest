@@ -27,38 +27,67 @@
     </div>
     <!--ここまで-->
     {% if is_original %}
-        <h1>オリジナルです</h1>
-    {% else %}
-    <div id="box1">
-        <div class="artist">
-            {% if artist_album.images.1 %}
-                <img src="{{ artist_album.images.1.url }}" alt="">
-            {% else %}
-                <img src="{% static 'img/users/baseuser.jpg'%}" alt="">
-            {% endif %}
-            <p class="bigtext">{{ artist_album.name }}</p>
-            <p class="bigtext"><a href="{% url 'artist' artist_album.artists.0.id%}">{{artist_album.artists.0.name}}</a></p>
-        </div>
-    </div>
-    <div id="box2">
-        <div class="artist-flex">
-            <p class="bigtext">タイトル</p>
-            <div class="album">
-                {% for i in album_items %}
-                <div class="albumbox">
-                    <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
-                        <img src="{% static 'img/tmp/play_green.png' %}">
-                    </button>
-                    <div class="AlbumNameBox">
-                        <p class="AlbumNameText"><a href="{% url 'mus' i.id %}">{{ i.name }}</a></p>
-                        <hr>
-                        <p class="AlbumNameTextMini"><a href="{% url 'artist' i.artists.0.id %}">{{ i.artists.0.name }}</a></p>
-                    </div>
-                </div>
-                {% endfor %}
+        <div id="box1">
+            <div class="artist">
+                {% if artist_album.image.0.url %}
+                    <img src="/media_local/{{ artist_album.image.0.url }}" alt="">
+                {% else %}
+                    <img src="{% static 'img/users/baseuser.jpg' %}" alt="">
+                {% endif %}
+                <p class="bigtext">{{ artist_album.name }}</p>
+                <p class="bigtext"><a href="{% url 'user' artist_album.artists.id %}">{{ artist_album.artists.name }}</a></p>
             </div>
         </div>
-    </div>
+        <div id="box2">
+            <div class="artist-flex">
+                <p class="bigtext">タイトル</p>
+                <div class="album">
+                    {% for i in album_items %}
+                        <div class="albumbox">
+                            <button class="PlaySongBT" type="button" value="/media_local/{{ i.preview_url }}" onclick="PlayMusic('/media_local/{{ i.preview_url }}', this)">
+                                <img src="{% static 'img/tmp/play_green.png' %}" alt="">
+                            </button>
+                            <div class="AlbumNameBox">
+                                <p class="AlbumNameText"><a href="{% url 'mus' i.id %}">{{ i.name }}</a></p>
+                                <hr>
+                                <p class="AlbumNameText"><a href="{% url 'user' i.artists.id %}">{{ i.artists.name }}</a></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div id="box1">
+            <div class="artist">
+                {% if artist_album.images.1 %}
+                    <img src="{{ artist_album.images.1.url }}" alt="">
+                {% else %}
+                    <img src="{% static 'img/users/baseuser.jpg'%}" alt="">
+                {% endif %}
+                <p class="bigtext">{{ artist_album.name }}</p>
+                <p class="bigtext"><a href="{% url 'artist' artist_album.artists.0.id%}">{{artist_album.artists.0.name}}</a></p>
+            </div>
+        </div>
+        <div id="box2">
+            <div class="artist-flex">
+                <p class="bigtext">タイトル</p>
+                <div class="album">
+                    {% for i in album_items %}
+                    <div class="albumbox">
+                        <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
+                            <img src="{% static 'img/tmp/play_green.png' %}">
+                        </button>
+                        <div class="AlbumNameBox">
+                            <p class="AlbumNameText"><a href="{% url 'mus' i.id %}">{{ i.name }}</a></p>
+                            <hr>
+                            <p class="AlbumNameTextMini"><a href="{% url 'artist' i.artists.0.id %}">{{ i.artists.0.name }}</a></p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     {% endif %}
 </main>
 <script type="text/javascript">

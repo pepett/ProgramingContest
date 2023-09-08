@@ -18,7 +18,7 @@ window.addEventListener( 'scroll' , scroll_event );
 
 function scroll_event(){
 
-    console.log(window.scrollY);
+    //console.log(window.scrollY);
 	
 	if(window.scrollY > 300){
         scroll_to_top_btn.style.opacity = '1';

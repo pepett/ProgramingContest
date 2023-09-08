@@ -57,17 +57,17 @@
             <p class="bigtext">{{ artist.name }} Top10</p>
             <div class="toprank trackbox">
                 {% if results %}
-                {% for y in results %}
+                {% for i in results %}
                 <div class="songbox">
-                    <button class="PlaySongBT" type="button" value="{{ y.preview_url }}" onclick="PlayMusic('{{ y.preview_url }}',this);">
-                        <img src="{% static 'img/tmp/play_green.png' %}">
+                    <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
+                        <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                     </button>
-                    <a href="{% url 'mus' y.id %}">
-                        <img class="music_img" src="{{y.album.images.0.url}}" width="150" height="150" class="" alt="">
+                    <img class="Site_Logo" src="{% static 'img/tmp/Spotify_Icon.png'%}">
+                    <a href="{% url 'mus' i.id %}">
+                        <img id="{{i.id}}" class="music_img" src="{{ i.album.images.0.url }}" width="150" height="150" alt="">
                     </a>
-                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'mus' y.id %}">{{y.name}}</a></h3>
-                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' y.artists.0.id %}">{{y.artists.0.name}}</a></h3>
-        
+                    <h3 class="SongNameText"><a href="{% url 'mus' i.id %}" class="ScrollText">{{ i.name }}</a></h3>
+                    <h3 class="SongNameText"><a href="{% url 'artist' i.artists.0.id %}" class="ScrollText">{{ i.artists.0.name }}</a></h3>
                 </div>
                 {% endfor %}
                 {% endif %}
@@ -94,6 +94,9 @@
     <script type="text/javascript">
         var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
         var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+                
+        let Spotify_logo = "{% static 'img/tmp/Spotify_Icon.png'%}";
+        let CWM_logo = "{% static 'img/tmp/CWM_Icon.png'%}";
     </script>
     <script src="{% static 'js/index.js' %}"></script>
     <script src="{% static 'js/loading.js' %}"></script>

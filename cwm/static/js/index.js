@@ -2,6 +2,7 @@ window.onload = ()=>{
 
 }
 
+
 window.onunload = ( e ) =>{
     const elem = document.getElementsByClassName( 'PlaySongBT' );
     for( let i = 0;i < elem.length;i ++ ){
@@ -22,12 +23,8 @@ const PlayMusic = ( url, btn ) => {
     }
     let history_flg = true;
     for( let i = 0;i < music_history.length;i ++ ){//履歴から参照
-        let nurl = url; 
-        if( music_history[ i ].src.indexOf( 'http://localhost:', 0 ) >= 0 ){
-            nurl = music_history[ i ].src.replace( /http:\/\/localhost:[0-9]{4}/, "" );
-        }
         //console.log( music_history[ i ].src + "を参照しました" )
-        if( url == nurl ){//履歴にある場合
+        if( music_history[ i ].src == url ){//履歴にある場合
             if( !music_history[ i ].paused ){
                 music_history[ i ].pause();
                 //IsPlayTex(btn);
@@ -95,7 +92,7 @@ for(let i = 0;i < scrollElement.length;i++){
     scrollElement[i].addEventListener("wheel", (e) => {
     if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
     e.preventDefault();
-    console.log(i)
+    //console.log(i)
     scrollElement[i].scrollLeft += e.deltaY;
     });
 }
@@ -104,10 +101,29 @@ const scrollsongtext = document.querySelectorAll(".ScrollText");
 const songnametext = document.querySelectorAll(".SongNameText");
 
 for(let i = 0;i < scrollsongtext.length;i++){
-    console.log(i+" : "+scrollsongtext[i].innerHTML)
-    console.log(i+".clientWidth: "+scrollsongtext[i].clientWidth)
-    console.log(i+".clientWidth: "+songnametext[i].clientWidth)
+    //console.log(i+" : "+scrollsongtext[i].innerHTML)
+    //console.log(i+".clientWidth: "+scrollsongtext[i].clientWidth)
+    //console.log(i+".clientWidth: "+songnametext[i].clientWidth)
     if (scrollsongtext[i].clientWidth >= songnametext[0].clientWidth){
         scrollsongtext[i].classList.add("ScrollSongText")
     }
 };
+
+const mus_img = document.querySelectorAll(".music_img");
+const logo_img = document.querySelectorAll(".Site_Logo");
+
+for(let i = 0;i < mus_img.length;i++){
+    //console.log(i+" : "+mus_img[i].id)
+    if(mus_img[i].id.length == 25){
+        logo_img[i].src = CWM_logo;
+        logo_img[i].style.width = '30px';
+        logo_img[i].style.height = '30px';
+    };
+};
+
+const entries = performance.getEntriesByType("navigation");
+entries.forEach((entry) => {
+  if (entry.type === "back_forward") {
+    window.location.reload()
+    }
+});

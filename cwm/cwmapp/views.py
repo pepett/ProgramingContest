@@ -168,6 +168,8 @@ def setting( request ):
             elif(request.POST['NewUsername']):
                 NewUsername = request.POST['NewUsername']
                 User.update(username = NewUsername)
+        
+        return redirect('setting')
 
     Historyresult = ModelMus.setHistory(request.user.userid)
     Likeresult = ModelMus.setLiked(request.user.userid)
@@ -295,10 +297,17 @@ def index( request ):
             ave = Utils.round( ave )
             #stars_id.append( i )
             
-            stars.append( {
-                'star': ave,
-                'track': SPOTIFY.track( i, market=None ),
-            } )
+            if len(i) == 25:
+                
+                stars.append( {
+                    'star': ave,
+                    'track': ModelMus.C_OGTrack(i),
+                } )
+            else:
+                stars.append( {
+                    'star': ave,
+                    'track': SPOTIFY.track( i, market=None ),
+                } )
     #print( sorted( stars, key = lambda x: x[ 'star' ], reverse = True ) )
     '''for i in range( len( stars ) ):
         print( SPOTIFY.track( stars_id[ i ], market=None )[ 'name' ] + str(stars[ i ]) )
@@ -330,7 +339,10 @@ def index( request ):
             cmt_mus_id.append( i.comment_music_id )
         cmt_mus_data = Utils.n_dup( cmt_mus_id )
         for i in cmt_mus_data:
-            cmt_mus_track.append( { 'track': SPOTIFY.track( i[ 'tag_name' ], market=None ), 'num': i['tag_num'] } )
+            if len(i[ 'tag_name' ]) == 25:
+                cmt_mus_track.append( { 'track': ModelMus.C_OGTrack(i[ 'tag_name' ]), 'num': i[ 'tag_num' ] } )
+            else:
+                cmt_mus_track.append( { 'track': SPOTIFY.track( i[ 'tag_name' ], market=None ), 'num': i['tag_num'] } )
         content[ 'comment_mus' ] = cmt_mus_track
 
             
@@ -344,43 +356,27 @@ def index( request ):
                 good_mus_id.append( i.good_music_id )
         good_mus_id = Utils.n_dup( good_mus_id )
         for i in good_mus_id:
-            good_mus_track.append( { 'track': SPOTIFY.track( i[ 'tag_name' ], market=None ), 'num': i[ 'tag_num' ] } )
+            if len(i[ 'tag_name' ]) == 25:
+                good_mus_track.append( { 'track': ModelMus.C_OGTrack(i[ 'tag_name' ]), 'num': i[ 'tag_num' ] } )
+            else:
+                good_mus_track.append( { 'track': SPOTIFY.track( i[ 'tag_name' ], market=None ), 'num': i[ 'tag_num' ] } )
         content[ 'good_mus' ] = good_mus_track
 
     if request.user.is_authenticated:
         #最近見た曲
         if HistoryList.objects.filter( history_userid = request.user.userid ).exists():
-            his = HistoryList.objects.filter( history_userid = request.user.userid )
-            nhis = []
-            for i in his:
-                nhis.append( SPOTIFY.track( i.history_music_id, market=None ) )
-            nhis.reverse()
-            content[ 'history' ] = nhis
+            content[ 'history' ] = ModelMus.setHistory(request.user.userid)
         #いいねした曲
         if Good.objects.filter( good_userid = request.user.userid ).exists():
-            goods = Good.objects.filter( good_userid = request.user.userid )
-            ngd = []
-            for i in goods:
-                ngd.append( SPOTIFY.track( i.good_music_id, market=None ) )
-            content[ 'like' ] = ngd
+            content[ 'like' ] = ModelMus.setLiked(request.user.userid)
+
         #コメントした曲
         if Comment.objects.filter( comment_userid = request.user.userid ).exists():
-            cmtmusic = Comment.objects.filter( comment_userid = request.user.userid )
-            ncm = []
-            ncm_track = []
-            for i in cmtmusic:
-                ncm.append( i.comment_music_id )
-            ncm = Utils.n_dup( ncm )
-            for i in ncm:
-                ncm_track.append( SPOTIFY.track( i[ 'tag_name' ], market=None ) )
-            content[ 'ucomment_mus' ] = ncm_track
+            content[ 'ucomment_mus' ] = ModelMus.setCommented(request.user.userid)
+
         #評価した曲
         if Star.objects.filter( star_userid = request.user.userid ).exists():
-            sts = Star.objects.filter( star_userid = request.user.userid )
-            nsts = []
-            for i in sts:
-                nsts.append( SPOTIFY.track( i.star_music_id , market=None ) )
-            content[ 'star_mus' ] = nsts
+            content[ 'star_mus' ] = ModelMus.setStars(request.user.userid)
 
     #タグを表示
     if Comment.objects.all().exists():
@@ -501,7 +497,7 @@ def music( request, idn ):
         'is_original': flg,
     }
 
-    if request.user.is_authenticated and not len( idn ) == 25:
+    if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
         content[ 'data' ] = User
         MusHistory = HistoryList(history_userid = request.user.userid,history_music_id = idn)
@@ -564,6 +560,9 @@ def artist( request, id ):
     artist_album = []
     related_artist = []
     User = False
+
+    if len( id ) == 25:
+        return redirect('user',id)
 
     content = {
         'artist': artist_result,

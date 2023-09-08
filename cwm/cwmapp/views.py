@@ -194,11 +194,32 @@ def result( request ):
     if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
 
+
     for i in nres:
-        t = {
-            'c_music': SPOTIFY.track( i.comment_music_id, market=None ),
-            'c_text': i.comment_text
-        }
+        t = {}
+        if len( i.comment_music_id ) == 25:
+            music_tbl = Music.objects.get( music_id = i.comment_music_id )
+            albm_tbm = Album.objects.get( album_id = music_tbl.music_album_id )
+            artt_tbl = CustomUser.objects.get( userid = albm_tbl.album_userid )
+            t = {
+                'c_music': {
+                    'artists' : {
+                        'id' : artt_tbl.userid,
+                        'name' : artt_tbl.username,
+                    },
+                    'album' : {
+                        'id' : albm_tbl.album_id,
+                        'name' : albm_tbl.album_name,
+                    },
+                    
+                },
+                'c_text' : i.comment_text,
+            }
+        else:
+            t = {
+                'c_music': SPOTIFY.track( i.comment_music_id, market=None ),
+                'c_text': i.comment_text
+            }
         ctracks.append( t )
     li = 10
     results_track = SPOTIFY.search( request.GET['search-music'], limit=li, offset=0, type='track,album,artist', market=None )
@@ -537,11 +558,13 @@ def search( request ):
         content = {
             'tags': '',
             'data':User,
+            'top10': None,
         }
     else:
         content = {
             'tags': '',
             'data':None,
+            'top10': None,
         }
 
     if Comment.objects.all().exists():#タグを表示
@@ -551,7 +574,14 @@ def search( request ):
             tags.extend( Utils.sharp( i.comment_text ) )
         data = Utils.n_dup( tags )
         content[ 'tags' ] = data
+    
+    playlist_uri = 'spotify:playlist:7t47MzpvKe00KAYZ60qGl3'
+    results = SPOTIFY.playlist_tracks( playlist_uri )[ 'items' ]
+    top10 = results[ :30 ]
+    content[ 'top10' ] = top10
+
     return render( request, 'cwm/search.html', content )
+
 
 def artist( request, id ):
 

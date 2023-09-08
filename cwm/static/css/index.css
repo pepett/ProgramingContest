@@ -175,6 +175,14 @@ h3 {
   border-radius: 10px;
   overflow: hidden; }
 
+.Site_Logo {
+  position: absolute;
+  display: flex;
+  bottom: 72px;
+  right: 13px;
+  width: 25px;
+  height: 25px; }
+
 @media screen and (max-width: 1000px) {
   .tags {
     display: flex;

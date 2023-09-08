@@ -1,10 +1,11 @@
 {% extends "cwm/base.html" %}
-
+{% load static %}
 {% block title %}曲を検索{% endblock %}
 {% block content %}
 
 <main>
     <link rel="stylesheet" href="/static/css/search.css">
+    <link rel="stylesheet" href="/static/css/index.css">
     <div class="title">
         <h2>音楽を見つける</h2>
     </div>
@@ -23,14 +24,29 @@
             </a>
             {% endfor %}
         </div>
-        <div class="music-kinds">
-            
+        <div class="music-select">
+            <p class="bigtext">TikTokで使われてる音源</p>
+            <div class="trackbox toprank">
+                {% for i in top10 %}
+                    <div class="songbox">
+                        <button class="PlaySongBT">
+                            <img src="{% static 'img/tmp/play_green.png' %}">
+                        </button>
+                        <img src="{% static 'img/tmp/Spotify_Icon.png' %}" class="Site_Logo">
+                        <a href="{% url 'mus' i.track.id %}">
+                            <img src="{{ i.track.album.images.0.url }}" class="music_img" id="{{ i.track.id }}" width="150" height="150">
+                        </a>
+                        <h3 class="SongNameText"><a href="{% url 'mus' i.track.id %}" class="ScrollText">{{ i.track.name }}</a></h3>
+                        <h3 class="SongNameText"><a href="{% url 'artist' i.track.artists.0.id %}">{{ i.track.artists.0.name }}</a></h3>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </form>
 </main>
 <script>
     document.querySelector( '.search-input' ).addEventListener( 'keyup', ( e ) => {
-        console.log( e.target.value )
+        //console.log( e.target.value )
     } );
 </script>
 {% endblock %}

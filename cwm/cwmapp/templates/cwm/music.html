@@ -36,9 +36,9 @@
                 </div>
                 <div class="original-track-player">
                     <img src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
-                    <div class="play-btn">
-                        <img class="playbtn" src="{% static 'img/tmp/play_green.png' %}">
-                    </div>
+                    <button class="PlaySongBT" type="button" value="/media_local/{{ track_result.full_url }}" onclick="PlayMusic( '/media_local/{{ track_result.full_url }}', this )">
+                        <img src="{% static 'img/tmp/play_green.png' %}">
+                    </button>
                 </div>
             </div>
         {% else %}
@@ -56,13 +56,20 @@
                     アルバム: <span class="album-title"><a href="{% url 'album' track_result.album.id %}">{{ track_result.album.name }}</a></span>
                 </div>
                 <div class="artist-name">
-                    アーティスト: <span class="artist-title"><a href="{% url 'artist' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a></span>
+                    アーティスト: <span class="artist-title">
+                        {% if is_original %}
+                            <a href="{% url 'user' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a>
+                        {% else %}
+                            <a href="{% url 'artist' track_result.artists.0.id %}">{{ track_result.artists.0.name }}</a>
+                        {% endif %}
+                    </span>
                 </div>
             </div>
             <div class="shere">
                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="私は {{ track_result.name }} を聴いています" data-hashtags="cwm,{{ track_result.artists.0.name }}" data-size="large" data-lang="ja" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 <div class="line-it-button" data-lang="ja" data-type="share-a" data-env="REAL" data-url="http://localhost:8000/index" data-color="default" data-size="large" data-count="false" data-ver="3" style="display: none;"></div>
-                <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+                <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.
+            min.js" async="async" defer="defer"></script>
             </div>
         </div>
         {% if tags %}
@@ -158,8 +165,14 @@
         {% endif %}
     </div>
 </main>
+
+<script type="text/javascript">
+    var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
+    var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+</script>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
-<script src="{% static 'js/lib/utils.js' %}"></script>
+<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'js/music.js' %}"></script>
 <script>
     let original_flg = '{{ is_original }}'.toLocaleLowerCase();
     const async_star = ()=>{//評価の非同期処理
@@ -344,7 +357,7 @@
         }
         IFrameAPI.createController( elem, options, callback );
     }
-    window.onload = (  ) => {
+    /*window.onload = (  ) => {
         if( !original_flg ) return ;
         let ms = new PreviewMusic( '/media_local/{{ track_result.full_url }}', '.playbtn', 0 );
         document.querySelector( '.playbtn' ).onclick = ( e ) => {
@@ -354,7 +367,7 @@
                 ms.play();
             }
         }
-    }
+    }*/
     for( let i = 0;i < document.getElementsByClassName( 'menu' ).length;i ++ ){//ログインしてないとedit-actionがなくてバグる
         document.getElementsByClassName( 'menu' )[ i ].addEventListener( 'click', ( e )=>{
             if (document.getElementsByClassName('cmt-edit')[i].className == 'cmt-edit cmt-edit-on'){
@@ -365,5 +378,4 @@
         });
     }
 </script>
-<script src="{% static 'js/music.js' %}"></script>
 {% endblock %}

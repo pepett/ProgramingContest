@@ -63,20 +63,31 @@ def Logout( request ):
         print( 'error' )
 
 def register( request ):
+    if request.user.is_authenticated:
+        return redirect(index)
+    
     if request.POST:
         img = Utils.CreateUserImage(request.POST['username'],str(Utils.randomid()))
         register_form = RegisterForm( request.POST)
         if register_form.is_valid():
             reg = register_form.save()
-            print(reg)
-            print(img)
+            email = reg.email
+            password = reg.password
             reg.set_password( reg.password )
             reg.image = img
             reg.save()
             content = {
                 'register_form': register_form
             }
-            return redirect( 'Login' )
+            user = authenticate( request, email=email, password=password )
+
+            if user is not None:
+                login( request, user )
+                Utils.sendemailregister(request)
+                
+                return redirect( 'index' )
+            else:
+                return redirect( 'Login' )
         else:
             content = {
                 'register_form': register_form

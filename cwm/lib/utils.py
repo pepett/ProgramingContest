@@ -2,6 +2,7 @@ import re
 import math
 from PIL import Image, ImageDraw, ImageFont
 import random,string
+from django.core.mail import send_mail
 
 class Utils:
     @staticmethod
@@ -101,3 +102,19 @@ class Utils:
     def randomid():
         randlst = [random.choice(string.ascii_letters + string.digits) for i in range(25)]
         return ''.join(randlst)
+    
+    @staticmethod
+    def sendemailregister(request):
+        """題名"""
+        #なぜか題名だけ日本語にすると文字化けしてしまうので注意
+        subject = "Thanks for registed to CWM !"
+        """本文"""
+        message = "ConnectWithMusic\nご登録、ありがとうございます！"
+        """送信元メールアドレス"""
+        from_email = "connectwithmusic@gmail.com"
+        """宛先メールアドレス"""
+        recipient_list = [
+            request.user.email
+        ]
+
+        send_mail(subject, message, from_email, recipient_list)

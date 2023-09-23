@@ -1,7 +1,3 @@
-window.onload = ()=>{
-
-}
-
 
 window.onunload = ( e ) =>{
     const elem = document.getElementsByClassName( 'PlaySongBT' );
@@ -24,11 +20,12 @@ const PlayMusic = ( url, btn ) => {
     let history_flg = true;
     for( let i = 0;i < music_history.length;i ++ ){//履歴から参照
         //console.log( music_history[ i ].src + "を参照しました" )
-        let nurl = url; 
+        let nurl =  music_history[ i ].src; 
         if( music_history[ i ].src.indexOf( 'http://localhost:', 0 ) >= 0 ){
             nurl = music_history[ i ].src.replace( /http:\/\/localhost:[0-9]{4}/, "" );
         }
         if( url == nurl ){//履歴にある場合
+            //alert(nurl)
             if( !music_history[ i ].paused ){
                 music_history[ i ].pause();
                 //IsPlayTex(btn);
@@ -43,10 +40,12 @@ const PlayMusic = ( url, btn ) => {
             history_flg = false;
         }else{
             //sconsole.log( music_history[ i ].src + "をストップしました" )
-            if( !music_history[ i ].paused )
+            if( !music_history[ i ].paused ){
+
                 music_history[ i ].pause();
                 //IsPlayTex(btn);
                 stop_display( play_btn_history[ i ] );
+            }
         }
     }
     if( history_flg ){

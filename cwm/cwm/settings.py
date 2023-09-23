@@ -136,7 +136,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #コンソー�
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = #メールアドレス
+EMAIL_HOST_USER = 'k228021@kccollege.ac.jp'#メールアドレス
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = #メールアドレスのパスワード
+EMAIL_HOST_PASSWORD = 'K228021arts'#メールアドレスのパスワード
 EMAIL_USE_TLS = True

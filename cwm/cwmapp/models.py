@@ -194,6 +194,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         }
     )
     image = models.ImageField( upload_to = save_user )
+    is_premium = models.BooleanField(
+        default=False
+    )
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

@@ -205,31 +205,21 @@ def result( request ):
     if request.user.is_authenticated:
         User = CustomUser.objects.filter( userid = request.user.userid )
 
-
     for i in nres:
+        i_nr = Comment.objects.get( comment_id = str( i ) )
         t = {}
-        if len( i.comment_music_id ) == 25:
-            music_tbl = Music.objects.get( music_id = i.comment_music_id )
-            albm_tbm = Album.objects.get( album_id = music_tbl.music_album_id )
+        if len( i_nr.comment_music_id ) == 25:
+            music_tbl = Music.objects.get( music_id = i_nr.comment_music_id )
+            albm_tbl = Album.objects.get( album_id = music_tbl.music_album_id )
             artt_tbl = CustomUser.objects.get( userid = albm_tbl.album_userid )
             t = {
-                'c_music': {
-                    'artists' : {
-                        'id' : artt_tbl.userid,
-                        'name' : artt_tbl.username,
-                    },
-                    'album' : {
-                        'id' : albm_tbl.album_id,
-                        'name' : albm_tbl.album_name,
-                    },
-                    
-                },
-                'c_text' : i.comment_text,
+                'c_music': ModelMus.C_OGTrack( i_nr.comment_music_id ),
+                'c_text' : i_nr.comment_text,
             }
         else:
             t = {
-                'c_music': SPOTIFY.track( i.comment_music_id, market=None ),
-                'c_text': i.comment_text
+                'c_music': SPOTIFY.track( i_nr.comment_music_id, market=None ),
+                'c_text': i_nr.comment_text
             }
         ctracks.append( t )
     li = 10

@@ -116,7 +116,7 @@
                     </div>
                     <div class="cmt-content">
                         <div class="good-img">
-                            <img src="{% static 'img/tmp/good_black.png' %}" alt="いいね" width="30" height="30">
+                            <img src="{% static 'img/tmp/good_black.png' %}" alt="いいね" width="30" height="30" class="good-img-button">
                         </div>
                         <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
                     </div>
@@ -138,6 +138,11 @@
                         </div>
                         <!-- </absolute> -->
                     </div>
+                    {% else %}
+                        <div class="forms">
+                            <div class="cmt-edit"></div>
+                            <div class="edit-action"></div>
+                        </div>
                     {% endif %}
                     <!-- <replyform> -->
                     {% if request.user.is_authenticated %}
@@ -201,6 +206,10 @@
                 } )
             } )
         }
+    }
+    const async_comment_good = ()=>{
+        if( !original_flg ) return;
+
     }
     const init_star = ( a = '{{ ave_star }}', u = '{{ user_star }}' )=>{//評価の非同期時のDOM操作
         const a_s = a;
@@ -303,7 +312,7 @@
                 str += (restext[ j ] + '<br>');
             }
             //const rep_text = `<div class="rep-text">${ res.contents[ i ].reply_text + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
-            const rep_text = `<div class="rep-text">${ str + '\t登校日:' + res.contents[ i ].reply_posted }</div>`;
+            const rep_text = `<div class="rep-text">${ str + '\t投稿日:' + res.contents[ i ].reply_posted }</div>`;
             title_container.innerHTML += rep_image + rep_name;
             content_container.innerHTML += rep_good + rep_text;
             container.innerHTML += title_container.outerHTML + content_container.outerHTML;

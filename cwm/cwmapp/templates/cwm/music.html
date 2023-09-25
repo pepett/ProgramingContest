@@ -116,7 +116,12 @@
                     </div>
                     <div class="cmt-content">
                         <div class="good-img">
-                            <img src="{% static 'img/tmp/good_black.png' %}" alt="いいね" width="30" height="30" class="good-img-button">
+                            {% if item.is_good %}
+                                <img src="{% static 'img/tmp/good_white.png' %}" alt="いいね" width="30" height="30" class="good-img-button" data-comment_id="{{ item.comment_id }}">
+                            {% else %}
+                                <img src="{% static 'img/tmp/good_black.png' %}" alt="いいね" width="30" height="30" class="good-img-button" data-comment_id="{{ item.comment_id }}">
+                            {% endif %}
+                            <span class="gc-count">{{ item.comment_good }}</span>
                         </div>
                         <div class="comment-text" id="c-{{ item.comment_id }}">{{ item.comment_text | linebreaks }}</div>
                     </div>
@@ -209,7 +214,30 @@
     }
     const async_comment_good = ()=>{
         if( !original_flg ) return;
-
+        for( let i = 0;i < document.getElementsByClassName( 'good-img-button' ).length;i ++ ){
+            document.getElementsByClassName( 'good-img-button' )[ i ].addEventListener( 'click', ( e )=>{
+                e.preventDefault();
+                const url = '{% url "good_comment" 0 %}';
+                let nurl = url.replace( '0', document.getElementsByClassName( 'good-img-button' )[ i ].dataset.comment_id );
+                const data = {
+                    content:''
+                }
+                fetch( nurl, {
+                    method: 'POST',
+                    body: `comment_good_n=${JSON.stringify( data )}`,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                }).then( response => {
+                    return response.json();
+                } ).then( response => {
+                    init_comment_good( response.gc_count, response.gc_bool, i );
+                } ).catch( error => {
+                    console.log( error );
+                } )
+            } )
+        }
     }
     const init_star = ( a = '{{ ave_star }}', u = '{{ user_star }}' )=>{//評価の非同期時のDOM操作
         const a_s = a;
@@ -244,6 +272,13 @@
         }
         document.querySelector( '.stars' ).innerHTML += `<br><span class="eval-num">みんなの評価:${ a }/5</span>`;
         setTimeout( async_star, 1000 );
+    }
+    const init_comment_good = ( count, bool, n ) => {
+        const good_before = "{% static 'img/tmp/good_black.png' %}";
+        const good_after = "{% static 'img/tmp/good_white.png' %}";
+        document.getElementsByClassName( 'gc-count' )[ n ].textContent = count;
+        
+        document.getElementsByClassName( 'good-img-button' )[ n ].src = ( bool == 'true' ? good_after : good_before );
     }
     const good_eval = () => {
     document.getElementById('good-btn').addEventListener('click', (e) => {
@@ -347,6 +382,7 @@
     window.onSpotifyIframeApiReady = ( IFrameAPI ) => {
         init_star();
         init_good();
+        async_comment_good();
         setTimeout( async_view_reply, 1000 );
         const flg = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
         if( flg ){

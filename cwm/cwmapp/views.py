@@ -13,7 +13,7 @@ from django.contrib.auth.hashers import make_password,check_password
 from lib.spotify_conect import SPOTIFY
 from lib.utils import Utils
 from lib.model_conect import ModelMus
-from cwmapp.models import Comment, HistoryList, LikeList, Music, Album, Star, Good ,Reply
+from cwmapp.models import Comment, HistoryList, LikeList, Music, Album, Star, Good ,Reply, GoodComment, GoodCommentReply
 
 from .forms import CommentForm, UploadImageForm, UsernameForm, RegisterForm, CustomUser, MusicRegisterForm, AlbumRegisterForm#, LoginForm
 
@@ -451,7 +451,7 @@ def music( request, idn ):
             ave_star += Star.objects.filter( star_music_id = idn )[ i ].star_num
         ave_star /= Star.objects.filter( star_music_id = idn ).count()
         ave_star = Utils.round( ave_star )
-    if request.user.is_authenticated:
+    if request.user.is_authenticated:#ログイン時にしか使えない機能
         if Star.objects.filter( star_userid = request.user.userid, star_music_id = idn ).exists():
             user_star = Star.objects.get( star_userid = request.user.userid, star_music_id = idn ).star_num
         if Good.objects.filter( good_music_id = idn, good_userid = request.user.userid ).exists():
@@ -532,16 +532,21 @@ def music( request, idn ):
         for i in range( comments.count() ):
             users.append( CustomUser.objects.get( userid=comments[ i ].comment_userid ) )#一つしかとってきてない
             tags.extend( Utils.sharp( comments[ i ].comment_text ) )
+            
             tmp = {
                 'user_name': users[ i ].username,
                 'user_id': users[ i ].userid,
                 'user_image': users[ i ].image,
                 'comment_id': comments[ i ].comment_id,
-                'comment_good': 0,
+                'comment_good': GoodComment.objects.filter( gc_comment_id = comments[ i ].comment_id, gc_bool = True ).count(),
+                'is_good': False,
                 'comment_text': comments[ i ].comment_text,
                 'comment_posted': comments[ i ].comment_posted,
                 'result': results
             }
+            if GoodComment.objects.filter( gc_userid = request.user.userid, gc_comment_id = comments[ i ].comment_id ).exists():
+                tmp[ 'is_good' ] = GoodComment.objects.get( gc_userid = request.user.userid, gc_comment_id = comments[ i ].comment_id ).gc_bool
+            
             mdl.append( tmp )
         
         #tags = Utils.del_duplicate( tags, False )
@@ -729,14 +734,17 @@ def good( request, idn ):#非同期時に行う処理
                     MusLike.save()
                     ModelMus.setHistory(request)
                 else:
-                    MusLiked = LikeList.objects.filter(like_userid = request.user.userid,like_music_id = idn)
-                    MusLiked[0].delete()
-
+                    MusLiked = LikeList.objects.get(like_userid = request.user.userid,like_music_id = idn)
+                    MusLiked.delete()
                 good.save()
-
             else:
                 # データが未登録の場合
                 good = Good.objects.create(good_userid=request.user.userid, good_music_id=idn)
+                good.good_bool = not good.good_bool
+                good.save()
+                MusLike = LikeList(like_userid = request.user.userid,like_music_id = idn)
+                MusLike.save()
+                ModelMus.setHistory(request)
             #print(Good.objects.get( good_userid = request.user.userid, good_music_id = idn ).good_bool)
         content = {
             'good_count':Good.objects.filter(good_music_id = idn, good_bool = True).count(),
@@ -744,6 +752,25 @@ def good( request, idn ):#非同期時に行う処理
         }
 
         return JsonResponse( content ) 
+
+def good_comment( request, idn ):
+    content = {}
+    if request.POST:
+        if request.user.is_authenticated:
+
+            if GoodComment.objects.filter( gc_userid = request.user.userid, gc_comment_id = idn ).exists():
+                gc = GoodComment.objects.get( gc_userid = request.user.userid, gc_comment_id = idn )
+                gc.gc_bool = not gc.gc_bool
+                gc.save()
+            else:
+                gc = GoodComment.objects.create( gc_userid = request.user.userid, gc_comment_id = idn )
+                gc.gc_bool = not gc.gc_bool
+                gc.save()
+            content = {
+                'gc_count': GoodComment.objects.filter( gc_comment_id = idn, gc_bool = True ).count(),
+                'gc_bool':str( GoodComment.objects.get( gc_userid = request.user.userid, gc_comment_id = idn ).gc_bool ).lower(),
+            }
+            return JsonResponse( content )
 
 def create_reply( request, idn, cid ):
     if request.POST:

@@ -223,6 +223,32 @@
     .main-test .music-main iframe {
       height: 250px;
       width: 500px; }
+    .main-test .music-main #original {
+      background-color: red;
+      width: 500px;
+      height: 232px;
+      border-radius: 12px; }
+      .main-test .music-main #original .original-track-name {
+        color: white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 25px;
+        position: relative;
+        left: 195px;
+        top: 60px; }
+      .main-test .music-main #original .PlaySongBT, .main-test .music-main #original .StopSongBT {
+        background: none;
+        border: none;
+        position: relative;
+        left: 280px;
+        top: 24px; }
+      .main-test .music-main #original .BTimg {
+        width: 30px;
+        height: 30px; }
+      .main-test .music-main #original .original-album-image {
+        position: relative;
+        bottom: 13px;
+        left: 16px;
+        border-radius: 8px; }
     .main-test .music-main .good {
       margin-left: 60px;
       justify-content: space-between;

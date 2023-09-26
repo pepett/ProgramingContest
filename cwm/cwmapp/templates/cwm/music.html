@@ -35,9 +35,9 @@
                     {{ track_result.name }}
                 </div>
                 <div class="original-track-player">
-                    <img src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
+                    <img class="original-album-image" src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
                     <button class="PlaySongBT" type="button" value="/media_local/{{ track_result.full_url }}" onclick="PlayMusic( '/media_local/{{ track_result.full_url }}', this )">
-                        <img src="{% static 'img/tmp/play_green.png' %}">
+                        <img class="BTimg" src="{% static 'img/tmp/play_green.png' %}">
                     </button>
                 </div>
             </div>
@@ -177,8 +177,8 @@
 </main>
 
 <script type="text/javascript">
-    var PlayBTimg = "<img src='{% static 'img/tmp/play_green.png' %}'>";
-    var StopBTimg = "<img src='{% static 'img/tmp/stop.png' %}'>";
+    var PlayBTimg = "<img class='BTimg' src='{% static 'img/tmp/play_green.png' %}'>";
+    var StopBTimg = "<img class='BTimg' src='{% static 'img/tmp/stop.png' %}'>";
 </script>
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <script src="{% static 'js/index.js' %}"></script>
@@ -277,6 +277,7 @@
         const good_before = "{% static 'img/tmp/good_black.png' %}";
         const good_after = "{% static 'img/tmp/good_white.png' %}";
         document.getElementsByClassName( 'gc-count' )[ n ].textContent = count;
+        
         document.getElementsByClassName( 'good-img-button' )[ n ].src = ( bool == 'true' ? good_after : good_before );
     }
     const good_eval = () => {

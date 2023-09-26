@@ -23,7 +23,11 @@ const PlayMusic = ( url, btn ) => {
         let nurl =  music_history[ i ].src; 
         if( music_history[ i ].src.indexOf( 'http://localhost:', 0 ) >= 0 ){
             nurl = music_history[ i ].src.replace( /http:\/\/localhost:[0-9]{4}/, "" );
+        }else{
+            nurl = music_history[ i ].src.replace( /http:\/\/[0-9]{3}\.[0-9]{1}\.[0-9]{1}\.[0-9]{1}:[0-9]{4}/, "" );
         }
+        //console.log("url :"+url)
+        //console.log("nurl :"+nurl)
         if( url == nurl ){//履歴にある場合
             //alert(nurl)
             if( !music_history[ i ].paused ){
@@ -39,7 +43,7 @@ const PlayMusic = ( url, btn ) => {
             }
             history_flg = false;
         }else{
-            //sconsole.log( music_history[ i ].src + "をストップしました" )
+            //console.log( music_history[ i ].src + "をストップしました" )
             if( !music_history[ i ].paused ){
 
                 music_history[ i ].pause();

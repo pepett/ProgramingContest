@@ -47,7 +47,7 @@
                 </div>
                 {% if request.user.is_authenticated %}
                 <a class="loginBT" href="{% url 'upload' %}">音楽をアップロード</a>
-                <a class="Minilink" href="{% url 'Logout' %}">ログアウト</a>
+                <a class="MiniPremiumBT" href="{% url 'premium_descreption' %}">CWM Premium</a>
                 {% else %}
                 {% endif %}
             </div>
@@ -71,7 +71,7 @@
         </div>
         {% if request.user.is_authenticated %}
         <a class="loginBT uploadBT" href="{% url 'upload' %}">音楽をアップロード</a>
-        <a href="{% url 'premium_descreption' %}">CWM Premium</a>
+        <a class="PremiumBT" href="{% url 'premium_descreption' %}">CWM Premium</a>
         <div class="Login_userbox">
             <a href="{% url 'setting' %}">
                 <img class="UserIcon" src="{{ request.user.image.url }}" alt="ユーザーアイコン">

@@ -123,7 +123,8 @@ def setting( request ):
                     "album_image_url":MyAlbum.get(album_id = i.music_album_id).album_image.url,
                     "music_name":i.music_name,
                     "album_userid":MyAlbum.get(album_id = i.music_album_id).album_userid,
-                    "name":User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).username
+                    "name":User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).username,
+                    "ispremium":User.get(userid = MyAlbum.get(album_id = i.music_album_id).album_userid).is_premium
                     })
         
         print(Uploadresult)
@@ -272,28 +273,54 @@ def index( request ):
         for i in Music.objects.all():
             albm_tbl = Album.objects.get( album_id = i.music_album_id )
             artt_tbl = CustomUser.objects.get( userid = albm_tbl.album_userid )
-            original_tracks.append( {
-                'album' : {
-                    'id' : albm_tbl.album_id,
-                    'name' : albm_tbl.album_name,
-                    'img' : [
+            if (CustomUser.objects.get(userid = albm_tbl.album_userid).is_premium):
+                original_tracks.append( {
+                    'album' : {
+                        'id' : albm_tbl.album_id,
+                        'name' : albm_tbl.album_name,
+                        'img' : [
+                            {
+                                'url' :albm_tbl.album_image.url,
+                            },
+                        ],
+                    },
+                    'artists' : [
                         {
-                            'url' : albm_tbl.album_image,
-                        },
+                            'id' : artt_tbl.userid,
+                            'name' : artt_tbl.username,
+                        }
                     ],
-                },
-                'artists' : [
-                    {
-                        'id' : artt_tbl.userid,
-                        'name' : artt_tbl.username,
-                    }
-                ],
-                'id' : i.music_id,
-                'name' : i.music_name,
-                'preview_url' : i.music_track_preview,
-                'full_url' : i.music_track_full,
-                'uri' : None,
-            } )
+                    'id' : i.music_id,
+                    'name' : i.music_name,
+                    'preview_url' :i.music_track_preview.url,
+                    'full_url' :i.music_track_full.url,
+                    'uri' : None,
+                    "ispremium":"premium",
+                })
+            else:
+                original_tracks.append( {
+                    'album' : {
+                        'id' : albm_tbl.album_id,
+                        'name' : albm_tbl.album_name,
+                        'img' : [
+                            {
+                                'url' :albm_tbl.album_image.url,
+                            },
+                        ],
+                    },
+                    'artists' : [
+                        {
+                            'id' : artt_tbl.userid,
+                            'name' : artt_tbl.username,
+                        }
+                    ],
+                    'id' : i.music_id,
+                    'name' : i.music_name,
+                    'preview_url' :i.music_track_preview.url,
+                    'full_url' :i.music_track_full.url,
+                    'uri' : None,
+                    "ispremium":"not_premium",
+                })
 
     content[ "oridinal" ] = original_tracks
     max_length = 13

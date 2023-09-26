@@ -24,6 +24,24 @@
             </div>
         </div>
         <!--ここまで-->
+        <p class="bigtext">おすすめ</p>
+        <div class="trackbox toprank">
+            {% if oridinal %}
+                {% for l in oridinal %}
+                    <div class="songbox {{ l.ispremium }}_songbox">
+                        <button class="PlaySongBT" type="button" value="{{ l.preview_url }}" onclick="PlayMusic( '{{ l.preview_url }}', this )">
+                            <img src="{% static 'img/tmp/play_green.png' %}">
+                        </button>
+                        <img class="Site_Logo" src="{% static 'img/tmp/Spotify_Icon.png'%}">
+                        <a href="{% url 'mus' l.id %}">
+                            <img id="{{l.id}}" src="{{ l.album.img.0.url }}" class="music_img" width="150" height="150">
+                        </a>
+                        <h3 class="SongNameText"><a class="ScrollText" href="{% url 'mus' l.id %}" class="ScrollText">{{ l.name }}</a></h3>
+                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' l.artists.0.id %}">{{l.artists.0.name}}</a></h3>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
         <p class="bigtext">トップ10</p>
         <div class="trackbox toprank">
             {% if results %}
@@ -46,13 +64,13 @@
         <div id="trackbox" class="trackbox toprank">
             {% if oridinal %}
                 {% for l in oridinal %}
-                    <div class="songbox">
-                        <button class="PlaySongBT" type="button" value="/media_local/{{ l.preview_url }}" onclick="PlayMusic( '/media_local/{{ l.preview_url }}', this )">
+                    <div class="songbox {{ l.ispremium }}_songbox">
+                        <button class="PlaySongBT" type="button" value="{{ l.preview_url }}" onclick="PlayMusic( '{{ l.preview_url }}', this )">
                             <img src="{% static 'img/tmp/play_green.png' %}">
                         </button>
                         <img class="Site_Logo" src="{% static 'img/tmp/Spotify_Icon.png'%}">
                         <a href="{% url 'mus' l.id %}">
-                            <img id="{{l.id}}" src="/media_local/{{ l.album.img.0.url }}" class="music_img" width="150" height="150">
+                            <img id="{{l.id}}" src="{{ l.album.img.0.url }}" class="music_img" width="150" height="150">
                         </a>
                         <h3 class="SongNameText"><a class="ScrollText" href="{% url 'mus' l.id %}" class="ScrollText">{{ l.name }}</a></h3>
                         <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' l.artists.0.id %}">{{l.artists.0.name}}</a></h3>
@@ -64,7 +82,7 @@
         <div class="trackbox toprank">
             {% if results2 %}
             {% for y in results2 %}
-            <div class="songbox">
+            <div class="songbox {{y.track.ispremium }}_songbox">
             <button class="PlaySongBT" type="button" value="{{ y.track.preview_url }}" onclick="PlayMusic('{{ y.track.preview_url }}',this);">
                 <img src="{% static 'img/tmp/play_green.png' %}">
             </button>
@@ -85,7 +103,7 @@
     <div class="trackbox toprank">
         {% if comment_mus %}
             {% for i in comment_mus %}
-                <div class="songbox">
+                <div class="songbox {{i.track.ispremium }}_songbox">
                     <button class="PlaySongBT" type="button" value="{{ i.track.preview_url }}" onclick="PlayMusic( '{{ i.track.preview_url }}', this );">
                         <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
@@ -102,7 +120,7 @@
     <p class="bigtext">いいね数が多い曲</p>
     <div class="trackbox toprank">
         {% for i in good_mus %}
-            <div class="songbox">
+            <div class="songbox {{i.track.ispremium }}_songbox">
                 <button class="PlaySongBT" type="button" value="{{ i.track.preview_url }}" onclick="PlayMusic('{{ i.track.preview_url }}', this)">
                     <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                 </button>
@@ -119,7 +137,7 @@
         <p class="bigtext">最近見た曲</p>
         <div class="trackbox toprank">
             {% for i in history %}
-                <div class="songbox">
+                <div class="songbox {{i.ispremium }}_songbox">
                     <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                     </button>
@@ -135,7 +153,7 @@
         <p class="bigtext">いいねした曲</p>
         <div class="trackbox toprank">
             {% for i in like %}
-            <div class="songbox">
+            <div class="songbox {{i.ispremium }}_songbox">
                 <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
                     <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                 </button>
@@ -151,7 +169,7 @@
         <p class="bigtext">評価した曲</p>
         <div class="trackbox toprank">
             {% for i in star_mus %}
-                <div class="songbox">
+                <div class="songbox {{i.ispremium }}_songbox">
                     <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic( '{{ i.preview_url }}', this )">
                         <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                     </button>
@@ -167,7 +185,7 @@
         <p class="bigtext">コメントした曲</p>
         <div class="trackbox toprank">
             {% for i in ucomment_mus %}
-                <div class="songbox">
+                <div class="songbox {{i.ispremium }}_songbox">
                     <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic( '{{ i.preview_url }}', this )">
                         <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                     </button>

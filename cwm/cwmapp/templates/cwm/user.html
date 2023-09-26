@@ -39,7 +39,7 @@
             <div class="RelatedArtist">
                 {% if LikedMus %}
                 {% for x in LikedMus %}
-                <div class="RArtistBox">
+                <div class="RArtistBox {{ x.ispremium }}_artistbox">
                     <a href="" class="RArtist">
                         {% if x.album.images %}
                             <img src="{{ x.album.images.0.url }}" class="RArtistImage" alt="アルバム画像">

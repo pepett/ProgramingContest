@@ -66,6 +66,10 @@ main{
                 font-size: 18px;
             }
         }
+        .premium_artistbox{
+            background: linear-gradient(180deg, rgb(64, 61, 61) 0%, rgb(61, 57, 57) 48%, rgb(50, 49, 49) 100%);
+            border: solid 2px #d7d35d;
+        }
         .RArtistBox:hover{
             transform: scale(1.01,1.01);
         }

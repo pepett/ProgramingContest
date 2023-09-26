@@ -4,33 +4,59 @@ from lib.spotify_conect import SPOTIFY
 class ModelMus:
     @staticmethod
     def C_OGTrack(id):
+        #オリジナルソングの配列
         music_tbl = Music.objects.get( music_id = id )
         album_tbl = Album.objects.get( album_id = music_tbl.music_album_id )
         artist_tbl = CustomUser.objects.get( userid = album_tbl.album_userid )
         #artists = []
-        
-        result = {
-            'album': {
-                'id': album_tbl.album_id,
-                'name': album_tbl.album_name,
-                'images':[
+        if (CustomUser.objects.get(userid = album_tbl.album_userid).is_premium):
+            result = {
+                'album': {
+                    'id': album_tbl.album_id,
+                    'name': album_tbl.album_name,
+                    'images':[
+                        {
+                            'url': album_tbl.album_image.url,
+                        },
+                    ],
+                },
+                'artists':[
                     {
-                        'url': album_tbl.album_image.url,
+                        'id': artist_tbl.userid,
+                        'name': artist_tbl.username,
                     },
                 ],
-            },
-            'artists':[
-                {
-                    'id': artist_tbl.userid,
-                    'name': artist_tbl.username,
+                'id': id,
+                'name':music_tbl.music_name,
+                'preview_url': music_tbl.music_track_preview.url,
+                'full_url': music_tbl.music_track_full.url,
+                'uri': 'None',
+                "ispremium":"premium",
+            }
+        else:
+            result = {
+                'album': {
+                    'id': album_tbl.album_id,
+                    'name': album_tbl.album_name,
+                    'images':[
+                        {
+                            'url': album_tbl.album_image.url,
+                        },
+                    ],
                 },
-            ],
-            'id': id,
-            'name':music_tbl.music_name,
-            'preview_url': music_tbl.music_track_preview.url,
-            'full_url': music_tbl.music_track_full.url,
-            'uri': 'None',
-        }
+                'artists':[
+                    {
+                        'id': artist_tbl.userid,
+                        'name': artist_tbl.username,
+                    },
+                ],
+                'id': id,
+                'name':music_tbl.music_name,
+                'preview_url': music_tbl.music_track_preview.url,
+                'full_url': music_tbl.music_track_full.url,
+                'uri': 'None',
+                "ispremium":"not_premium",
+            }
         return result
     
     def setHistory(id):

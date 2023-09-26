@@ -190,6 +190,12 @@ a, .Hideblock {
 .logoutlink {
   font-weight: bold; }
 
+.PremiumBT, .MiniPremiumBT {
+  font-weight: bold; }
+
+.MiniPremiumBT {
+  margin-top: 20px; }
+
 .humberger {
   height: 100px;
   margin-left: 20px;
@@ -323,6 +329,9 @@ a, .Hideblock {
     display: none; }
 
   .uploadBT {
+    display: none; }
+
+  .PremiumBT {
     display: none; } }
 #scrollBT {
   display: flex;

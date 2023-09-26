@@ -54,6 +54,9 @@ main {
       #box1 .RelatedArtist .RArtistBox .ArtistNameText {
         margin-left: 10px;
         font-size: 18px; }
+    #box1 .RelatedArtist .premium_artistbox {
+      background: linear-gradient(180deg, #403d3d 0%, #3d3939 48%, #323131 100%);
+      border: solid 2px #d7d35d; }
     #box1 .RelatedArtist .RArtistBox:hover {
       transform: scale(1.01, 1.01); }
   #box1 .RelatedArtist::-webkit-scrollbar {

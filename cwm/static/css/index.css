@@ -126,6 +126,10 @@ h3 {
   position: relative;
   transition: 0.3s; }
 
+.premium_songbox {
+  background: linear-gradient(180deg, #403d3d 0%, #3d3939 48%, #323131 100%);
+  border: solid 2px #d7d35d; }
+
 .songbox:hover {
   transform: scale(1.05, 1.05); }
 

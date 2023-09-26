@@ -71,7 +71,7 @@
             <div class="toprank trackbox">
                 {% if results %}
                 {% for i in results %}
-                <div class="songbox">
+                <div class="songbox {{ i.ispremium }}_songbox">
                     <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                     </button>
@@ -141,7 +141,7 @@
             <div class="toprank trackbox">
                 {% if results2 %}
                 {% for i in results2 %}
-                <div class="songbox">
+                <div class="songbox {{ i.ispremium }}_songbox">
                     <button class="PlaySongBT" type="button" value="{{ i.preview_url }}" onclick="PlayMusic('{{ i.preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}" alt="プレイボタン">
                     </button>

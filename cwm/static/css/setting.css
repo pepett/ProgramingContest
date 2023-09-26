@@ -284,6 +284,91 @@ li > label:hover {
   visibility: visible;
   transform: translateY(-10px); }
 
+.album {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll; }
+
+.albumbox {
+  margin: 2px 6px;
+  padding: 10px;
+  background: #2f2d2d;
+  background: linear-gradient(180deg, #2f2d2d 0%, #252323 48%, #181717 100%);
+  border-radius: 10px;
+  border: solid 2px #323232;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  transition: 0.3s; }
+  .albumbox .PlaySongBT, .albumbox .StopSongBT {
+    position: initial; }
+  .albumbox .alertbox {
+    position: absolute;
+    padding: 0 5px;
+    right: 0;
+    bottom: 0;
+    background-color: #986868;
+    display: flex;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 15px;
+    white-space: inherit;
+    opacity: 0;
+    transition: 0.4s; }
+
+.albumbox:hover .alertbox {
+  opacity: 0.9;
+  transform: translateY(-10px); }
+
+.album::-webkit-scrollbar {
+  height: 10px; }
+
+.album::-webkit-scrollbar-track {
+  background-color: none; }
+
+.album::-webkit-scrollbar-thumb {
+  background-color: #696969;
+  border-radius: 10px; }
+
+.artist-flex {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column; }
+
+.album_img {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #696969;
+  border-radius: 5px; }
+
+.AlbumNameBox {
+  width: 100%; }
+  .AlbumNameBox hr {
+    background-color: #696969;
+    width: 100%;
+    height: 2px;
+    border: none; }
+
+.AlbumNameText {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 2px 5px; }
+  .AlbumNameText a {
+    transition: 0.2s;
+    color: #ffffff; }
+  .AlbumNameText a:hover {
+    color: #00DE64; }
+
+.AlbumNameTextMini {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 2px 5px; }
+
 @media screen and (max-width: 1000px) {
   main {
     flex-direction: column;

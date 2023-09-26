@@ -131,8 +131,8 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'cwmapp.CustomUser'
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #コンソールでメール確認
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #メールの送信をする
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #コンソールでメール確認
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #メールの送信をする
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

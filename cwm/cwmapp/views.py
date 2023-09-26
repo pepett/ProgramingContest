@@ -149,15 +149,27 @@ def setting( request ):
     StarData = Star.objects.filter( star_userid = request.user.userid)
     GoodData = Good.objects.filter( good_userid = request.user.userid)
     ReplyData = Reply.objects.filter( reply_userid = request.user.userid)
+    AlbumData = Album.objects.filter( album_userid = request.user.userid)
+    GoodCommentData = GoodComment.objects.filter( gc_userid = request.user.userid)
 
     if (request.method == 'POST'):
 
         if 'UserDlt' in request.POST:#ユーザー削除ボタンを押した場合
+            GoodCommentData.delete()#グッドしたコメントのグッドを削除
             CommentData.delete()#コメントの削除
             StarData.delete()#つけた★の削除
             ReplyData.delete()#リプライの削除
+            GoodData.delete()#曲のグッドの削除
             MusHistory.delete()#履歴の削除
             MusLiked.delete()#いいねの削除
+            for i in AlbumData:#アルバム内にある曲の削除
+                MusicData = Music.objects.filter( music_album_id = i.album_id)
+                for j in MusicData:
+                    j.music_track_full.delete()#曲のフルを削除
+                    j.music_track_preview.delete()#曲のプレビューを削除
+                    j.delete()#曲の削除
+                i.album_image.delete()#アルバム画像の削除
+                i.delete()#アルバムの削除
             User[0].image.delete()#ユーザーアイコンの削除
             User.delete()#ユーザーデータの削除
             return redirect( 'top' )

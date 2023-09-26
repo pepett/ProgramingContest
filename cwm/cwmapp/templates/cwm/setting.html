@@ -170,7 +170,7 @@
                 {% if Uploadresult %}
                 {% for y in Uploadresult %}
                 <div class="songbox">
-                    <button class="PlaySongBT" type="button" value="{{ y.music_track_pre_url }}" onclick="PlayMusic('{{ y.music_track_full_url }}',this);">
+                    <button class="PlaySongBT" type="button" value="{{ y.music_track_preview_url }}" onclick="PlayMusic('{{ y.music_track_preview_url }}',this);">
                         <img src="{% static 'img/tmp/play_green.png' %}">
                     </button>
                     <a href="{% url 'mus' y.music_id %}">
@@ -180,6 +180,25 @@
                         <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' y.album_userid %}">{{y.name}}</a></h3>
                 </div>
                 {% endfor %}
+                {% endif %}
+            </div>
+            <p class="bigtext">アルバム</p>
+            <div class="album">
+                {% if MyAlbum %}
+                {% for i in MyAlbum %}
+                <div class="albumbox">
+                    <a href="{% url 'album' i.album_id %}">
+                        <img src="{{ i.album_image.url }}" alt="画像" width="150" height="150" class="album_img">
+                        <div class="AlbumNameBox">
+                            <p class="AlbumNameText"><a href="{% url 'album' i.album_id %}">{{ i.album_name }}</a></p>
+                            <hr>
+                            <p class="AlbumNameTextMini">{{ artist.0.username }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <p class="bigtext">データがありません</p>
                 {% endif %}
             </div>
         </div>

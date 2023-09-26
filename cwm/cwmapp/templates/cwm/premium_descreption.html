@@ -12,12 +12,16 @@
         <p>
             CWM Premiumとは、CWMのプラットフォームでもっと本気で自分の制作した音楽を知ってもらいたい方へ向けたプランです。<br>
             主な機能としてユーザーが曲を検索したときに、ヒットした曲の中で一番最初に表示される機能があります。<br>
-            この機能により他のユーザーの楽曲に埋もれてしまうことなく、ユーザーに見られやすくなります。
+            この機能により他のユーザーの楽曲に埋もれてしまうことなく、ユーザーに見られやすくなります。<br>
+            月々300円で利用できます。
         </p>
     </div>
-    <form action="{% url 'premium_form' %}" method="post">
+    <form action="{% url 'register_premium' %}" method="post">
         {% csrf_token %}
-        <input type="submit" name="submit" value="申請ページへ">
+        <input type="submit" name="submit" value="登録をする"><br>
+        <p>
+            #操作は取り消せません
+        </p>
     </form>
 </div>
 {% endblock %}

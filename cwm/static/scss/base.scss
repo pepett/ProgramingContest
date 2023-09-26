@@ -40,7 +40,9 @@ left: 0;
 }
 
 footer{
-    display: flex;
+    a{
+        float: right;
+    }
     position: fixed;
     bottom: 0px;
     left: 0;

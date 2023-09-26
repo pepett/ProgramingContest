@@ -21,4 +21,17 @@ $greenCL: #00DE64;
 }
 form{
     text-align: center;
+    input{
+        background-color: $greenCL;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        &:hover{
+            color: white;
+        }
+    }
+    p{
+        color: white;
+        font-weight: lighter;
+    }
 }

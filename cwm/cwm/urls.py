@@ -19,7 +19,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from cwmapp.views import top, Login, register, setting, result, index, music, user, search, artist, album, create, delete, edit, Logout, star, good ,view_reply, create_reply, changepassword, upload, good_comment, premium_descreption, premium_form
+from cwmapp.views import top, Login, register, setting, result, index, music, user, search, artist, album, create, delete, edit, Logout, star, good ,view_reply, create_reply, changepassword, upload, good_comment, premium_descreption, tos, register_premium
 
 app_name = 'cwm'
 
@@ -48,7 +48,8 @@ urlpatterns = [
     path( "changepassword/", changepassword, name="changepassword" ),
     path( "upload/", upload, name="upload" ),
     path( "premium_descreption", premium_descreption, name="premium_descreption" ),
-    path( "premium_form", premium_form, name="premium_form" )
+    path( "tos", tos, name="tos" ),
+    path( "register_premium", register_premium, name="register_premium" )
 ]
 
 #if settings.DEBUG:

@@ -36,13 +36,14 @@ header {
   left: 0; }
 
 footer {
-  display: flex;
   position: fixed;
   bottom: 0px;
   left: 0;
   background-color: rgba(0, 222, 100, 0.527);
   width: 100%;
   z-index: 6; }
+  footer a {
+    float: right; }
 
 .titletext, .greentext, .registerBT {
   color: #00de64; }

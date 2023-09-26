@@ -15,5 +15,15 @@
 
 form {
   text-align: center; }
+  form input {
+    background-color: #00DE64;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px; }
+    form input:hover {
+      color: white; }
+  form p {
+    color: white;
+    font-weight: lighter; }
 
 /*# sourceMappingURL=premium_descreption.css.map */

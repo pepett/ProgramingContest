@@ -121,9 +121,17 @@ class Utils:
     @staticmethod
     def sendmail_premium( request ):
         subject = "CWMのpremium会員の申請"
-        message = "CWMへのpremium館員の申請誠にありがとうございます。\n後日( 2~3営業日以内 )こちらのメールアドレスから口座情報をお送りいたしますのでお待ちください。"
+        message = "CWMへのpremium会員の申請誠にありがとうございます。\n後日( 2~3営業日以内 )こちらのメールアドレスから口座情報をお送りいたしますのでお待ちください。"
         from_email = "connectwithmusic.admi@gmail.com"
         recipient_list = [
             request.user.email
         ]
         send_mail( subject, message, from_email, recipient_list )
+    @staticmethod
+    def _sendmail_premium( request ):
+        subject = "CWMPremiumの申請"
+        message = f"{request.user.email} 様からの申請がありました"
+        from_email = "connectwithmusic.admi@gmail.com"
+        recipient_list = [
+            request.user.email
+        ]

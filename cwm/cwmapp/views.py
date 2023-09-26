@@ -955,5 +955,13 @@ def user(request,idn):
 
 def premium_descreption( request ):
     return render( request, 'cwm/premium_descreption.html' )
-def premium_form( request ):
-    return render( request, 'cwm/premium_form.html' )
+def tos( request ):
+    return render( request, 'cwm/tos.html' )
+
+def register_premium( request ):
+    if request.user.is_authenticated:
+        Utils.sendmail_premium( request )#ユーザに対する報告メール
+        Utils._sendmail_premium( request )#管理者に対する報告メール
+        return redirect( 'top' )
+    else:
+        return redirect( 'register' )

@@ -1,0 +1,23 @@
+{% extends "cwm/base.html" %}
+{% load static %}
+{% block title %}CWM Premium{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/premium_descreption.css' %}">
+<br>
+<div class="p-main">
+    <div class="p-title">
+        <h1 class="p-h1">～CWM Premiumとは～</h1>
+    </div>
+    <div class="p-descreption">
+        <p>
+            CWM Premiumとは、CWMのプラットフォームでもっと本気で自分の制作した音楽を知ってもらいたい方へ向けたプランです。<br>
+            主な機能としてユーザーが曲を検索したときに、ヒットした曲の中で一番最初に表示される機能があります。<br>
+            この機能により他のユーザーの楽曲に埋もれてしまうことなく、ユーザーに見られやすくなります。
+        </p>
+    </div>
+    <form action="{% url 'premium_form' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="submit" value="申請ページへ">
+    </form>
+</div>
+{% endblock %}

@@ -131,12 +131,14 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'cwmapp.CustomUser'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #コンソールでメール確認
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #メールの送信をする
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #コンソールでメール確認
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #メールの送信をする
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'k228021@kccollege.ac.jp'#メールアドレス
+EMAIL_HOST_USER = 'connectwithmusic.admi@gmail.com'#メールアドレス
+#EMAIL_HOST_USER = 'k228021@kccollege.ac.jp'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = 'K228021arts'#メールアドレスのパスワード
+EMAIL_HOST_PASSWORD = 'edfk oada bbzm kuep'
+#EMAIL_HOST_PASSWORD = 'jsladkf0870cixcv'#メールアドレスのパスワード
 EMAIL_USE_TLS = True

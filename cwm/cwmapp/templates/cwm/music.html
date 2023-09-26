@@ -277,7 +277,6 @@
         const good_before = "{% static 'img/tmp/good_black.png' %}";
         const good_after = "{% static 'img/tmp/good_white.png' %}";
         document.getElementsByClassName( 'gc-count' )[ n ].textContent = count;
-        
         document.getElementsByClassName( 'good-img-button' )[ n ].src = ( bool == 'true' ? good_after : good_before );
     }
     const good_eval = () => {

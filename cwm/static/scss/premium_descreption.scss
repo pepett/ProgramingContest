@@ -1,0 +1,24 @@
+@charset "UTF-8";
+$gradationBG: linear-gradient(180deg, rgba(47,45,45,1) 0%, rgba(37,35,35,1) 48%, rgba(24,23,23,1) 100%);
+$greenCL: #00DE64;
+
+.p-h1{
+    color: $greenCL;
+}
+.p-title{
+    text-align: center;
+}
+.p-main{
+    border-radius: 10px;
+    background-color: $gradationBG;
+}
+.p-descreption{
+    p{
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+    }
+}
+form{
+    text-align: center;
+}

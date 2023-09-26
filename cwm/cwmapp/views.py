@@ -544,8 +544,9 @@ def music( request, idn ):
                 'comment_posted': comments[ i ].comment_posted,
                 'result': results
             }
-            if GoodComment.objects.filter( gc_userid = request.user.userid, gc_comment_id = comments[ i ].comment_id ).exists():
-                tmp[ 'is_good' ] = GoodComment.objects.get( gc_userid = request.user.userid, gc_comment_id = comments[ i ].comment_id ).gc_bool
+            if request.user.is_authenticated:
+                if GoodComment.objects.filter( gc_userid = request.user.userid, gc_comment_id = comments[ i ].comment_id ).exists():
+                    tmp[ 'is_good' ] = GoodComment.objects.get( gc_userid = request.user.userid, gc_comment_id = comments[ i ].comment_id ).gc_bool
             
             mdl.append( tmp )
         
@@ -951,3 +952,8 @@ def user(request,idn):
     }
 
     return render( request, 'cwm/user.html', content )
+
+def premium_descreption( request ):
+    return render( request, 'cwm/premium_descreption.html' )
+def premium_form( request ):
+    return render( request, 'cwm/premium_form.html' )

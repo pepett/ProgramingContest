@@ -107,14 +107,23 @@ class Utils:
     def sendemailregister(request):
         """題名"""
         #なぜか題名だけ日本語にすると文字化けしてしまうので注意
-        subject = "Thanks for registed to CWM !"
+        subject = "CWMに登録いただきありがとうございます！"#Thanks for registed to CWM !
         """本文"""
         message = "ConnectWithMusic\nご登録、ありがとうございます！"
         """送信元メールアドレス"""
-        from_email = "connectwithmusic@gmail.com"
+        from_email = "connectwithmusic.admi@gmail.com"
         """宛先メールアドレス"""
         recipient_list = [
             request.user.email
         ]
 
         send_mail(subject, message, from_email, recipient_list)
+    @staticmethod
+    def sendmail_premium( request ):
+        subject = "CWMのpremium会員の申請"
+        message = "CWMへのpremium館員の申請誠にありがとうございます。\n後日( 2~3営業日以内 )こちらのメールアドレスから口座情報をお送りいたしますのでお待ちください。"
+        from_email = "connectwithmusic.admi@gmail.com"
+        recipient_list = [
+            request.user.email
+        ]
+        send_mail( subject, message, from_email, recipient_list )

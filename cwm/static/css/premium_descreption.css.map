@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAIA,KAAK;EACD,KAAK,EAHC,OAAO;;AAKjB,QAAQ;EACJ,UAAU,EAAE,MAAM;;AAEtB,OAAO;EACH,aAAa,EAAE,IAAI;EACnB,gBAAgB,EAXN,8DAAyF;;AAcnG,gBAAC;EACG,KAAK,EAAE,KAAK;EACZ,WAAW,EAAE,IAAI;EACjB,SAAS,EAAE,IAAI;;AAGvB,IAAI;EACA,UAAU,EAAE,MAAM",
+"sources": ["../scss/premium_descreption.scss"],
+"names": [],
+"file": "premium_descreption.css"
+}

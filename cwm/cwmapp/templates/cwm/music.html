@@ -25,21 +25,40 @@
         </div>
         <script src="{% static 'js/loading.js' %}"></script>
         <!--ここまで-->
+        {% if request.user.userid == track_result.artists.0.id and request.user.is_authenticated %}
+        <div class="layer js-modal">
+            <div class="modal">
+                <div class="modal__inner">
+                    <div class="modal__contents">
+                        <div class="modal__content">
+                            <p class="warningbigtext">本当に削除しますか？</p>
+                            <form class="deleteBox" action="{% url 'musdelete' track_result.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" name="MusDlt" class="deleteBT" id="submit" value="削除する">
+                                <button type="button" class="loginBT" id="NotdeleteBT" value="delete">削除しない</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     <div class="music-main">
         {% if is_original %}
             <div id="original">
-                <!-- <div class="original-album-image">
-                    
-                </div> -->
                 <div class="original-track-name">
-                    {{ track_result.name }}
+                    <p class="track-name">{{ track_result.name }}</p>
                 </div>
-                <div class="original-track-player">
-                    <img class="original-album-image" src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
-                    <button class="PlaySongBT" type="button" value="/media_local/{{ track_result.full_url }}" onclick="PlayMusic( '/media_local/{{ track_result.full_url }}', this )">
+                {% if request.user.userid == track_result.artists.0.id and request.user.is_authenticated %}
+                <button type="submit" id="firstdeleteBT">曲を削除する</button>
+                {% endif %}
+                <img class="original-album-image" src="/media_local/{{ track_result.album.img.0.url }}" width="150" height="150">
+                <audio src="/media_local/{{ track_result.full_url }}"></audio>
+                <div id="seekbar"></div>
+                <div id="Musictime">00:00</div>
+                <button class="PlaySongBT" id="SongBT" type="button">
                         <img class="BTimg" src="{% static 'img/tmp/play_green.png' %}">
-                    </button>
-                </div>
+                </button>
             </div>
         {% else %}
             <div id="spotify-iframe"></div>
@@ -183,7 +202,66 @@
 <script src="https://open.spotify.com/embed-podcast/iframe-api/v1" async></script>
 <script src="{% static 'js/index.js' %}"></script>
 <script src="{% static 'js/music.js' %}"></script>
+{% if is_original %}
 <script>
+    const audio = document.getElementsByTagName("audio")[0]
+    const playButton = document.getElementById("SongBT")
+    
+    playButton.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play()
+        playButton.innerHTML = playButton.innerHTML === StopBTimg ? PlayBTimg : StopBTimg
+    } else {
+        audio.pause()
+        playButton.innerHTML = PlayBTimg
+    }
+    })
+    
+    audio.addEventListener("timeupdate", (e) => {
+    const current = Math.floor(audio.currentTime)
+    const duration = Math.round(audio.duration)
+    if (!isNaN(duration)) {
+        document.getElementById('Musictime').innerHTML = playTime(current)
+        const percent = Math.round((audio.currentTime/audio.duration)*1000)/10
+        document.getElementById('seekbar').style.backgroundSize = percent + '%'
+    }
+    })
+    
+    document.getElementById('seekbar').addEventListener("click", (e) => {
+    const duration = Math.round(audio.duration)
+        if(!isNaN(duration)){
+            const mouse = e.pageX
+            const element = document.getElementById('seekbar')
+            const rect = element.getBoundingClientRect()
+            const position = rect.left + window.pageXOffset
+            const offset = mouse - position
+            const width = rect.right - rect.left
+            audio.currentTime = Math.round(duration * (offset / width))
+        }
+    })
+    
+    function playTime (t) {
+        let hms = ''
+        const h = t / 3600 | 0
+        const m = t % 3600 / 60 | 0
+        const s = t % 60
+        const z2 = (v) => {
+        const s = '00' + v
+        return s.substr(s.length - 2, 2)
+        }
+        if(h != 0){
+        hms = h + ':' + z2(m) + ':' + z2(s)
+        }else if(m != 0){
+        hms = z2(m) + ':' + z2(s)
+        }else{
+        hms = '00:' + z2(s)
+        }
+        return hms
+    }
+</script>
+{% endif %}
+<script>
+
     let original_flg = '{{ is_original }}'.toLocaleLowerCase();
     const async_star = ()=>{//評価の非同期処理
         const login = JSON.parse( '{{ request.user.is_authenticated }}'.toLowerCase() );
@@ -339,7 +417,7 @@
             content_container.setAttribute( 'class', 'rep-content-container' );
             const rep_name = `<div class="rep-name">${ res.contents[ i ].user_name }</div>`;
             const rep_image = `<div class="rep-image"><img src="${ res.contents[ i ].user_image }" alt="アイコン" width="50" height="50"></div>`;
-            const rep_good = `<div class="rep-good"><img src="{% static 'img/tmp/good_black.png' %}" alt="good" width="30" height="30"></div>`;
+            const rep_good = `<div class="rep-good"><p>　　　</p></div>`;
             let restext = res.contents[ i ].reply_text;
             restext = restext.split( /\n/ );
             let str = '';

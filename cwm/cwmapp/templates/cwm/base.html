@@ -48,6 +48,7 @@
                 {% if request.user.is_authenticated %}
                 <a class="loginBT" href="{% url 'upload' %}">音楽をアップロード</a>
                 <a class="MiniPremiumBT" href="{% url 'premium_descreption' %}">CWM Premium</a>
+                <a class="Miniterms" href="{% url 'tos' %}">利用規約</a>
                 {% else %}
                 {% endif %}
             </div>
@@ -93,7 +94,7 @@
     {% block content %}{% endblock %}
     <footer>
         <small>Copyright © 2023 Spotify AB. All rights reserved.</small>
-        <a href="{% url 'tos' %}">利用規約</a>
+        <a class="terms" href="{% url 'tos' %}">利用規約</a>
     </footer>
     <script src="{% static 'js/base.js' %}"></script>
 </body>

@@ -1,4 +1,4 @@
-from cwmapp.models import HistoryList, LikeList, Music, Album, CustomUser, Comment, Star
+from cwmapp.models import CustomUser, Comment, HistoryList, LikeList, Music, Album, Star, Good ,Reply, GoodComment, GoodCommentReply
 from lib.spotify_conect import SPOTIFY
 
 class ModelMus:
@@ -157,3 +157,25 @@ class ModelMus:
         result.reverse()
 
         return result
+    
+    @staticmethod
+    def DeleteMus(idn):
+        Mus = Music.objects.get(music_id = idn)
+        MusHistory = HistoryList.objects.filter(history_music_id = idn).delete()
+        MusLiked = LikeList.objects.filter(like_music_id = idn).delete()
+        CommentData = Comment.objects.filter( comment_music_id=idn)
+        StarData = Star.objects.filter( star_music_id = idn).delete()
+        GoodData = Good.objects.filter( good_music_id = idn).delete()
+        AlbumData = Album.objects.filter( album_id = Mus.music_album_id)
+        for i in CommentData:
+            ReplyData = Reply.objects.filter( reply_comment_id = i.comment_id)
+            GoodCommentData = GoodComment.objects.filter( gc_comment_id = i.comment_id)
+            ReplyData.delete()
+            GoodCommentData.delete()
+        CommentData.delete()
+        for i in AlbumData:
+            i.album_image.delete()
+            i.delete()
+        Mus.music_track_full.delete()
+        Mus.music_track_preview.delete()
+        Mus.delete()

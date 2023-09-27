@@ -196,6 +196,9 @@ a, .Hideblock {
 .MiniPremiumBT {
   margin-top: 20px; }
 
+.Miniterms {
+  margin-top: 20px; }
+
 .humberger {
   height: 100px;
   margin-left: 20px;
@@ -332,6 +335,9 @@ a, .Hideblock {
     display: none; }
 
   .PremiumBT {
+    display: none; }
+
+  .terms {
     display: none; } }
 #scrollBT {
   display: flex;

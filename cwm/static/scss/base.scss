@@ -219,6 +219,9 @@ transition: 0.5s;
 .MiniPremiumBT{
     margin-top: 20px;
 }
+.Miniterms{
+    margin-top: 20px;
+}
 //ハンバーガーメニュー　※コピペしたもの
 
 //  --------BURGER MENU CODE :D 
@@ -423,6 +426,9 @@ transition: 0.5s;
         display: none;
     }
     .PremiumBT{
+        display: none;
+    }
+    .terms{
         display: none;
     }
 }

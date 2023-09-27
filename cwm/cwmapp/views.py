@@ -480,6 +480,11 @@ def edit( request, idn, cid ):
         e.save()
     return redirect( 'mus', idn )
 
+def musdelete( request, idn ):
+    if request.method == 'POST':
+        ModelMus.DeleteMus(idn)
+    return redirect('setting')
+
 def music( request, idn ):
     ave_star = 0
     user_star = 0
@@ -525,6 +530,7 @@ def music( request, idn ):
             'artists':[
                 {
                     'id': artist_tbl.userid,
+                    'name':artist_tbl.username,
                 },
             ],
             'id': idn,

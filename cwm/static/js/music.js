@@ -43,6 +43,7 @@ for( let i = 0;i < document.getElementsByClassName( 'edit-btn' ).length;i ++ ){
     }, false );
 }
 
+/*
 const play = ( obj, url ) => {
     if( play_music.audio == null ){
         play_music.audio = new Audio( url );
@@ -60,7 +61,7 @@ const play = ( obj, url ) => {
         play_music.is_play = true;
         obj.innerHTML = StopBTimg;
     }
-}
+}*/
 
 //textareaの高さ自動設定
 window.addEventListener( 'DOMContentLoaded', () => {
@@ -97,3 +98,21 @@ for(let i = 0;i < document.getElementsByClassName('reply-text').length;i++){
         }
     });
 }
+
+const modal = document.querySelector('.js-modal'); // layer要素に付与したjs-modalクラスを取得し変数に格納
+const modalButton = document.querySelector('#firstdeleteBT'); // button要素に付与した1st_deleteBTクラスを取得し、変数に格納
+
+// モーダルボタンをクリックしたときのイベントを登録
+modalButton.addEventListener('click', () => {
+  modal.classList.add('is-open');
+});
+
+const modalClose = document.querySelector('#NotdeleteBT');　// xボタンのjs-close-buttonを取得し変数に格納
+
+modalButton.addEventListener('click', () => {
+  modal.classList.add('is-open');
+});
+
+modalClose.addEventListener('click', () => { // xボタンをクリックしたときのイベントを登録
+  modal.classList.remove('is-open'); 
+});

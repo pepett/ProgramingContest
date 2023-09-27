@@ -24,24 +24,6 @@
             </div>
         </div>
         <!--ここまで-->
-        <p class="bigtext">おすすめ</p>
-        <div class="trackbox toprank">
-            {% if oridinal %}
-                {% for l in oridinal %}
-                    <div class="songbox {{ l.ispremium }}_songbox">
-                        <button class="PlaySongBT" type="button" value="{{ l.preview_url }}" onclick="PlayMusic( '{{ l.preview_url }}', this )">
-                            <img src="{% static 'img/tmp/play_green.png' %}">
-                        </button>
-                        <img class="Site_Logo" src="{% static 'img/tmp/Spotify_Icon.png'%}">
-                        <a href="{% url 'mus' l.id %}">
-                            <img id="{{l.id}}" src="{{ l.album.img.0.url }}" class="music_img" width="150" height="150">
-                        </a>
-                        <h3 class="SongNameText"><a class="ScrollText" href="{% url 'mus' l.id %}" class="ScrollText">{{ l.name }}</a></h3>
-                        <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' l.artists.0.id %}">{{l.artists.0.name}}</a></h3>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
         <p class="bigtext">CWMオリジナル曲</p>
         <div id="trackbox" class="trackbox toprank">
             {% if oridinal %}

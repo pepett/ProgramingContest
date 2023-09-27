@@ -235,10 +235,51 @@ def result( request ):
                 'c_text': i_nr.comment_text
             }
         ctracks.append( t )
-    li = 10
+
+    original_track = Music.objects.filter( music_name__icontains = request.GET[ 'search-music' ] )
+    original_album = Album.objects.filter( album_name__icontains = request.GET[ 'search-music' ] )
+    original_artist = CustomUser.objects.filter( username__icontains = request.GET[ 'search-music' ] )
+    originals = {
+        'tracks':{
+            'items': [],
+        },
+        'albums':{
+            'items': [],
+        },
+        'artists':[]
+    }
+    for i in original_track:
+        if ModelMus.C_OGTrack( i.music_id )[ 'ispremium' ] == 'premium':
+            originals[ 'tracks' ][ 'items' ].append( ModelMus.C_OGTrack( i.music_id ) )
+    for i in original_track:
+        if ModelMus.C_OGTrack( i.music_id )[ 'ispremium' ] == 'not_premium':
+            originals[ 'tracks' ][ 'items' ].append( ModelMus.C_OGTrack( i.music_id ) )
+    for i in original_album:
+        if ModelMus.C_OGAlbum( i.album_id )[ 'ispremium' ] == 'premium':
+            originals[ 'albums' ][ 'items' ].append( ModelMus.C_OGAlbum( i.album_id ) )
+    for i in original_album:
+        if ModelMus.C_OGAlbum( i.album_id )[ 'ispremium' ] == 'not_premium':
+            originals[ 'albums' ][ 'items' ].append( ModelMus.C_OGAlbum( i.album_id ) )
+    for i in original_artist:
+        if ModelMus.C_OGArtist( i.userid )[ 'ispremium' ] == 'premium':
+            originals[ 'artists' ].append( ModelMus.C_OGArtist( i.userid ) )
+    for i in original_artist:
+        if ModelMus.C_OGArtist( i.userid )[ 'ispremium' ] == 'not_premium':
+            originals[ 'artists' ].append( ModelMus.C_OGArtist( i.userid ) )
+    #print( oridinals[ 'tracks' ] )
+    #print( oridinals[ 'albums' ][ 'items' ] )
+    #print( oridinals[ 'artists' ] )
+    
+    li = 20
+
+    #print(  )
+
     results_track = SPOTIFY.search( request.GET['search-music'], limit=li, offset=0, type='track,album,artist', market=None )
-    for i in range( li ):
-        pass
+
+    #print( results_track[ 'tracks' ][ 'items' ][ 0 ][ 'name' ] )
+    #print( originals[ 'tracks' ][ 'items' ][ 0 ][ 'name' ] )
+    #for i in range( li ):
+        #pass
         #results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'tracks' ][ 'items' ][ i ][ 'name' ], 9)
         #results_track[ 'albums' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'albums' ][ 'items' ][ i ][ 'name' ], 9)
         #results_track[ 'artists' ][ 'items' ][ i ][ 'name' ] = Utils.truncate_string(results_track[ 'artists' ][ 'items' ][ i ][ 'name' ], 9)
@@ -251,9 +292,9 @@ def result( request ):
         'hitcmt': res,
         'c_tracks': ctracks,
         'data':User,
+        'originals': originals
     }
     return render( request, 'cwm/result.html', ret  )
-
 def index( request ):
 
     final_result = []

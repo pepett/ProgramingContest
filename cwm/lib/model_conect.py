@@ -3,60 +3,73 @@ from lib.spotify_conect import SPOTIFY
 
 class ModelMus:
     @staticmethod
+    @staticmethod
     def C_OGTrack(id):
         #オリジナルソングの配列
         music_tbl = Music.objects.get( music_id = id )
         album_tbl = Album.objects.get( album_id = music_tbl.music_album_id )
         artist_tbl = CustomUser.objects.get( userid = album_tbl.album_userid )
-        #artists = []
-        if (CustomUser.objects.get(userid = album_tbl.album_userid).is_premium):
-            result = {
-                'album': {
-                    'id': album_tbl.album_id,
-                    'name': album_tbl.album_name,
-                    'images':[
-                        {
-                            'url': album_tbl.album_image.url,
-                        },
-                    ],
-                },
-                'artists':[
+        result = {
+            'album': {
+                'id': album_tbl.album_id,
+                'name': album_tbl.album_name,
+                'images':[
                     {
-                        'id': artist_tbl.userid,
-                        'name': artist_tbl.username,
+                        'url': album_tbl.album_image.url,
                     },
                 ],
-                'id': id,
-                'name':music_tbl.music_name,
-                'preview_url': music_tbl.music_track_preview.url,
-                'full_url': music_tbl.music_track_full.url,
-                'uri': 'None',
-                "ispremium":"premium",
-            }
-        else:
-            result = {
-                'album': {
-                    'id': album_tbl.album_id,
-                    'name': album_tbl.album_name,
-                    'images':[
-                        {
-                            'url': album_tbl.album_image.url,
-                        },
-                    ],
+            },
+            'artists':[
+                {
+                    'id': artist_tbl.userid,
+                    'name': artist_tbl.username,
                 },
-                'artists':[
-                    {
-                        'id': artist_tbl.userid,
-                        'name': artist_tbl.username,
-                    },
-                ],
-                'id': id,
-                'name':music_tbl.music_name,
-                'preview_url': music_tbl.music_track_preview.url,
-                'full_url': music_tbl.music_track_full.url,
-                'uri': 'None',
-                "ispremium":"not_premium",
-            }
+            ],
+            'id': id,
+            'name':music_tbl.music_name,
+            'preview_url': music_tbl.music_track_preview.url,
+            'full_url': music_tbl.music_track_full.url,
+            'uri': 'None',
+            "ispremium":'premium' if artist_tbl.is_premium else 'not_premium',
+        }
+        
+        return result
+    
+    def C_OGAlbum( id ):
+        if not Album.objects.filter( album_id = id ).exists(): return { 'id': 'None','name':'存在しないユーザ' }
+        album_tbl = Album.objects.get( album_id = id )
+        artist_tbl = CustomUser.objects.get( userid = album_tbl.album_userid )
+        result = {
+            'id': album_tbl.album_id,
+            'name': album_tbl.album_name,
+            'images':[
+                {
+                    'url': album_tbl.album_image.url,
+                },
+            ],
+            'artists':[
+                {
+                    'id': artist_tbl.userid,
+                    'name': artist_tbl.username,
+                },
+            ],
+            "ispremium":'premium' if artist_tbl.is_premium else 'not_premium',
+        }
+        return result
+
+    def C_OGArtist( id ):
+        if not CustomUser.objects.filter( userid = id ).exists(): return { 'id': None, 'name': '存在しないユーザ' }
+        artist_tbl = CustomUser.objects.get( userid = id )
+        result = {
+            'id': artist_tbl.userid,
+            'name': artist_tbl.username,
+            'images':[
+                {
+                    'url': artist_tbl.image.url,
+                },
+            ],
+            "ispremium":'premium' if artist_tbl.is_premium else 'not_premium',
+        }
         return result
     
     def setHistory(id):

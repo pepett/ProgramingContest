@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGI,kBAAS;EACL,WAAW,EAAE,IAAI;EACjB,UAAU,EAAE,MAAM;EAClB,yBAAM;IACF,KAAK,EAPR,OAAO;AAWR,kBAAC;EACG,KAAK,EAAE,KAAK;EACZ,aAAa,EAAE,IAAI",
+"sources": ["../scss/tos.scss"],
+"names": [],
+"file": "tos.css"
+}

@@ -8,6 +8,19 @@
     <br><br>
     <h2>検索結果</h2>
     <h3 class="bigtext">曲</h3>
+    <h3 class="bigtext">cwmオリジナル</h3>
+    <div class="trackbox toprank">
+        {% for v in originals.tracks.items %}
+            <div class="songbox {{ v.ispremium }}_songbox">
+                <a href="{% url 'mus' v.id %}">
+                    <img class="music_img" src="{{ v.album.images.0.url }}" width="150" height="150">
+                </a>
+                <h3 class="SongNameText"><a href="{% url 'mus' v.id %}" class="ScrollText">{{ v.name }}</a></h3>
+                <h3 class="SongNameText"><a href="{% url 'artist' v.artists.0.id %}" class="ScrollText">{{ v.artists.0.name }}</a></h3>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="bigtext">spotify</div>
     <div class="trackbox toprank">
         {% for v in results_track.tracks.items %}
             <div class="track songbox">
@@ -20,11 +33,24 @@
         {% endfor %}
     </div>
     <h3 class="bigtext">アルバム</h3>
+    <h3 class="bigtext">cwmオリジナル</h3>
+    <div class="trackbox toprank">
+        {% for v in originals.albums.items %}
+            <div class="songbox {{ v.ispremium }}_songbox">
+                <a href="{% url 'album' v.id %}">
+                    <img class="music_img" src="{{ v.images.0.url }}" width="150" height="150" alt="">
+                </a>
+                <h3 class="SongNameText"><a href="{% url 'album' v.id %}" class="ScrollText">{{ v.name }}</a></h3>
+                <h3 class="SongNameText"><a href="{% url 'artist' v.artists.0.id %}" class="ScrollText">{{ v.artists.0.name }}</a></h3>
+            </div>
+        {% endfor %}
+    </div>
+    <h3 class="bigtext">spotify</h3>
     <div class="trackbox toprank">
         {% for v in results_track.albums.items %}
             <div class="album songbox">
                 <a href="{% url 'album' v.id %}">
-                    <img class="music_img" src="{{v.images.0.url}}" width="150" height="150" class="" alt="">
+                    <img class="music_img" src="{{v.images.0.url}}" width="150" height="150" alt="">
                 </a>
                     <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'album' v.id %}">{{v.name}}</a></h3>
                     <h3 class="SongNameText" ><a class="ScrollText" href="{% url 'artist' v.artists.0.id %}">{{v.artists.0.name}}</a></h3>
@@ -32,6 +58,18 @@
         {% endfor %}
     </div>
     <h3 class="bigtext">アーティスト</h3>
+    <h3 class="bigtext">cwmオリジナル</h3>
+    <div class="trackbox toprank">
+        {% for v in originals.artists %}
+            <div class="songbox {{ v.ispremium }}_songbox">
+                <a href="{% url 'artist' v.id %}">
+                    <img src="{{ v.images.0.url }}" class="music_img" width="150" height="150">
+                </a>
+                <h3 class="SongNameText"><a href="{% url 'artist' v.id %}" class="ScrollText">{{ v.name }}</a></h3>
+            </div>
+        {% endfor %}
+    </div>
+    <h3 class="bigtext">spotify</h3>
     <div class="trackbox toprank">
         {% for v in results_track.artists.items %}
             <div class="artist songbox">

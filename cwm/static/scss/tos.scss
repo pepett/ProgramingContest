@@ -1,0 +1,17 @@
+$greenCL:#00de64;
+
+.pf-main{
+    .pf-title{
+        padding-top: 20px;
+        text-align: center;
+        .pf-h1{
+            color: $greenCL;
+        }
+    }
+    .pf-des{
+        p{
+            color: white;
+            margin-bottom: 20px;
+        }
+    }
+}

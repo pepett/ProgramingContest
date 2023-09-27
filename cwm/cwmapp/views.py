@@ -375,7 +375,15 @@ def index( request ):
                     "ispremium":"not_premium",
                 })
 
-    content[ "oridinal" ] = original_tracks
+    n_original_tracks = []
+    for i in original_tracks:
+        if i[ 'ispremium' ] == 'premium':
+            n_original_tracks.append( i )
+    for i in original_tracks:
+        if i[ 'ispremium' ] == 'not_premium':
+            n_original_tracks.append( i )
+
+    content[ "oridinal" ] = n_original_tracks
     max_length = 13
     Playlist_uri = 'spotify:playlist:37i9dQZEVXbKXQ4mDTEBXq'
     

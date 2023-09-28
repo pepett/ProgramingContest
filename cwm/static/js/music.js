@@ -32,7 +32,7 @@ const correct = () => {
 for( let i = 0;i < document.getElementsByClassName( 'edit-btn' ).length;i ++ ){
     document.getElementsByClassName( 'edit-btn' )[ i ].addEventListener( 'click', ( e ) => {
         const obj = document.getElementsByClassName( 'edit-form' )[i];
-        alert( i )
+        // alert( i )
         if( obj.style.display == 'none' ){
             obj.style.display = 'block';
             e.target.value = 'キャンセル';
